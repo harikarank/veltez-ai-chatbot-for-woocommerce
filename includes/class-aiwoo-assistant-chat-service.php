@@ -1,0 +1,599 @@
+<?php
+/**
+ * Chat orchestration service.
+ *
+ * Routes each chat turn through either the legacy prompt-based path or the
+ * new MCP tool-calling path, depending on the `enable_mcp` setting.
+ *
+ * @package AIWooAssistant
+ */
+
+namespace AIWooAssistant;
+
+defined( 'ABSPATH' ) || exit;
+
+final class Chat_Service {
+
+	/** @var Settings */
+	private $settings;
+
+	/** @var Catalog_Service */
+	private $catalog_service;
+
+	/** @var Quick_Reply_Service */
+	private $quick_reply_service;
+
+	/** @var MCP_Tools */
+	private $mcp_tools;
+
+	/** @var AI_Error_Logger */
+	private $ai_error_logger;
+
+	public function __construct(
+		Settings $settings,
+		Catalog_Service $catalog_service,
+		Quick_Reply_Service $quick_reply_service,
+		MCP_Tools $mcp_tools,
+		AI_Error_Logger $ai_error_logger
+	) {
+		$this->settings          = $settings;
+		$this->catalog_service   = $catalog_service;
+		$this->quick_reply_service = $quick_reply_service;
+		$this->mcp_tools         = $mcp_tools;
+		$this->ai_error_logger   = $ai_error_logger;
+	}
+
+	// -------------------------------------------------------------------------
+	// Public entry point
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Generate a reply for the given user message.
+	 *
+	 * @param string $message      Sanitised user input.
+	 * @param array  $history      Conversation history [{role, content}, ...].
+	 * @param array  $page_context Frontend page/product context.
+	 * @param string $session_id   Session identifier (for error logging).
+	 * @param string $ip_address   Visitor IP (for error logging).
+	 * @return array{message: string, html: bool, enquiry_form: bool, recommendations: array}
+	 * @throws \Exception On unrecoverable AI provider error.
+	 */
+	public function generate_reply( $message, array $history = array(), array $page_context = array(), $session_id = '', $ip_address = '' ) {
+		$message      = sanitize_textarea_field( $message );
+		$history      = $this->sanitize_history( $history );
+		$page_context = $this->sanitize_page_context( $page_context );
+
+		// ── 1. Quick reply check — intercepts before any AI or catalog call ───
+		$quick_response = $this->quick_reply_service->find_match( $message );
+		if ( null !== $quick_response ) {
+			return array(
+				'message'         => $quick_response,
+				'html'            => false,
+				'enquiry_form'    => false,
+				'recommendations' => array(),
+			);
+		}
+
+		// ── 2. No API key — rules-based replies only (no AI call) ────────────
+		$provider_key_map = array(
+			'openai' => 'openai_api_key',
+			'claude' => 'claude_api_key',
+			'gemini' => 'gemini_api_key',
+		);
+		$provider         = (string) $this->settings->get( 'provider' );
+		$key_setting      = $provider_key_map[ $provider ] ?? 'openai_api_key';
+
+		if ( '' === trim( (string) $this->settings->get( $key_setting ) ) ) {
+			$no_match = trim( (string) $this->settings->get( 'no_match_text' ) );
+			if ( '' === $no_match ) {
+				$no_match = __( "We couldn't find an exact match. Please share more details.", 'veltez-ai-chatbot-for-woocommerce' );
+			}
+			return array(
+				'message'           => $no_match,
+				'html'              => false,
+				'enquiry_form'      => true,
+				'enquiry_form_html' => $this->get_enquiry_form_html(),
+				'recommendations'   => array(),
+			);
+		}
+
+		// ── 3. Route to MCP or legacy path ────────────────────────────────────
+		if ( 'yes' === $this->settings->get( 'enable_mcp' ) ) {
+			return $this->generate_reply_mcp( $message, $history, $page_context, $session_id, $ip_address );
+		}
+
+		return $this->generate_reply_legacy( $message, $history, $page_context, $session_id, $ip_address );
+	}
+
+	// -------------------------------------------------------------------------
+	// MCP tool-calling path
+	// -------------------------------------------------------------------------
+
+	/**
+	 * MCP path: the AI fetches data via tools; no product catalog is injected
+	 * into the prompt. Adds ≈ 1 extra API round trip per tool call; transient
+	 * caching in MCP_Tools keeps latency acceptable.
+	 *
+	 * @param string $message
+	 * @param array  $history
+	 * @param array  $page_context
+	 * @return array
+	 */
+	private function generate_reply_mcp( string $message, array $history, array $page_context, string $session_id = '', string $ip_address = '' ): array {
+		// Give the tool executor access to the current request's context
+		// (viewed products, search history, cart) before calling any tool.
+		$this->mcp_tools->set_request_context( $page_context );
+
+		$tools         = $this->mcp_tools->get_tool_definitions();
+		$mcp_tools_ref = $this->mcp_tools;
+
+		$tool_executor = static function ( string $name, array $args ) use ( $mcp_tools_ref ): array {
+			return $mcp_tools_ref->execute( $name, $args );
+		};
+
+		try {
+			$provider = make_ai_provider( $this->settings );
+
+			$assistant_message = $provider->generate_with_tools(
+				array(
+					'settings'     => $this->settings,
+					'instructions' => $this->build_instructions_mcp(),
+					'messages'     => $this->build_messages_mcp( $message, $history, $page_context ),
+				),
+				$tools,
+				$tool_executor
+			);
+		} catch ( \Exception $e ) {
+			// AI unavailable — fall back to catalog search with product cards.
+			$this->ai_error_logger->log( $session_id, $ip_address, $message, 'mcp', $e->getMessage() );
+			$current_product_id = ! empty( $page_context['product']['id'] ) ? absint( $page_context['product']['id'] ) : 0;
+			$products           = $this->catalog_service->find_relevant_products( $message, $current_product_id );
+			return $this->build_product_fallback_response( $products );
+		}
+
+		// If get_products was called, render product cards under the AI text.
+		$fetched_products = $this->mcp_tools->get_fetched_products();
+
+		$response_html = wpautop( esc_html( $assistant_message ) );
+		if ( ! empty( $fetched_products ) ) {
+			$response_html .= $this->build_product_cards_html( $fetched_products );
+		}
+
+		return array(
+			'message'         => $response_html,
+			'html'            => true,
+			'enquiry_form'    => false,
+			'recommendations' => $fetched_products,
+		);
+	}
+
+	/**
+	 * Build the system instructions for MCP mode.
+	 * Intentionally concise — no product data injected here.
+	 *
+	 * @return string
+	 */
+	private function build_instructions_mcp(): string {
+		$currency    = get_option( 'woocommerce_currency', 'USD' );
+		$base_prompt = trim( (string) $this->settings->get( 'system_prompt' ) );
+		$parts       = array();
+
+		if ( '' !== $base_prompt ) {
+			$parts[] = $base_prompt;
+		}
+
+		$parts[] = sprintf( 'Shopping assistant for %s. Currency: %s.', get_bloginfo( 'name' ), $currency );
+		$parts[] = 'Use tools for product data; never invent details. In recommendations include name, price, stock, link.';
+
+		return implode( "\n", $parts );
+	}
+
+	/**
+	 * Convert sanitised history + current message into a messages array
+	 * suitable for the provider's generate_with_tools() call.
+	 *
+	 * @param string $message
+	 * @param array  $history
+	 * @param array  $page_context
+	 * @return array  [{role, content}, ...]
+	 */
+	private function build_messages_mcp( string $message, array $history, array $page_context ): array {
+		$messages = array();
+
+		// Include up to the last 4 history entries, each capped at 500 chars.
+		foreach ( array_slice( $history, -4 ) as $entry ) {
+			if ( empty( $entry['role'] ) || empty( $entry['content'] ) ) {
+				continue;
+			}
+			$messages[] = array(
+				'role'    => $entry['role'],
+				'content' => mb_substr( (string) $entry['content'], 0, 500 ),
+			);
+		}
+
+		// Only prepend current product context when the user message references it.
+		$context_prefix = '';
+		if ( ! empty( $page_context['product']['name'] )
+			&& $this->is_product_referenced( $message, (string) $page_context['product']['name'] ) ) {
+			$context_prefix = 'Viewing: ' . sanitize_text_field( (string) $page_context['product']['name'] ) . "\n";
+		}
+
+		$messages[] = array(
+			'role'    => 'user',
+			'content' => ( '' !== $context_prefix ? $context_prefix . "\n" : '' )
+				. sanitize_text_field( $message ),
+		);
+
+		return $messages;
+	}
+
+	// -------------------------------------------------------------------------
+	// Legacy prompt-based path (unchanged behaviour)
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Legacy path: pre-fetches products from the catalog and injects them
+	 * into the prompt. Used when enable_mcp = no (the default).
+	 *
+	 * @param string $message
+	 * @param array  $history
+	 * @param array  $page_context
+	 * @return array
+	 */
+	private function generate_reply_legacy( string $message, array $history, array $page_context, string $session_id = '', string $ip_address = '' ): array {
+		$current_product_id = ! empty( $page_context['product']['id'] ) ? absint( $page_context['product']['id'] ) : 0;
+		$products           = $this->catalog_service->find_relevant_products( $message, $current_product_id );
+
+		if ( empty( $products ) ) {
+			$no_match = trim( (string) $this->settings->get( 'no_match_text' ) );
+			if ( '' === $no_match ) {
+				$no_match = __( "We couldn't find an exact match. Please share more details.", 'veltez-ai-chatbot-for-woocommerce' );
+			}
+			return array(
+				'message'           => $no_match,
+				'html'              => false,
+				'enquiry_form'      => true,
+				'enquiry_form_html' => $this->get_enquiry_form_html(),
+				'recommendations'   => array(),
+			);
+		}
+
+		$payload = array(
+			'settings'     => $this->settings,
+			'instructions' => $this->build_instructions(),
+			'input'        => $this->build_input( $message, $history, $page_context, $products ),
+		);
+
+		try {
+			$assistant_message = call_ai_model( $message, $payload );
+		} catch ( \Exception $e ) {
+			// AI unavailable — fall back to product cards without AI text.
+			$this->ai_error_logger->log( $session_id, $ip_address, $message, 'legacy', $e->getMessage() );
+			return $this->build_product_fallback_response( $products );
+		}
+
+		return array(
+			'message'         => $this->build_product_response_html( $assistant_message, $products ),
+			'html'            => true,
+			'enquiry_form'    => false,
+			'recommendations' => $products,
+		);
+	}
+
+	// -------------------------------------------------------------------------
+	// Legacy helpers (unchanged)
+	// -------------------------------------------------------------------------
+
+	private function build_instructions() {
+		$currency     = get_option( 'woocommerce_currency', 'USD' );
+		$base_prompt  = trim( (string) $this->settings->get( 'system_prompt' ) );
+		$prompt_parts = array();
+
+		if ( '' !== $base_prompt ) {
+			$prompt_parts[] = $base_prompt;
+		}
+
+		$prompt_parts[] = 'Only use provided context for facts. Never invent products, shipping, or policies.';
+		$prompt_parts[] = sprintf( 'Store: %s. Currency: %s.', get_bloginfo( 'name' ), $currency );
+
+		return implode( "\n", $prompt_parts );
+	}
+
+	private function build_input( $message, array $history, array $page_context, array $products ) {
+		$history_lines = array();
+		foreach ( array_slice( $history, -4 ) as $entry ) {
+			if ( empty( $entry['role'] ) || empty( $entry['content'] ) ) {
+				continue;
+			}
+			$role            = 'assistant' === $entry['role'] ? 'Assistant' : 'Customer';
+			$history_lines[] = $role . ': ' . sanitize_text_field( (string) $entry['content'] );
+		}
+
+		// Only include current product context when the user's message references it.
+		$current_product_line = '';
+		if ( ! empty( $page_context['product']['name'] )
+			&& $this->is_product_referenced( $message, (string) $page_context['product']['name'] ) ) {
+			$current_product_line = 'Current product: ' . sanitize_text_field( (string) $page_context['product']['name'] );
+			if ( ! empty( $page_context['product']['price'] ) ) {
+				$current_product_line .= ' (' . sanitize_text_field( (string) $page_context['product']['price'] ) . ')';
+			}
+		}
+
+		// Build a slim JSON representation of each relevant product.
+		$product_lines = array_map(
+			static function ( $p ) {
+				$slim = array(
+					'name'  => $p['name'] ?? '',
+					'price' => $p['price'] ?? '',
+					'url'   => $p['permalink'] ?? '',
+				);
+				if ( ! empty( $p['short_description'] ) ) {
+					$slim['desc'] = $p['short_description'];
+				}
+				if ( ! empty( $p['stock_status'] ) && 'instock' !== $p['stock_status'] ) {
+					$slim['stock'] = $p['stock_status'];
+				}
+				return wp_json_encode( $slim );
+			},
+			$products
+		);
+
+		return implode(
+			"\n\n",
+			array_filter(
+				array(
+					'Recent conversation:' . ( $history_lines ? "\n" . implode( "\n", $history_lines ) : "\nNo prior messages." ),
+					$current_product_line,
+					'Relevant products:' . ( $product_lines ? "\n" . implode( "\n", $product_lines ) : "\nNo products found." ),
+					'Latest customer message: ' . sanitize_text_field( $message ),
+				)
+			)
+		);
+	}
+
+	/**
+	 * True if the user message contains any keyword (>=3 chars) from the
+	 * product name — used to decide whether to include current product context.
+	 */
+	private function is_product_referenced( $message, $product_name ) {
+		$product_name = trim( (string) $product_name );
+		if ( '' === $product_name ) {
+			return false;
+		}
+
+		$msg_lower = strtolower( (string) $message );
+		$tokens    = preg_split( '/\s+/', strtolower( $product_name ) );
+
+		if ( ! is_array( $tokens ) ) {
+			return false;
+		}
+
+		foreach ( $tokens as $word ) {
+			$word = preg_replace( '/[^\p{L}\p{N}]/u', '', (string) $word );
+			if ( mb_strlen( (string) $word ) >= 3 && str_contains( $msg_lower, (string) $word ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	// -------------------------------------------------------------------------
+	// Sanitisation helpers
+	// -------------------------------------------------------------------------
+
+	private function sanitize_history( array $history ) {
+		$sanitized = array();
+
+		foreach ( array_slice( $history, -6 ) as $entry ) {
+			if ( ! is_array( $entry ) ) {
+				continue;
+			}
+
+			$role    = ! empty( $entry['role'] ) && 'assistant' === $entry['role'] ? 'assistant' : 'user';
+			$content = ! empty( $entry['content'] ) ? sanitize_textarea_field( wp_strip_all_tags( (string) $entry['content'] ) ) : '';
+
+			// For assistant replies, keep only the first sentence — drops
+			// product card text / long explanations that waste tokens.
+			if ( 'assistant' === $role && '' !== $content ) {
+				if ( preg_match( '/^(.+?[.!?])(?:\s|$)/u', $content, $m ) ) {
+					$content = $m[1];
+				}
+			}
+
+			$content = mb_substr( $content, 0, 500 );
+
+			if ( '' === trim( $content ) ) {
+				continue;
+			}
+
+			$sanitized[] = array(
+				'role'    => $role,
+				'content' => $content,
+			);
+		}
+
+		return $sanitized;
+	}
+
+	private function sanitize_page_context( array $page_context ) {
+		$sanitized = array(
+			'pageUrl' => ! empty( $page_context['pageUrl'] ) ? esc_url_raw( (string) $page_context['pageUrl'] ) : '',
+		);
+
+		if ( ! empty( $page_context['product'] ) && is_array( $page_context['product'] ) ) {
+			$sanitized['product'] = array(
+				'id'                => ! empty( $page_context['product']['id'] ) ? absint( $page_context['product']['id'] ) : 0,
+				'name'              => ! empty( $page_context['product']['name'] ) ? sanitize_text_field( (string) $page_context['product']['name'] ) : '',
+				'price'             => ! empty( $page_context['product']['price'] ) ? sanitize_text_field( (string) $page_context['product']['price'] ) : '',
+				'permalink'         => ! empty( $page_context['product']['permalink'] ) ? esc_url_raw( (string) $page_context['product']['permalink'] ) : '',
+				'stock_status'      => ! empty( $page_context['product']['stock_status'] ) ? sanitize_text_field( (string) $page_context['product']['stock_status'] ) : '',
+				'short_description' => ! empty( $page_context['product']['short_description'] ) ? sanitize_textarea_field( (string) $page_context['product']['short_description'] ) : '',
+			);
+		}
+
+		// ── Personalisation fields (MCP mode) ─────────────────────────────────
+		$sanitized['viewedProducts'] = array();
+		if ( ! empty( $page_context['viewedProducts'] ) && is_array( $page_context['viewedProducts'] ) ) {
+			foreach ( array_slice( $page_context['viewedProducts'], 0, 10 ) as $item ) {
+				if ( ! is_array( $item ) || empty( $item['id'] ) ) {
+					continue;
+				}
+				$sanitized['viewedProducts'][] = array(
+					'id'   => absint( $item['id'] ),
+					'name' => sanitize_text_field( (string) ( $item['name'] ?? '' ) ),
+				);
+			}
+		}
+
+		$sanitized['searchHistory'] = array();
+		if ( ! empty( $page_context['searchHistory'] ) && is_array( $page_context['searchHistory'] ) ) {
+			foreach ( array_slice( $page_context['searchHistory'], 0, 10 ) as $kw ) {
+				$kw = sanitize_text_field( (string) $kw );
+				if ( '' !== $kw ) {
+					$sanitized['searchHistory'][] = $kw;
+				}
+			}
+		}
+
+		return $sanitized;
+	}
+
+	// -------------------------------------------------------------------------
+	// HTML builders
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Wrap AI text + product cards (legacy path).
+	 */
+	private function build_product_response_html( $assistant_message, array $products ) {
+		$html  = wpautop( esc_html( $assistant_message ) );
+		$html .= $this->build_product_cards_html( $products );
+		return $html;
+	}
+
+	/**
+	 * Build a fallback response when the AI provider is unavailable.
+	 * Shows product cards from catalog search with a friendly message,
+	 * or the enquiry form if no products were found.
+	 */
+	private function build_product_fallback_response( array $products ): array {
+		if ( empty( $products ) ) {
+			$no_match = trim( (string) $this->settings->get( 'no_match_text' ) );
+			if ( '' === $no_match ) {
+				$no_match = __( "We couldn't find an exact match. Please share more details.", 'veltez-ai-chatbot-for-woocommerce' );
+			}
+			return array(
+				'message'           => $no_match,
+				'html'              => false,
+				'enquiry_form'      => true,
+				'enquiry_form_html' => $this->get_enquiry_form_html(),
+				'recommendations'   => array(),
+			);
+		}
+
+		$fallback_text = __( 'Here are some products that might match what you\'re looking for:', 'veltez-ai-chatbot-for-woocommerce' );
+		$html          = wpautop( esc_html( $fallback_text ) );
+		$html         .= $this->build_product_cards_html( $products );
+
+		return array(
+			'message'         => $html,
+			'html'            => true,
+			'enquiry_form'    => false,
+			'recommendations' => $products,
+		);
+	}
+
+	/**
+	 * Render product cards for a slice of products (shared between MCP and legacy paths).
+	 * Which fields are shown is controlled by settings (all off by default).
+	 */
+	private function build_product_cards_html( array $products ): string {
+		if ( empty( $products ) ) {
+			return '';
+		}
+
+		$show_image     = 'yes' === $this->settings->get( 'card_show_image' );
+		$show_price     = 'yes' === $this->settings->get( 'card_show_price' );
+		$show_stock     = 'yes' === $this->settings->get( 'card_show_stock' );
+		$show_desc      = 'yes' === $this->settings->get( 'card_show_desc' );
+		$show_view_link = 'yes' === $this->settings->get( 'card_show_view_link' );
+
+		$html = '<div class="aiwoo-product-list">';
+		foreach ( array_slice( $products, 0, 3 ) as $product ) {
+			$permalink = esc_url( $product['permalink'] );
+			$html     .= '<div class="aiwoo-product-card">';
+
+			if ( $show_image && ! empty( $product['image_url'] ) ) {
+				$html .= '<img class="aiwoo-product-card__image" src="' . esc_url( $product['image_url'] ) . '" alt="' . esc_attr( $product['name'] ) . '" loading="lazy" />';
+			}
+
+			$html .= '<a class="aiwoo-product-card__title" href="' . $permalink . '">' . esc_html( $product['name'] ) . '</a>';
+
+			if ( $show_price ) {
+				$html .= '<span class="aiwoo-product-card__price">' . esc_html( $product['price'] ) . '</span>';
+			}
+
+			if ( $show_stock ) {
+				$html .= '<span class="aiwoo-product-card__stock">' . esc_html( $this->format_stock_status( $product['stock_status'] ) ) . '</span>';
+			}
+
+			if ( $show_desc ) {
+				$desc = wp_trim_words( $product['short_description'] ?: ( $product['description'] ?? '' ), 18 );
+				if ( '' !== $desc ) {
+					$html .= '<span class="aiwoo-product-card__desc">' . esc_html( $desc ) . '</span>';
+				}
+			}
+
+			if ( $show_view_link ) {
+				$html .= '<a class="aiwoo-product-card__view" href="' . $permalink . '">' . esc_html__( 'View details', 'veltez-ai-chatbot-for-woocommerce' ) . '</a>';
+			}
+
+			$html .= '</div>';
+		}
+		$html .= '</div>';
+
+		return $html;
+	}
+
+	private function format_stock_status( $status ) {
+		switch ( $status ) {
+			case 'instock':
+				return __( 'In stock', 'veltez-ai-chatbot-for-woocommerce' );
+			case 'outofstock':
+				return __( 'Out of stock', 'veltez-ai-chatbot-for-woocommerce' );
+			case 'onbackorder':
+				return __( 'Available on backorder', 'veltez-ai-chatbot-for-woocommerce' );
+			default:
+				return sanitize_text_field( (string) $status );
+		}
+	}
+
+	private function get_enquiry_form_html() {
+		$title   = trim( (string) $this->settings->get( 'enquiry_title' ) );
+		$content = trim( (string) $this->settings->get( 'enquiry_content' ) );
+
+		$html = '<div class="aiwoo-enquiry">';
+
+		if ( '' !== $title ) {
+			$html .= '<p class="aiwoo-enquiry__title">' . esc_html( $title ) . '</p>';
+		}
+
+		if ( '' !== $content ) {
+			$html .= '<p class="aiwoo-enquiry__intro">' . esc_html( $content ) . '</p>';
+		}
+
+		$html .= '<form class="aiwoo-enquiry-form">';
+		$html .= '<input type="text" name="name" placeholder="' . esc_attr__( 'Name', 'veltez-ai-chatbot-for-woocommerce' ) . '" required />';
+		$html .= '<input type="text" name="phone" placeholder="' . esc_attr__( 'Phone (optional)', 'veltez-ai-chatbot-for-woocommerce' ) . '" />';
+		$html .= '<input type="email" name="email" placeholder="' . esc_attr__( 'Email', 'veltez-ai-chatbot-for-woocommerce' ) . '" required />';
+		$html .= '<textarea name="message" rows="3" placeholder="' . esc_attr__( 'Message', 'veltez-ai-chatbot-for-woocommerce' ) . '" required></textarea>';
+		// Honeypot field — invisible to real users; bots populate it and get silently rejected.
+		$html .= '<input type="text" name="aiwoo_hp" value="" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;" />';
+		$html .= '<button type="submit">' . esc_html__( 'Send enquiry', 'veltez-ai-chatbot-for-woocommerce' ) . '</button>';
+		$html .= '</form>';
+		$html .= '</div>';
+
+		return $html;
+	}
+}

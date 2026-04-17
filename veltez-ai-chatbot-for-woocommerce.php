@@ -1,0 +1,49 @@
+<?php
+/**
+ * Plugin Name: veltez – AI Chatbot & Product Recommendations for WooCommerce
+ * Plugin URI:  https://veltez.harikaran.com/
+ * Description: AI-powered WooCommerce chatbot and shopping assistant that helps customers find products, get instant answers, and boost sales with smart recommendations.
+ * Version:     1.0.0
+ * Author:      veltez
+ * Author URI:  https://veltez.harikaran.com/
+ * Text Domain: veltez-ai-chatbot-for-woocommerce
+ * Domain Path: /languages
+ * Requires at least: 6.4
+ * Requires PHP: 8.0
+ * Tested up to: 6.9
+ * Tested PHP up to: 8.4
+ * WC requires at least: 7.8
+ * WC tested up to: 9.0
+ * License: GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+define( 'AI_WOO_ASSISTANT_VERSION', '1.0.0' );
+define( 'AI_WOO_ASSISTANT_FILE', __FILE__ );
+define( 'AI_WOO_ASSISTANT_PATH', plugin_dir_path( __FILE__ ) );
+define( 'AI_WOO_ASSISTANT_URL', plugin_dir_url( __FILE__ ) );
+
+require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-settings.php';
+require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-chat-logger.php';
+require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-ai-error-logger.php';
+require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-ip-blocker.php';
+require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-quick-reply-service.php';
+require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-admin-menu.php';
+require_once AI_WOO_ASSISTANT_PATH . 'includes/woocommerce-handler.php';
+require_once AI_WOO_ASSISTANT_PATH . 'includes/api-handler.php';
+require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-mcp-tools.php';
+require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-plugin.php';
+
+register_activation_hook(
+	AI_WOO_ASSISTANT_FILE,
+	static function () {
+		\AIWooAssistant\Chat_Logger::create_table();
+		\AIWooAssistant\Quick_Reply_Service::create_table();
+		\AIWooAssistant\Quick_Reply_Service::seed_on_activation();
+		\AIWooAssistant\AI_Error_Logger::create_table();
+	}
+);
+
+\AIWooAssistant\Plugin::instance();

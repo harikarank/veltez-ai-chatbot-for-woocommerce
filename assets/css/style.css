@@ -1,0 +1,663 @@
+/* ==========================================================================
+   veltez — Premium Chat Widget
+   Design rule : zero hard-coded colours — everything flows from CSS vars
+   ========================================================================== */
+
+/* ── CSS custom properties ─────────────────────────────────────────────────
+   Base palette — overridden per-site via wp_add_inline_style
+   ─────────────────────────────────────────────────────────────────────────── */
+.aiwoo-widget {
+	/* Accent */
+	--aiwoo-primary:       #7310ec;
+	--aiwoo-primary-dark:  color-mix(in srgb, var(--aiwoo-primary) 80%, black);
+	--aiwoo-primary-deep:  color-mix(in srgb, var(--aiwoo-primary) 65%, black);
+
+	/* Layout surfaces */
+	--aiwoo-surface:       #ffffff;
+	--aiwoo-bg:            #f7f7f7;
+	--aiwoo-border:        #e0e0e0;
+
+	/* Typography */
+	--aiwoo-copy:          #111111;
+	--aiwoo-copy-soft:     #666666;
+
+	/* Header */
+	--aiwoo-header-bg:          var(--aiwoo-primary);
+	--aiwoo-header-text:        #ffffff;
+
+	/* User message bubble */
+	--aiwoo-user-bubble-bg:     var(--aiwoo-primary);
+	--aiwoo-user-bubble-text:   #ffffff;
+
+	/* Agent message bubble */
+	--aiwoo-agent-bubble-bg:    #f0f0f0;
+	--aiwoo-agent-bubble-text:  var(--aiwoo-copy);
+
+	/* Send button */
+	--aiwoo-send-bg:            var(--aiwoo-primary);
+	--aiwoo-send-text:          #ffffff;
+	--aiwoo-send-hover-bg:      var(--aiwoo-primary-dark);
+
+	/* Input */
+	--aiwoo-input-bg:           var(--aiwoo-surface);
+	--aiwoo-input-text:         var(--aiwoo-copy);
+
+	/* Input form */
+	--aiwoo-form-bg:            #ffffff;
+	--aiwoo-form-border:        #000000;
+
+	/* Typing indicator */
+	--aiwoo-loading-bg:         var(--aiwoo-surface);
+	--aiwoo-loading-text:       var(--aiwoo-copy-soft);
+
+	/* Character counter */
+	--aiwoo-counter-bg:         var(--aiwoo-surface);
+	--aiwoo-counter-text:       var(--aiwoo-copy-soft);
+
+	/* Avatars */
+	--aiwoo-avatar-assistant-bg:    #ffffff;
+	--aiwoo-avatar-user-bg:         #ababab;
+
+	/* Panel borders */
+	--aiwoo-panel-border:           #ededed;
+	--aiwoo-panel-bg:               #ededed;
+	--aiwoo-header-border-bottom:   var(--aiwoo-primary-dark);
+
+	/* Radius / sharpness */
+	--aiwoo-radius: 0px;
+
+	/* Shadow */
+	--aiwoo-shadow-lift:   4px 4px 0 rgba(0, 0, 0, 0.25);
+	--aiwoo-shadow-panel:  10px 10px 0 rgba(0, 0, 0, 0.18);
+
+	position: fixed;
+	right: 24px;
+	bottom: 24px;
+	z-index: 999999;
+	font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+/* ── Launcher button ────────────────────────────────────────────────────── */
+.aiwoo-launcher {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 7px;
+	width: 58px;
+	height: 58px;
+	border: none;
+	border-radius: 50%;
+	background: var(--aiwoo-primary);
+	color: var(--aiwoo-send-text);
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	transition:
+		background  0.15s ease,
+		box-shadow  0.15s ease,
+		transform   0.12s ease;
+}
+
+.aiwoo-launcher:hover {
+	background: var(--aiwoo-primary-dark);
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.aiwoo-launcher:active {
+	transform: scale(0.94);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.aiwoo-launcher__icon {
+	width: 35px;
+	height: 35px;
+	object-fit: contain;
+}
+
+.aiwoo-launcher__dot {
+	width: 9px;
+	height: 9px;
+	background: #fff;
+}
+
+.aiwoo-launcher__label {
+	font-size: 12px;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	color: #fff;
+}
+
+/* ── Panel container ────────────────────────────────────────────────────── */
+.aiwoo-panel {
+	position: absolute;
+	right: 0;
+	bottom: 72px;
+	width: min(388px, calc(100vw - 20px));
+	height: min(580px, calc(100vh - 110px));
+	border: 1px solid var(--aiwoo-panel-border);
+	border-radius: var(--aiwoo-radius);
+	background: var(--aiwoo-panel-bg);
+	box-shadow: var(--aiwoo-shadow-panel);
+	display: flex;
+	flex-direction: column;
+	overflow: visible;
+	opacity: 0;
+	transform: translateY(14px);
+	pointer-events: none;
+	transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.aiwoo-widget.is-open .aiwoo-panel {
+	opacity: 1;
+	transform: translateY(0);
+	pointer-events: auto;
+	box-shadow: none;
+}
+
+/* ── Panel header ───────────────────────────────────────────────────────── */
+.aiwoo-panel__header {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 13px 16px;
+	background: var(--aiwoo-header-bg);
+	border-bottom: 3px solid var(--aiwoo-header-border-bottom);
+	border-radius: var(--aiwoo-radius) var(--aiwoo-radius) 0 0;
+	flex-shrink: 0;
+}
+
+.aiwoo-panel__header-info {
+	display: flex;
+	align-items: center;
+	gap: 11px;
+	flex: 1 1 0;
+	min-width: 0;
+	overflow: hidden;
+}
+
+.aiwoo-panel__logo {
+	flex-shrink: 0;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 2px solid rgba(255, 255, 255, 0.35);
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+	color: #ffffff;
+}
+
+.aiwoo-widget section {
+	padding: 0;
+}
+
+.aiwoo-panel__header h2,
+.aiwoo-panel__header p {
+	margin: 0;
+}
+
+.aiwoo-panel__header h2 {
+	color: var(--aiwoo-header-text);
+	font-size: 16px;
+	font-weight: 500;
+	letter-spacing: 0.01em;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.aiwoo-panel__header p {
+	margin-top: 2px;
+	color: var(--aiwoo-header-text);
+	opacity: 0.72;
+	font-size: 11px;
+	line-height: 20px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.aiwoo-panel__online {
+	display: inline-block;
+	flex-shrink: 0;
+	width: 6px;
+	height: 6px;
+	background: #22c55e;
+	border-radius: 100px;
+	opacity: 1; /* override parent opacity via stacking context */
+}
+
+.aiwoo-close {
+	flex-shrink: 0;
+	width: 30px;
+	height: 30px;
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	background: transparent;
+	color: var(--aiwoo-header-text);
+	font-size: 18px;
+	line-height: 1;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background 0.15s;
+}
+
+.aiwoo-close:hover {
+	background: rgba(255, 255, 255, 0.18);
+}
+
+/* ── Messages area ──────────────────────────────────────────────────────── */
+.aiwoo-messages {
+	flex: 1;
+	padding: 14px 13px;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	background: var(--aiwoo-bg);
+	scrollbar-width: thin;
+	scrollbar-color: var(--aiwoo-primary) #e8e8e8;
+}
+
+.aiwoo-messages::-webkit-scrollbar        { width: 3px; }
+.aiwoo-messages::-webkit-scrollbar-track  { background: #e8e8e8; }
+.aiwoo-messages::-webkit-scrollbar-thumb  { background: var(--aiwoo-primary); }
+
+/* ── Typing indicator ───────────────────────────────────────────────────── */
+.aiwoo-loading {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 16px 10px;
+	background: var(--aiwoo-loading-bg);
+	border-top: 1px solid var(--aiwoo-border);
+	flex-shrink: 0;
+}
+
+.aiwoo-loading[hidden] {
+	display: none;
+}
+
+.aiwoo-loading__dot {
+	width: 3px;
+	height: 16px;
+	background: var(--aiwoo-primary);
+	transform-origin: bottom center;
+	animation: aiwoo-bar-rise 0.85s infinite ease-in-out;
+}
+
+.aiwoo-loading__dot:nth-child(1) { animation-delay: 0s; }
+.aiwoo-loading__dot:nth-child(2) { animation-delay: 0.14s; }
+.aiwoo-loading__dot:nth-child(3) { animation-delay: 0.28s; }
+
+@keyframes aiwoo-bar-rise {
+	0%,  80%, 100% { transform: scaleY(0.3);  opacity: 0.25; }
+	40%            { transform: scaleY(1);    opacity: 1; }
+}
+
+.aiwoo-loading__text {
+	font-size: 11.5px;
+	color: var(--aiwoo-loading-text);
+	font-style: italic;
+	letter-spacing: 0.01em;
+}
+
+/* ── Message rows ───────────────────────────────────────────────────────── */
+.aiwoo-message-row {
+	display: flex;
+	align-items: flex-end;
+	gap: 7px;
+	width: 100%;
+	animation: aiwoo-msg-in 0.18s ease both;
+}
+
+@keyframes aiwoo-msg-in {
+	from { opacity: 0; transform: translateY(7px); }
+	to   { opacity: 1; transform: translateY(0); }
+}
+
+.aiwoo-message-row--assistant { justify-content: flex-start; }
+.aiwoo-message-row--user      { justify-content: flex-end; }
+
+/* ── Avatars ────────────────────────────────────────────────────────────── */
+.aiwoo-avatar {
+	flex-shrink: 0;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	background: var(--aiwoo-primary);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+}
+
+.aiwoo-avatar img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.aiwoo-avatar--assistant  { background: var(--aiwoo-avatar-assistant-bg); }
+.aiwoo-avatar--user       { background: var(--aiwoo-avatar-user-bg); color: var(--aiwoo-user-bubble-text); }
+.aiwoo-avatar--user svg   { width: 15px; height: 15px; }
+
+.aiwoo-avatar--employee {
+	background: #ebebeb;
+	border: 1.5px solid #ddd;
+}
+
+/* ── Message bubbles ────────────────────────────────────────────────────── */
+.aiwoo-message {
+	position: relative;
+	max-width: calc(84% - 35px);
+	padding: 10px 13px;
+	font-size: 13.5px;
+	line-height: 1.58;
+}
+
+.aiwoo-message p            { margin: 0 0 7px; line-height: 21px; }
+.aiwoo-message p:last-child { margin-bottom: 0; }
+
+/* Agent bubble — left tail */
+.aiwoo-message--assistant {
+	background: var(--aiwoo-agent-bubble-bg);
+	color: var(--aiwoo-agent-bubble-text);
+	border-radius: var(--aiwoo-radius) var(--aiwoo-radius) var(--aiwoo-radius) 4px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.aiwoo-message--assistant::before {
+	content: '';
+	position: absolute;
+	bottom: 6px;
+	left: -7px;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 6px 8px 6px 0;
+	border-color: transparent var(--aiwoo-agent-bubble-bg) transparent transparent;
+}
+
+/* User bubble — right tail */
+.aiwoo-message--user {
+	background: var(--aiwoo-user-bubble-bg);
+	color: var(--aiwoo-user-bubble-text);
+	border-radius: var(--aiwoo-radius) var(--aiwoo-radius) 4px var(--aiwoo-radius);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.aiwoo-message--user::before {
+	content: '';
+	position: absolute;
+	bottom: 6px;
+	right: -7px;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 6px 0 6px 8px;
+	border-color: transparent transparent transparent var(--aiwoo-user-bubble-bg);
+}
+
+/* ── Product cards ──────────────────────────────────────────────────────── */
+.aiwoo-product-list {
+	display: grid;
+	gap: 7px;
+	margin-top: 10px;
+}
+
+.aiwoo-product-card {
+	display: grid;
+	gap: 3px;
+	padding: 10px 13px;
+	background: var(--aiwoo-surface);
+	color: var(--aiwoo-copy);
+	text-decoration: none;
+	border: 1px solid var(--aiwoo-border);
+	border-left: 3px solid var(--aiwoo-primary);
+	transition: background 0.14s ease, border-left-color 0.14s ease;
+	position: relative;
+}
+
+.aiwoo-product-card:hover {
+	background: var(--aiwoo-bg);
+	border-left-color: var(--aiwoo-primary-dark);
+}
+
+.aiwoo-product-card__image {
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	height: auto;
+	object-fit: cover;
+	display: block;
+	margin-bottom: 4px;
+	border-radius: 2px;
+}
+
+.aiwoo-product-card__title {
+	font-size: 13px;
+	font-weight: 700;
+	color: var(--aiwoo-copy);
+	text-decoration: none;
+}
+
+/* Stretched link: makes the whole card clickable via the title anchor */
+.aiwoo-product-card__title::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+}
+
+.aiwoo-product-card__view {
+	display: inline-block;
+	margin-top: 5px;
+	font-size: 11.5px;
+	font-weight: 600;
+	color: var(--aiwoo-primary);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	position: relative;
+	z-index: 1;
+}
+
+.aiwoo-product-card__view:hover { color: var(--aiwoo-primary-dark); }
+
+.aiwoo-product-card__price { font-size: 13px; font-weight: 700; color: var(--aiwoo-primary); }
+
+.aiwoo-product-card__stock {
+	font-size: 10.5px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--aiwoo-copy-soft);
+}
+
+.aiwoo-product-card__desc {
+	font-size: 12px;
+	color: var(--aiwoo-copy-soft);
+	margin-top: 3px;
+	line-height: 14px;
+}
+
+/* ── Character counter ──────────────────────────────────────────────────── */
+.aiwoo-char-counter {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 5px 5px 5px;
+	font-size: 10.5px;
+	line-height: 1;
+	color: var(--aiwoo-counter-text);
+	background: var(--aiwoo-counter-bg);
+	border-top: 1px solid var(--aiwoo-border);
+	flex-shrink: 0;
+	transition: color 0.15s;
+	user-select: none;
+}
+
+.aiwoo-char-counter.is-near-limit span { color: #d97706; }
+.aiwoo-char-counter.is-at-limit   span { color: #dc2626; font-weight: 700; }
+
+.aiwoo-clear {
+	background: none;
+	border: none;
+	padding: 0;
+	font-size: 10px;
+	color: var(--aiwoo-copy-soft);
+	cursor: pointer;
+	opacity: 0.6;
+	transition: opacity 0.15s;
+	line-height: 1;
+	text-decoration: none;
+}
+
+.aiwoo-clear:hover { opacity: 1; }
+
+/* ── Input form ─────────────────────────────────────────────────────────── */
+.aiwoo-form {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	border-top: 1px solid var(--aiwoo-form-border);
+	background: var(--aiwoo-form-bg);
+	border-radius: 0 0 var(--aiwoo-radius) var(--aiwoo-radius);
+	flex-shrink: 0;
+	overflow: visible;
+}
+
+.aiwoo-input {
+	min-height: 75px;
+	max-height: 130px;
+	border: none;
+	padding: 14px 15px;
+	font: inherit;
+	font-size: 13.5px;
+	color: var(--aiwoo-input-text);
+	background: var(--aiwoo-input-bg);
+	border-radius: 0 0 var(--aiwoo-radius) var(--aiwoo-radius);
+	resize: none;
+	outline: none;
+	transition: border-right-color 0.15s;
+}
+
+.aiwoo-input::placeholder {
+	color: #bbb;
+	font-size: 13px;
+}
+
+.aiwoo-send {
+	align-self: end;
+	width: 35px;
+	height: 35px;
+	flex-shrink: 0;
+	border: none;
+	border-radius: 50%;
+	padding: 0;
+	background: var(--aiwoo-send-bg);
+	color: var(--aiwoo-send-text);
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transform: translate(5px, -5px);
+	margin-right: 10px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+	transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.aiwoo-send:hover    { background: var(--aiwoo-send-hover-bg); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28); }
+.aiwoo-send:active   { background: var(--aiwoo-primary-deep); }
+.aiwoo-send:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Enquiry form ───────────────────────────────────────────────────────── */
+.aiwoo-enquiry {
+	background: var(--aiwoo-surface);
+	border: 1px solid var(--aiwoo-border);
+	border-left: 3px solid var(--aiwoo-primary);
+	border-radius: 0 var(--aiwoo-radius) var(--aiwoo-radius) 0;
+	padding: 14px;
+	margin: 20px 0px;
+}
+
+.aiwoo-enquiry__title {
+	font-size: 13px;
+	font-weight: 700;
+	color: var(--aiwoo-copy);
+	margin: 0 0 6px;
+	line-height: 20px;
+}
+
+.aiwoo-enquiry__intro {
+	font-size: 12.5px;
+	color: var(--aiwoo-copy-soft);
+	margin: 0 0 11px;
+	line-height: 1.5;
+}
+
+.aiwoo-enquiry-form { display: grid; gap: 8px; margin-top: 15px; }
+
+.aiwoo-enquiry-form textarea { resize: none; }
+
+.aiwoo-enquiry-form input,
+.aiwoo-enquiry-form textarea {
+	min-height: 40px;
+	border: 1px solid var(--aiwoo-border);
+	border-bottom: 2px solid #bbb;
+	padding: 9px 11px;
+	font: inherit;
+	font-size: 13px;
+	color: var(--aiwoo-copy);
+	background: var(--aiwoo-surface);
+	border-radius: var(--aiwoo-radius);
+	outline: none;
+	transition: border-bottom-color 0.15s;
+}
+
+.aiwoo-enquiry-form input:focus,
+.aiwoo-enquiry-form textarea:focus {
+	border-bottom-color: var(--aiwoo-primary);
+}
+
+.aiwoo-enquiry-form button {
+	border: none;
+	padding: 12px 20px;
+	background: var(--aiwoo-send-bg);
+	color: var(--aiwoo-send-text);
+	font: 700 13px/1 inherit;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	border-radius: var(--aiwoo-radius);
+	cursor: pointer;
+	transition: background 0.15s;
+}
+
+.aiwoo-enquiry-form button:hover { background: var(--aiwoo-send-hover-bg); }
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+	.aiwoo-widget {
+		right: 12px;
+		bottom: 12px;
+		left: 12px;
+	}
+
+	.aiwoo-launcher {
+		margin-left: auto;
+	}
+
+	.aiwoo-panel {
+		right: 0;
+		left: 0;
+		width: 100%;
+		height: min(74vh, 560px);
+		box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.18);
+	}
+
+	.aiwoo-send {
+		padding: 0 13px;
+		font-size: 11.5px;
+	}
+}
