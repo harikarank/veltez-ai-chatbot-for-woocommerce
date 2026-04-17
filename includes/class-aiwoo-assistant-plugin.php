@@ -212,7 +212,7 @@ final class Plugin {
 			return;
 		}
 
-		$icon_url = esc_url( AI_WOO_ASSISTANT_URL . 'assets/img/favicon.svg' );
+		$icon_url = esc_url( AI_WOO_ASSISTANT_URL . 'assets/img/menu-icon-white.png' );
 		$title    = '<img src="' . $icon_url . '" class="aiwoo-ab-icon" alt="" />'
 			. '<span class="ab-label">' . esc_html__( 'veltez', 'veltez-ai-chatbot-for-woocommerce' ) . '</span>';
 
