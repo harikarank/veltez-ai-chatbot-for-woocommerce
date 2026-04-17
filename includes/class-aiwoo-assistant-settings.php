@@ -25,7 +25,7 @@ final class Settings {
 		'chat_placeholder'     => 'Ask about products…',
 		'company_logo'         => '',
 		'employee_photo'       => '',
-		'primary_color'        => '#9a162d',
+		'primary_color'        => '#720eec',
 		'chat_icon'            => '',
 		'max_context_products' => 4,
 		'temperature'          => 0.4,
@@ -468,7 +468,7 @@ final class Settings {
 					esc_attr( $field_id ),
 					esc_attr( $name ),
 					esc_attr( (string) $value ),
-					esc_attr( '#9a162d' )
+					esc_attr( '#720eec' )
 				);
 				break;
 

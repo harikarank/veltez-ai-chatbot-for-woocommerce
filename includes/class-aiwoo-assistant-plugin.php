@@ -459,7 +459,7 @@ final class Plugin {
 	private function build_color_css() {
 		$primary = sanitize_hex_color( (string) $this->settings->get( 'primary_color' ) );
 		if ( empty( $primary ) ) {
-			$primary = '#9a162d';
+			$primary = '#720eec';
 		}
 
 		$radius = max( 0, min( 24, absint( $this->settings->get( 'border_radius' ) ) ) );

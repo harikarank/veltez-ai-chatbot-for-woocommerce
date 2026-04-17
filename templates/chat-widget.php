@@ -23,7 +23,7 @@ $display_subtitle = '' !== $panel_subtitle ? $panel_subtitle : __( 'Ask about pr
 	>
 		<img
 			class="aiwoo-launcher__icon"
-			src="<?php echo ! empty( $icon_url ) ? esc_url( $icon_url ) : esc_url( AI_WOO_ASSISTANT_URL . 'assets/img/favicon.svg' ); ?>"
+			src="<?php echo ! empty( $icon_url ) ? esc_url( $icon_url ) : esc_url( AI_WOO_ASSISTANT_URL . 'assets/img/favicon-white.svg' ); ?>"
 			alt=""
 		/>
 	</button>
@@ -36,7 +36,7 @@ $display_subtitle = '' !== $panel_subtitle ? $panel_subtitle : __( 'Ask about pr
 			<div class="aiwoo-panel__header-info">
 				<img
 					class="aiwoo-panel__logo"
-					src="<?php echo ! empty( $company_logo ) ? esc_url( $company_logo ) : esc_url( AI_WOO_ASSISTANT_URL . 'assets/img/logo.svg' ); ?>"
+					src="<?php echo ! empty( $company_logo ) ? esc_url( $company_logo ) : esc_url( AI_WOO_ASSISTANT_URL . 'assets/img/favicon-white.svg' ); ?>"
 					alt="<?php echo esc_attr( $company_name ); ?>"
 				/>
 				<div>

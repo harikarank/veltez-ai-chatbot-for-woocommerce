@@ -44,7 +44,7 @@
 
 	/* Input form */
 	--aiwoo-form-bg:            #ffffff;
-	--aiwoo-form-border:        #000000;
+	--aiwoo-form-border:        #cdcdcd;
 
 	/* Typing indicator */
 	--aiwoo-loading-bg:         var(--aiwoo-surface);
@@ -59,7 +59,7 @@
 	--aiwoo-avatar-user-bg:         #ababab;
 
 	/* Panel borders */
-	--aiwoo-panel-border:           #ededed;
+	--aiwoo-panel-border:           #cdcdcd;
 	--aiwoo-panel-bg:               #ededed;
 	--aiwoo-header-border-bottom:   var(--aiwoo-primary-dark);
 

@@ -449,8 +449,8 @@ All widget colours are CSS custom properties defined on `.aiwoo-widget`:
 
 ```css
 .aiwoo-widget {
-    --aiwoo-primary:          #9a162d;
-    --aiwoo-primary-dark:     #7d1125;
+    --aiwoo-primary:          #720eec;
+    --aiwoo-primary-dark:     #720eec;
     --aiwoo-header-bg:        var(--aiwoo-primary);
     --aiwoo-user-bubble-bg:   var(--aiwoo-primary);
     /* ... 18 total variables */
