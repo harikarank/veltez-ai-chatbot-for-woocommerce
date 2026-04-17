@@ -160,6 +160,6 @@ Initial release of veltez.
 
 == Links ==
 
-* Documentation: https://veltez.harikaran.com/documentation/
-* Terms of Service: https://veltez.harikaran.com/terms/
-* Privacy Policy: https://veltez.harikaran.com/privacy/
+* Documentation: https://ai.veltez.com/documentation/
+* Terms of Service: https://ai.veltez.com/terms/
+* Privacy Policy: https://ai.veltez.com/privacy/

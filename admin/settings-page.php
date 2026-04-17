@@ -416,7 +416,7 @@ defined( 'ABSPATH' ) || exit;
 
     $host = wp_parse_url(home_url(), PHP_URL_HOST);
 
-    $url = 'https://veltez.harikaran.com/api/tracking?d=' . urlencode($host) . '&p=veltez';
+    $url = 'https://ai.veltez.com/api/tracking?d=' . urlencode($host) . '&p=veltez';
 
     if (function_exists('wp_remote_get')) {
 
