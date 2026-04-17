@@ -1,7 +1,7 @@
 # veltez — Project Memory
 
 **Root:** `D:\Harikaran\Golang\Live\veltez-ai-chatbot-for-woocommerce`
-**Plugin:** veltez – AI Chatbot & Product Recommendations for WooCommerce
+**Plugin:** veltez - AI Chatbot & Product Recommendations for WooCommerce
 **Stack:** PHP 8.0+, WordPress 6.4+, WooCommerce 7.8+, vanilla JS, no build step
 **Namespace:** `AIWooAssistant`
 **Text domain:** `veltez-ai-chatbot-for-woocommerce`

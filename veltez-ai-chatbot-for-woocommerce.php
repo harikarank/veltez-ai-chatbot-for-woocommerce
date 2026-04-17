@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: veltez – AI Chatbot & Product Recommendations for WooCommerce
+ * Plugin Name: veltez - AI Chatbot & Product Recommendations for WooCommerce
  * Plugin URI:  https://ai.veltez.com/
  * Description: AI-powered WooCommerce chatbot and shopping assistant that helps customers find products, get instant answers, and boost sales with smart recommendations.
  * Version:     1.0.0

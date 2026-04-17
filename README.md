@@ -1,4 +1,4 @@
-# veltez – AI Chatbot & Product Recommendations for WooCommerce
+# veltez - AI Chatbot & Product Recommendations for WooCommerce
 
 A production-grade WordPress plugin that adds an AI-powered chat widget to any WooCommerce store. Customers type naturally and receive instant, grounded product recommendations. Supports **OpenAI**, **Claude (Anthropic)**, and **Gemini (Google)** — switchable at any time from the admin settings. Includes a rule-based Quick Reply engine to bypass the AI for common queries, MCP tool-calling mode for on-demand product lookups, personalisation, upsell/cross-sell intelligence, and a full admin dashboard (chat history, enquiries, IP blocklist, quick replies, top requests analytics, AI error log, plugin guide).
 

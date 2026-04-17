@@ -1,4 +1,4 @@
-=== veltez – AI Chatbot & Product Recommendations for WooCommerce ===
+=== veltez - AI Chatbot & Product Recommendations for WooCommerce ===
 
 Contributors: veltez
 Tags: woocommerce, ai chatbot, product recommendations, ecommerce, customer support
