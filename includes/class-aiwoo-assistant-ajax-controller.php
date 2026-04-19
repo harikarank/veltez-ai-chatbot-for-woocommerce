@@ -35,7 +35,7 @@ final class Ajax_Controller {
 		if ( ! $this->settings->is_enabled() ) {
 			wp_send_json_error(
 				array(
-					'message' => esc_html__( 'The assistant is disabled.', 'veltez-ai-chatbot-for-woocommerce' ),
+					'message' => esc_html__( 'The assistant is disabled.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 				),
 				403
 			);
@@ -44,7 +44,7 @@ final class Ajax_Controller {
 		if ( $this->ip_blocker->is_blocked( IP_Blocker::get_visitor_ip() ) ) {
 			wp_send_json_error(
 				array(
-					'message' => esc_html__( 'Not available.', 'veltez-ai-chatbot-for-woocommerce' ),
+					'message' => esc_html__( 'Not available.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 				),
 				403
 			);
@@ -53,7 +53,7 @@ final class Ajax_Controller {
 		if ( $this->is_bot_request() ) {
 			wp_send_json_error(
 				array(
-					'message' => esc_html__( 'Not available.', 'veltez-ai-chatbot-for-woocommerce' ),
+					'message' => esc_html__( 'Not available.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 				),
 				403
 			);
@@ -64,7 +64,7 @@ final class Ajax_Controller {
 		if ( ! $this->rate_limit_ok() ) {
 			wp_send_json_error(
 				array(
-					'message' => esc_html__( 'Too many requests. Please wait a moment and try again.', 'veltez-ai-chatbot-for-woocommerce' ),
+					'message' => esc_html__( 'Too many requests. Please wait a moment and try again.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 				),
 				429
 			);
@@ -83,7 +83,7 @@ final class Ajax_Controller {
 		if ( strlen( (string) $raw_history ) > 8000 || strlen( (string) $raw_page_context ) > 6000 ) {
 			wp_send_json_error(
 				array(
-					'message' => esc_html__( 'Your message is too large. Please shorten it and try again.', 'veltez-ai-chatbot-for-woocommerce' ),
+					'message' => esc_html__( 'Your message is too large. Please shorten it and try again.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 				),
 				413
 			);
@@ -100,7 +100,7 @@ final class Ajax_Controller {
 			}
 			wp_send_json_error(
 				array(
-					'message' => esc_html__( 'Not available.', 'veltez-ai-chatbot-for-woocommerce' ),
+					'message' => esc_html__( 'Not available.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 				),
 				413
 			);
@@ -113,7 +113,7 @@ final class Ajax_Controller {
 		if ( '' === trim( $message ) ) {
 			wp_send_json_error(
 				array(
-					'message' => esc_html__( 'Message cannot be empty.', 'veltez-ai-chatbot-for-woocommerce' ),
+					'message' => esc_html__( 'Message cannot be empty.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 				),
 				400
 			);
@@ -138,7 +138,7 @@ final class Ajax_Controller {
 			$this->ai_error_logger->log( $session_id, $ip_address, $message, 'ajax', $exception->getMessage() );
 			wp_send_json_error(
 				array(
-					'message' => esc_html__( 'The assistant is temporarily unavailable. Please try again.', 'veltez-ai-chatbot-for-woocommerce' ),
+					'message' => esc_html__( 'The assistant is temporarily unavailable. Please try again.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 				),
 				500
 			);
@@ -149,7 +149,7 @@ final class Ajax_Controller {
 		if ( ! $this->settings->is_enabled() ) {
 			wp_send_json_error(
 				array(
-					'message' => esc_html__( 'The assistant is disabled.', 'veltez-ai-chatbot-for-woocommerce' ),
+					'message' => esc_html__( 'The assistant is disabled.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 				),
 				403
 			);
@@ -158,7 +158,7 @@ final class Ajax_Controller {
 		if ( $this->ip_blocker->is_blocked( IP_Blocker::get_visitor_ip() ) ) {
 			wp_send_json_error(
 				array(
-					'message' => esc_html__( 'Not available.', 'veltez-ai-chatbot-for-woocommerce' ),
+					'message' => esc_html__( 'Not available.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 				),
 				403
 			);
@@ -170,7 +170,7 @@ final class Ajax_Controller {
 		if ( ! $this->rate_limit_ok() ) {
 			wp_send_json_error(
 				array(
-					'message' => esc_html__( 'Too many requests. Please wait a moment and try again.', 'veltez-ai-chatbot-for-woocommerce' ),
+					'message' => esc_html__( 'Too many requests. Please wait a moment and try again.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 				),
 				429
 			);
@@ -182,7 +182,7 @@ final class Ajax_Controller {
 			// Silently succeed without storing or emailing anything.
 			wp_send_json_success(
 				array(
-					'message' => esc_html__( 'Thanks. Your enquiry has been sent and saved. Our team can follow up by email.', 'veltez-ai-chatbot-for-woocommerce' ),
+					'message' => esc_html__( 'Thanks. Your enquiry has been sent and saved. Our team can follow up by email.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 				)
 			);
 		}
@@ -197,7 +197,7 @@ final class Ajax_Controller {
 		if ( '' === $name || '' === $message || ! is_email( $email ) ) {
 			wp_send_json_error(
 				array(
-					'message' => esc_html__( 'Please enter a valid name, email, and message.', 'veltez-ai-chatbot-for-woocommerce' ),
+					'message' => esc_html__( 'Please enter a valid name, email, and message.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 				),
 				400
 			);
@@ -205,11 +205,11 @@ final class Ajax_Controller {
 
 		$admin_email = get_option( 'admin_email' );
 		/* translators: %s: customer name */
-		$subject     = sprintf( __( 'New veltez enquiry from %s', 'veltez-ai-chatbot-for-woocommerce' ), $name );
+		$subject     = sprintf( __( 'New veltez enquiry from %s', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ), $name );
 		$body        = sprintf(
 			"Name: %s\nPhone: %s\nEmail: %s\n\nMessage:\n%s",
 			$name,
-			'' !== trim( $phone ) ? $phone : __( 'Not provided', 'veltez-ai-chatbot-for-woocommerce' ),
+			'' !== trim( $phone ) ? $phone : __( 'Not provided', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 			$email,
 			$message
 		);
@@ -226,18 +226,18 @@ final class Ajax_Controller {
 		if ( ! $sent && ! $stored ) {
 			wp_send_json_error(
 				array(
-					'message' => esc_html__( 'Your enquiry could not be saved or sent right now. Please try again later.', 'veltez-ai-chatbot-for-woocommerce' ),
+					'message' => esc_html__( 'Your enquiry could not be saved or sent right now. Please try again later.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 				),
 				500
 			);
 		}
 
 		if ( $sent && $stored ) {
-			$response_message = esc_html__( 'Thanks. Your enquiry has been sent and saved. Our team can follow up by email.', 'veltez-ai-chatbot-for-woocommerce' );
+			$response_message = esc_html__( 'Thanks. Your enquiry has been sent and saved. Our team can follow up by email.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' );
 		} elseif ( $sent ) {
-			$response_message = esc_html__( 'Thanks. Your enquiry has been emailed to our team.', 'veltez-ai-chatbot-for-woocommerce' );
+			$response_message = esc_html__( 'Thanks. Your enquiry has been emailed to our team.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' );
 		} else {
-			$response_message = esc_html__( 'Thanks. Your enquiry has been saved and our team can review it shortly.', 'veltez-ai-chatbot-for-woocommerce' );
+			$response_message = esc_html__( 'Thanks. Your enquiry has been saved and our team can review it shortly.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' );
 		}
 
 		wp_send_json_success(

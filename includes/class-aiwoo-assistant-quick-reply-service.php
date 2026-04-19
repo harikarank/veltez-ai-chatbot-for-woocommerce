@@ -790,7 +790,7 @@ final class Quick_Reply_Service {
 
 	public function handle_save() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'Permission denied.', 'veltez-ai-chatbot-for-woocommerce' ) );
+			wp_die( esc_html__( 'Permission denied.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 		}
 
 		check_admin_referer( 'aiwoo_save_quick_reply' );
@@ -824,7 +824,7 @@ final class Quick_Reply_Service {
 
 	public function handle_delete() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'Permission denied.', 'veltez-ai-chatbot-for-woocommerce' ) );
+			wp_die( esc_html__( 'Permission denied.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 		}
 
 		check_admin_referer( 'aiwoo_delete_quick_reply' );
@@ -841,7 +841,7 @@ final class Quick_Reply_Service {
 
 	public function handle_save_from_ai() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'Permission denied.', 'veltez-ai-chatbot-for-woocommerce' ) );
+			wp_die( esc_html__( 'Permission denied.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 		}
 
 		check_admin_referer( 'aiwoo_save_qr_from_ai' );
@@ -864,7 +864,7 @@ final class Quick_Reply_Service {
 		// Auto-generate title from the first 5 words of the source query.
 		$words = array_filter( explode( ' ', trim( $source_query ) ) );
 		$title = ucfirst( implode( ' ', array_slice( $words, 0, 5 ) ) );
-		$title = mb_substr( $title, 0, 255 ) ?: __( 'Quick Reply', 'veltez-ai-chatbot-for-woocommerce' );
+		$title = mb_substr( $title, 0, 255 ) ?: __( 'Quick Reply', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' );
 
 		$this->insert( array(
 			'title'      => $title,

@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- template scoped via require inside render method
 
 $display_title    = '' !== $panel_title ? $panel_title : $company_name;
-$display_subtitle = '' !== $panel_subtitle ? $panel_subtitle : __( 'Ask about products, comparisons, and buying advice.', 'veltez-ai-chatbot-for-woocommerce' );
+$display_subtitle = '' !== $panel_subtitle ? $panel_subtitle : __( 'Ask about products, comparisons, and buying advice.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' );
 ?>
 <div class="aiwoo-widget" data-aiwoo-widget>
 
@@ -19,7 +19,7 @@ $display_subtitle = '' !== $panel_subtitle ? $panel_subtitle : __( 'Ask about pr
 		type="button"
 		aria-expanded="false"
 		aria-controls="aiwoo-chat-panel"
-		aria-label="<?php esc_attr_e( 'Open chat assistant', 'veltez-ai-chatbot-for-woocommerce' ); ?>"
+		aria-label="<?php esc_attr_e( 'Open chat assistant', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>"
 	>
 		<img
 			class="aiwoo-launcher__icon"
@@ -50,7 +50,7 @@ $display_subtitle = '' !== $panel_subtitle ? $panel_subtitle : __( 'Ask about pr
 			<button
 				class="aiwoo-close"
 				type="button"
-				aria-label="<?php esc_attr_e( 'Close chat assistant', 'veltez-ai-chatbot-for-woocommerce' ); ?>"
+				aria-label="<?php esc_attr_e( 'Close chat assistant', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>"
 			>
 				<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">
 					<line x1="1" y1="1" x2="13" y2="13"/>
@@ -67,8 +67,8 @@ $display_subtitle = '' !== $panel_subtitle ? $panel_subtitle : __( 'Ask about pr
 			<span class="aiwoo-loading__dot" aria-hidden="true"></span>
 			<span class="aiwoo-loading__dot" aria-hidden="true"></span>
 			<span class="aiwoo-loading__dot" aria-hidden="true"></span>
-			<span class="aiwoo-loading__text" aria-hidden="true"><?php esc_html_e( 'Typing…', 'veltez-ai-chatbot-for-woocommerce' ); ?></span>
-			<span class="screen-reader-text"><?php esc_html_e( 'Assistant is thinking...', 'veltez-ai-chatbot-for-woocommerce' ); ?></span>
+			<span class="aiwoo-loading__text" aria-hidden="true"><?php esc_html_e( 'Typing…', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></span>
+			<span class="screen-reader-text"><?php esc_html_e( 'Assistant is thinking...', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></span>
 		</div>
 
 		<!-- Input form -->
@@ -76,9 +76,9 @@ $display_subtitle = '' !== $panel_subtitle ? $panel_subtitle : __( 'Ask about pr
 			<textarea
 				class="aiwoo-input"
 				rows="1"
-				placeholder="<?php echo esc_attr( '' !== $chat_placeholder ? $chat_placeholder : __( 'Ask about products…', 'veltez-ai-chatbot-for-woocommerce' ) ); ?>"
+				placeholder="<?php echo esc_attr( '' !== $chat_placeholder ? $chat_placeholder : __( 'Ask about products…', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) ); ?>"
 			></textarea>
-			<button class="aiwoo-send" type="submit" aria-label="<?php esc_attr_e( 'Send message', 'veltez-ai-chatbot-for-woocommerce' ); ?>">
+			<button class="aiwoo-send" type="submit" aria-label="<?php esc_attr_e( 'Send message', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>">
 				<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">
 					<line x1="5" y1="12" x2="19" y2="12"/>
 					<polyline points="12 5 19 12 12 19"/>

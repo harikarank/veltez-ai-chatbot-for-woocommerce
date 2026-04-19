@@ -18,29 +18,29 @@ $first = ! empty( $messages ) ? $messages[0] : null;
 <div class="wrap">
 	<h1 style="display:flex;align-items:center;gap:10px;">
 		<img src="<?php echo esc_url( AI_WOO_ASSISTANT_URL . 'assets/img/logo.svg' ); ?>" alt="veltez" style="height:28px;width:auto;" />
-		<?php esc_html_e( 'Chat Session', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+		<?php esc_html_e( 'Chat Session', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 	</h1>
-	<a href="<?php echo esc_url( $back_url ); ?>" style="display:inline-block;margin-bottom:12px;text-decoration:none;font-size:13px;">&#8592; <?php esc_html_e( 'Back to Chat History', 'veltez-ai-chatbot-for-woocommerce' ); ?></a>
+	<a href="<?php echo esc_url( $back_url ); ?>" style="display:inline-block;margin-bottom:12px;text-decoration:none;font-size:13px;">&#8592; <?php esc_html_e( 'Back to Chat History', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></a>
 
 	<?php if ( $first ) : ?>
 	<table class="form-table" style="max-width:600px;">
 		<tr>
-			<th><?php esc_html_e( 'Session ID', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
+			<th><?php esc_html_e( 'Session ID', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
 			<td><code><?php echo esc_html( $session_id ); ?></code></td>
 		</tr>
 		<tr>
-			<th><?php esc_html_e( 'Started', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
+			<th><?php esc_html_e( 'Started', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
 			<td><?php echo esc_html( $first->created_at ); ?></td>
 		</tr>
 		<tr>
-			<th><?php esc_html_e( 'Messages', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
+			<th><?php esc_html_e( 'Messages', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
 			<td><?php echo (int) count( $messages ); ?></td>
 		</tr>
 	</table>
 	<?php endif; ?>
 
 	<?php if ( empty( $messages ) ) : ?>
-		<div class="notice notice-info inline"><p><?php esc_html_e( 'No messages found for this session.', 'veltez-ai-chatbot-for-woocommerce' ); ?></p></div>
+		<div class="notice notice-info inline"><p><?php esc_html_e( 'No messages found for this session.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></p></div>
 	<?php else : ?>
 	<div style="max-width:760px;margin-top:24px;display:flex;flex-direction:column;gap:16px;">
 		<?php foreach ( $messages as $msg ) : ?>

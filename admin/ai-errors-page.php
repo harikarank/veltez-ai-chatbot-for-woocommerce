@@ -26,22 +26,22 @@ $context_labels = array(
 <div class="wrap">
 	<h1 style="display:flex;align-items:center;gap:10px;">
 		<img src="<?php echo esc_url( AI_WOO_ASSISTANT_URL . 'assets/img/logo.svg' ); ?>" alt="veltez" style="height:28px;width:auto;" />
-		<?php esc_html_e( 'AI Error Log', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+		<?php esc_html_e( 'AI Error Log', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 	</h1>
 	<p style="color:#6b7280;margin-top:4px;">
-		<?php esc_html_e( 'Failed or degraded AI responses. Visible to admins only — users never see these details.', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+		<?php esc_html_e( 'Failed or degraded AI responses. Visible to admins only — users never see these details.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 	</p>
 
 	<?php if ( empty( $errors ) ) : ?>
 		<div style="margin-top:24px;padding:24px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;text-align:center;color:#6b7280;">
-			<?php esc_html_e( 'No AI errors recorded yet.', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+			<?php esc_html_e( 'No AI errors recorded yet.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 		</div>
 	<?php else : ?>
 		<p style="margin-top:8px;color:#374151;">
 			<?php
 			printf(
 				/* translators: 1: total error count */
-				esc_html__( '%d error(s) recorded, latest first.', 'veltez-ai-chatbot-for-woocommerce' ),
+				esc_html__( '%d error(s) recorded, latest first.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 				(int) $total
 			);
 			?>
@@ -50,11 +50,11 @@ $context_labels = array(
 		<table class="wp-list-table widefat fixed striped" style="margin-top:12px;">
 			<thead>
 				<tr>
-					<th style="width:160px;"><?php esc_html_e( 'Time', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
-					<th style="width:140px;"><?php esc_html_e( 'Type', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
-					<th style="width:110px;"><?php esc_html_e( 'IP', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
-					<th><?php esc_html_e( 'User Message', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
-					<th><?php esc_html_e( 'Error Detail', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
+					<th style="width:160px;"><?php esc_html_e( 'Time', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
+					<th style="width:140px;"><?php esc_html_e( 'Type', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
+					<th style="width:110px;"><?php esc_html_e( 'IP', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
+					<th><?php esc_html_e( 'User Message', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
+					<th><?php esc_html_e( 'Error Detail', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -99,20 +99,20 @@ $context_labels = array(
 		<?php if ( $total_pages > 1 ) : ?>
 			<div style="margin-top:16px;display:flex;gap:6px;align-items:center;">
 				<?php if ( $current_page > 1 ) : ?>
-					<a href="<?php echo esc_url( add_query_arg( 'paged', $current_page - 1, $base_url ) ); ?>" class="button">&laquo; <?php esc_html_e( 'Prev', 'veltez-ai-chatbot-for-woocommerce' ); ?></a>
+					<a href="<?php echo esc_url( add_query_arg( 'paged', $current_page - 1, $base_url ) ); ?>" class="button">&laquo; <?php esc_html_e( 'Prev', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></a>
 				<?php endif; ?>
 				<span style="color:#6b7280;font-size:13px;">
 					<?php
 					printf(
 						/* translators: 1: current page, 2: total pages */
-						esc_html__( 'Page %1$d of %2$d', 'veltez-ai-chatbot-for-woocommerce' ),
+						esc_html__( 'Page %1$d of %2$d', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 						(int) $current_page,
 						(int) $total_pages
 					);
 					?>
 				</span>
 				<?php if ( $current_page < $total_pages ) : ?>
-					<a href="<?php echo esc_url( add_query_arg( 'paged', $current_page + 1, $base_url ) ); ?>" class="button"><?php esc_html_e( 'Next', 'veltez-ai-chatbot-for-woocommerce' ); ?> &raquo;</a>
+					<a href="<?php echo esc_url( add_query_arg( 'paged', $current_page + 1, $base_url ) ); ?>" class="button"><?php esc_html_e( 'Next', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?> &raquo;</a>
 				<?php endif; ?>
 			</div>
 		<?php endif; ?>

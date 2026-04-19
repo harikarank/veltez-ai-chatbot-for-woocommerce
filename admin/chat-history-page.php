@@ -35,7 +35,7 @@ $filter_query = http_build_query(
 <div class="wrap">
 	<h1 style="display:flex;align-items:center;gap:10px;">
 		<img src="<?php echo esc_url( AI_WOO_ASSISTANT_URL . 'assets/img/logo.svg' ); ?>" alt="veltez" style="height:28px;width:auto;" />
-		<?php esc_html_e( 'Chat History', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+		<?php esc_html_e( 'Chat History', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 	</h1>
 
 	<!-- Filter form -->
@@ -43,25 +43,25 @@ $filter_query = http_build_query(
 		<input type="hidden" name="page" value="veltez-ai" />
 		<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;">
 			<label>
-				<span style="display:block;font-weight:600;margin-bottom:4px;"><?php esc_html_e( 'IP Address', 'veltez-ai-chatbot-for-woocommerce' ); ?></span>
+				<span style="display:block;font-weight:600;margin-bottom:4px;"><?php esc_html_e( 'IP Address', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></span>
 				<input type="text" name="filter_ip" value="<?php echo esc_attr( $filters['ip'] ); ?>" placeholder="e.g. 192.168.1.1" class="regular-text" />
 			</label>
 			<label>
-				<span style="display:block;font-weight:600;margin-bottom:4px;"><?php esc_html_e( 'Customer Name', 'veltez-ai-chatbot-for-woocommerce' ); ?></span>
-				<input type="text" name="filter_name" value="<?php echo esc_attr( $filters['name'] ); ?>" placeholder="<?php esc_attr_e( 'Search name…', 'veltez-ai-chatbot-for-woocommerce' ); ?>" class="regular-text" />
+				<span style="display:block;font-weight:600;margin-bottom:4px;"><?php esc_html_e( 'Customer Name', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></span>
+				<input type="text" name="filter_name" value="<?php echo esc_attr( $filters['name'] ); ?>" placeholder="<?php esc_attr_e( 'Search name…', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>" class="regular-text" />
 			</label>
 			<label>
-				<span style="display:block;font-weight:600;margin-bottom:4px;"><?php esc_html_e( 'From', 'veltez-ai-chatbot-for-woocommerce' ); ?></span>
+				<span style="display:block;font-weight:600;margin-bottom:4px;"><?php esc_html_e( 'From', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></span>
 				<input type="date" name="filter_date_from" value="<?php echo esc_attr( $filters['date_from'] ); ?>" />
 			</label>
 			<label>
-				<span style="display:block;font-weight:600;margin-bottom:4px;"><?php esc_html_e( 'To', 'veltez-ai-chatbot-for-woocommerce' ); ?></span>
+				<span style="display:block;font-weight:600;margin-bottom:4px;"><?php esc_html_e( 'To', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></span>
 				<input type="date" name="filter_date_to" value="<?php echo esc_attr( $filters['date_to'] ); ?>" />
 			</label>
 			<div>
-				<input type="submit" class="button button-primary" value="<?php esc_attr_e( 'Filter', 'veltez-ai-chatbot-for-woocommerce' ); ?>" />
+				<input type="submit" class="button button-primary" value="<?php esc_attr_e( 'Filter', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>" />
 				<?php if ( array_filter( $filters ) ) : ?>
-					<a href="<?php echo esc_url( $base_url ); ?>" class="button" style="margin-left:6px;"><?php esc_html_e( 'Clear', 'veltez-ai-chatbot-for-woocommerce' ); ?></a>
+					<a href="<?php echo esc_url( $base_url ); ?>" class="button" style="margin-left:6px;"><?php esc_html_e( 'Clear', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></a>
 				<?php endif; ?>
 			</div>
 		</div>
@@ -72,26 +72,26 @@ $filter_query = http_build_query(
 		<?php
 		printf(
 			/* translators: 1: number of sessions */
-			esc_html__( '%d session(s) found.', 'veltez-ai-chatbot-for-woocommerce' ),
+			esc_html__( '%d session(s) found.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 			(int) $total
 		);
 		?>
 	</p>
 
 	<?php if ( empty( $sessions ) ) : ?>
-		<div class="notice notice-info inline"><p><?php esc_html_e( 'No chat sessions found.', 'veltez-ai-chatbot-for-woocommerce' ); ?></p></div>
+		<div class="notice notice-info inline"><p><?php esc_html_e( 'No chat sessions found.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></p></div>
 	<?php else : ?>
 
 	<table class="wp-list-table widefat fixed striped">
 		<thead>
 			<tr>
-				<th style="width:160px;"><?php esc_html_e( 'Started', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
-				<th style="width:160px;"><?php esc_html_e( 'Last Message', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
-				<th style="width:130px;"><?php esc_html_e( 'IP Address', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
-				<th style="width:130px;"><?php esc_html_e( 'Customer', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
-				<th style="width:60px;text-align:center;"><?php esc_html_e( 'Msgs', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
-				<th><?php esc_html_e( 'First Message', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
-				<th style="width:80px;"><?php esc_html_e( 'Actions', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
+				<th style="width:160px;"><?php esc_html_e( 'Started', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
+				<th style="width:160px;"><?php esc_html_e( 'Last Message', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
+				<th style="width:130px;"><?php esc_html_e( 'IP Address', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
+				<th style="width:130px;"><?php esc_html_e( 'Customer', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
+				<th style="width:60px;text-align:center;"><?php esc_html_e( 'Msgs', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
+				<th><?php esc_html_e( 'First Message', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
+				<th style="width:80px;"><?php esc_html_e( 'Actions', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -120,7 +120,7 @@ $filter_query = http_build_query(
 				<td><?php echo esc_html( $session->first_message ); ?></td>
 				<td>
 					<a href="<?php echo esc_url( $view_url ); ?>" class="button button-small">
-						<?php esc_html_e( 'View', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+						<?php esc_html_e( 'View', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 					</a>
 				</td>
 			</tr>

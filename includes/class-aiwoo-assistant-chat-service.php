@@ -86,7 +86,7 @@ final class Chat_Service {
 		if ( '' === trim( (string) $this->settings->get( $key_setting ) ) ) {
 			$no_match = trim( (string) $this->settings->get( 'no_match_text' ) );
 			if ( '' === $no_match ) {
-				$no_match = __( "We couldn't find an exact match. Please share more details.", 'veltez-ai-chatbot-for-woocommerce' );
+				$no_match = __( "We couldn't find an exact match. Please share more details.", 'veltez-ai-chatbot-product-recommendations-for-woocommerce' );
 			}
 			return array(
 				'message'           => $no_match,
@@ -247,7 +247,7 @@ final class Chat_Service {
 		if ( empty( $products ) ) {
 			$no_match = trim( (string) $this->settings->get( 'no_match_text' ) );
 			if ( '' === $no_match ) {
-				$no_match = __( "We couldn't find an exact match. Please share more details.", 'veltez-ai-chatbot-for-woocommerce' );
+				$no_match = __( "We couldn't find an exact match. Please share more details.", 'veltez-ai-chatbot-product-recommendations-for-woocommerce' );
 			}
 			return array(
 				'message'           => $no_match,
@@ -481,7 +481,7 @@ final class Chat_Service {
 		if ( empty( $products ) ) {
 			$no_match = trim( (string) $this->settings->get( 'no_match_text' ) );
 			if ( '' === $no_match ) {
-				$no_match = __( "We couldn't find an exact match. Please share more details.", 'veltez-ai-chatbot-for-woocommerce' );
+				$no_match = __( "We couldn't find an exact match. Please share more details.", 'veltez-ai-chatbot-product-recommendations-for-woocommerce' );
 			}
 			return array(
 				'message'           => $no_match,
@@ -492,7 +492,7 @@ final class Chat_Service {
 			);
 		}
 
-		$fallback_text = __( 'Here are some products that might match what you\'re looking for:', 'veltez-ai-chatbot-for-woocommerce' );
+		$fallback_text = __( 'Here are some products that might match what you\'re looking for:', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' );
 		$html          = wpautop( esc_html( $fallback_text ) );
 		$html         .= $this->build_product_cards_html( $products );
 
@@ -546,7 +546,7 @@ final class Chat_Service {
 			}
 
 			if ( $show_view_link ) {
-				$html .= '<a class="aiwoo-product-card__view" href="' . $permalink . '">' . esc_html__( 'View details', 'veltez-ai-chatbot-for-woocommerce' ) . '</a>';
+				$html .= '<a class="aiwoo-product-card__view" href="' . $permalink . '">' . esc_html__( 'View details', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) . '</a>';
 			}
 
 			$html .= '</div>';
@@ -559,11 +559,11 @@ final class Chat_Service {
 	private function format_stock_status( $status ) {
 		switch ( $status ) {
 			case 'instock':
-				return __( 'In stock', 'veltez-ai-chatbot-for-woocommerce' );
+				return __( 'In stock', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' );
 			case 'outofstock':
-				return __( 'Out of stock', 'veltez-ai-chatbot-for-woocommerce' );
+				return __( 'Out of stock', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' );
 			case 'onbackorder':
-				return __( 'Available on backorder', 'veltez-ai-chatbot-for-woocommerce' );
+				return __( 'Available on backorder', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' );
 			default:
 				return sanitize_text_field( (string) $status );
 		}
@@ -584,13 +584,13 @@ final class Chat_Service {
 		}
 
 		$html .= '<form class="aiwoo-enquiry-form">';
-		$html .= '<input type="text" name="name" placeholder="' . esc_attr__( 'Name', 'veltez-ai-chatbot-for-woocommerce' ) . '" required />';
-		$html .= '<input type="text" name="phone" placeholder="' . esc_attr__( 'Phone (optional)', 'veltez-ai-chatbot-for-woocommerce' ) . '" />';
-		$html .= '<input type="email" name="email" placeholder="' . esc_attr__( 'Email', 'veltez-ai-chatbot-for-woocommerce' ) . '" required />';
-		$html .= '<textarea name="message" rows="3" placeholder="' . esc_attr__( 'Message', 'veltez-ai-chatbot-for-woocommerce' ) . '" required></textarea>';
+		$html .= '<input type="text" name="name" placeholder="' . esc_attr__( 'Name', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) . '" required />';
+		$html .= '<input type="text" name="phone" placeholder="' . esc_attr__( 'Phone (optional)', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) . '" />';
+		$html .= '<input type="email" name="email" placeholder="' . esc_attr__( 'Email', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) . '" required />';
+		$html .= '<textarea name="message" rows="3" placeholder="' . esc_attr__( 'Message', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) . '" required></textarea>';
 		// Honeypot field — invisible to real users; bots populate it and get silently rejected.
 		$html .= '<input type="text" name="aiwoo_hp" value="" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;" />';
-		$html .= '<button type="submit">' . esc_html__( 'Send enquiry', 'veltez-ai-chatbot-for-woocommerce' ) . '</button>';
+		$html .= '<button type="submit">' . esc_html__( 'Send enquiry', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) . '</button>';
 		$html .= '</form>';
 		$html .= '</div>';
 

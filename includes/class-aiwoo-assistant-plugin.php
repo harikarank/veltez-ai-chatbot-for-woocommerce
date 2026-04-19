@@ -214,7 +214,7 @@ final class Plugin {
 
 		$icon_url = esc_url( AI_WOO_ASSISTANT_URL . 'assets/img/favicon.svg' );
 		$title    = '<img src="' . $icon_url . '" class="aiwoo-ab-icon" alt="" />'
-			. '<span class="ab-label">' . esc_html__( 'veltez', 'veltez-ai-chatbot-for-woocommerce' ) . '</span>';
+			. '<span class="ab-label">' . esc_html__( 'veltez', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) . '</span>';
 
 		$wp_admin_bar->add_node(
 			array(
@@ -222,7 +222,7 @@ final class Plugin {
 				'title' => $title,
 				'href'  => admin_url( 'admin.php?page=veltez-ai' ),
 				'meta'  => array(
-					'title' => esc_attr__( 'veltez Dashboard', 'veltez-ai-chatbot-for-woocommerce' ),
+					'title' => esc_attr__( 'veltez Dashboard', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 				),
 			)
 		);
@@ -230,17 +230,17 @@ final class Plugin {
 		$subitems = array(
 			array(
 				'id'    => 'veltez-ai-bar-chat',
-				'title' => esc_html__( 'Chat History', 'veltez-ai-chatbot-for-woocommerce' ),
+				'title' => esc_html__( 'Chat History', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 				'href'  => admin_url( 'admin.php?page=veltez-ai' ),
 			),
 			array(
 				'id'    => 'veltez-ai-bar-errors',
-				'title' => esc_html__( 'AI Error Log', 'veltez-ai-chatbot-for-woocommerce' ),
+				'title' => esc_html__( 'AI Error Log', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 				'href'  => admin_url( 'admin.php?page=veltez-ai-errors' ),
 			),
 			array(
 				'id'    => 'veltez-ai-bar-settings',
-				'title' => esc_html__( 'Settings', 'veltez-ai-chatbot-for-woocommerce' ),
+				'title' => esc_html__( 'Settings', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 				'href'  => admin_url( 'admin.php?page=ai-woo-assistant' ),
 			),
 		);
@@ -295,7 +295,7 @@ final class Plugin {
 			return;
 		}
 		echo '<div class="notice notice-info is-dismissible"><p>';
-		echo esc_html__( 'veltez tip: Temperature is above 0.5. Lowering it to 0.3 produces tighter, more token-efficient responses.', 'veltez-ai-chatbot-for-woocommerce' );
+		echo esc_html__( 'veltez tip: Temperature is above 0.5. Lowering it to 0.3 produces tighter, more token-efficient responses.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' );
 		echo '</p></div>';
 	}
 
@@ -318,7 +318,7 @@ final class Plugin {
 				}
 
 				echo '<div class="notice notice-warning"><p>';
-				echo esc_html__( 'veltez is active, but WooCommerce is not detected. Product-aware responses will remain unavailable until WooCommerce is installed and activated.', 'veltez-ai-chatbot-for-woocommerce' );
+				echo esc_html__( 'veltez is active, but WooCommerce is not detected. Product-aware responses will remain unavailable until WooCommerce is installed and activated.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' );
 				echo '</p></div>';
 			}
 		);
@@ -329,7 +329,7 @@ final class Plugin {
 			'aiwoo_enquiry',
 			array(
 				'labels'              => array(
-					'name' => __( 'veltez Enquiries', 'veltez-ai-chatbot-for-woocommerce' ),
+					'name' => __( 'veltez Enquiries', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 				),
 				'public'              => false,
 				'show_ui'             => false,
@@ -386,24 +386,24 @@ final class Plugin {
 					'enquiry' => 'ai_woo_assistant_enquiry',
 				),
 				'strings'        => array(
-					'title'           => __( 'veltez Shopping Assistant', 'veltez-ai-chatbot-for-woocommerce' ),
+					'title'           => __( 'veltez Shopping Assistant', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 					'companyName'     => get_bloginfo( 'name' ),
-					'subtitle'        => __( 'Ask about products, comparisons, and buying advice.', 'veltez-ai-chatbot-for-woocommerce' ),
+					'subtitle'        => __( 'Ask about products, comparisons, and buying advice.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 					'placeholder'     => '' !== (string) $this->settings->get( 'chat_placeholder' )
 							? (string) $this->settings->get( 'chat_placeholder' )
-							: __( 'Ask about products...', 'veltez-ai-chatbot-for-woocommerce' ),
-					'send'            => __( 'Send', 'veltez-ai-chatbot-for-woocommerce' ),
-					'open'            => __( 'Open veltez chat assistant', 'veltez-ai-chatbot-for-woocommerce' ),
-					'close'           => __( 'Close chat assistant', 'veltez-ai-chatbot-for-woocommerce' ),
-					'typing'          => __( 'veltez is thinking...', 'veltez-ai-chatbot-for-woocommerce' ),
-					'error'           => __( 'The assistant is temporarily unavailable. Please try again.', 'veltez-ai-chatbot-for-woocommerce' ),
+							: __( 'Ask about products...', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+					'send'            => __( 'Send', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+					'open'            => __( 'Open veltez chat assistant', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+					'close'           => __( 'Close chat assistant', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+					'typing'          => __( 'veltez is thinking...', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+					'error'           => __( 'The assistant is temporarily unavailable. Please try again.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 					'welcome'         => $this->settings->get( 'welcome_message' ),
-					'emptyValidation' => __( 'Enter a message before sending.', 'veltez-ai-chatbot-for-woocommerce' ),
-					'enquiryIntro'    => __( 'I could not find a strong product match yet. Share your details and our team can help directly.', 'veltez-ai-chatbot-for-woocommerce' ),
-					'enquiryName'     => __( 'Name', 'veltez-ai-chatbot-for-woocommerce' ),
-					'enquiryEmail'    => __( 'Email', 'veltez-ai-chatbot-for-woocommerce' ),
-					'enquiryMessage'  => __( 'Message', 'veltez-ai-chatbot-for-woocommerce' ),
-					'enquirySubmit'   => __( 'Send enquiry', 'veltez-ai-chatbot-for-woocommerce' ),
+					'emptyValidation' => __( 'Enter a message before sending.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+					'enquiryIntro'    => __( 'I could not find a strong product match yet. Share your details and our team can help directly.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+					'enquiryName'     => __( 'Name', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+					'enquiryEmail'    => __( 'Email', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+					'enquiryMessage'  => __( 'Message', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+					'enquirySubmit'   => __( 'Send enquiry', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 				),
 				'ui'             => array(
 					'primaryColor'  => $this->settings->get( 'primary_color' ),

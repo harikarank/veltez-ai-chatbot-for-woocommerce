@@ -18,9 +18,9 @@ defined( 'ABSPATH' ) || exit;
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- template variables scoped via require inside render methods
 
 $msg_map = array(
-	'saved'     => array( 'updated',       __( 'Quick reply saved successfully.',           'veltez-ai-chatbot-for-woocommerce' ) ),
-	'duplicate' => array( 'notice-warning', __( 'A rule with one of those keywords already exists.', 'veltez-ai-chatbot-for-woocommerce' ) ),
-	'invalid'   => array( 'notice-error',  __( 'Keywords and response are required.',       'veltez-ai-chatbot-for-woocommerce' ) ),
+	'saved'     => array( 'updated',       __( 'Quick reply saved successfully.',           'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) ),
+	'duplicate' => array( 'notice-warning', __( 'A rule with one of those keywords already exists.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) ),
+	'invalid'   => array( 'notice-error',  __( 'Keywords and response are required.',       'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) ),
 );
 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -32,9 +32,9 @@ $export_nonce = wp_create_nonce( 'aiwoo_export_top_requests' );
 <div class="wrap">
 	<h1 style="display:flex;align-items:center;gap:10px;">
 		<img src="<?php echo esc_url( AI_WOO_ASSISTANT_URL . 'assets/img/logo.svg' ); ?>" alt="veltez" style="height:28px;width:auto;" />
-		<?php esc_html_e( 'Top Requests', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+		<?php esc_html_e( 'Top Requests', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 	</h1>
-	<p><?php esc_html_e( 'See which messages users send most often. Convert high-frequency AI responses into Quick Reply rules to reduce AI usage.', 'veltez-ai-chatbot-for-woocommerce' ); ?></p>
+	<p><?php esc_html_e( 'See which messages users send most often. Convert high-frequency AI responses into Quick Reply rules to reduce AI usage.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></p>
 
 	<?php if ( '' !== $status_key && isset( $msg_map[ $status_key ] ) ) : ?>
 		<div class="notice <?php echo esc_attr( $msg_map[ $status_key ][0] ); ?> is-dismissible">
@@ -50,26 +50,26 @@ $export_nonce = wp_create_nonce( 'aiwoo_export_top_requests' );
 			type="search"
 			name="search"
 			value="<?php echo esc_attr( $search ); ?>"
-			placeholder="<?php esc_attr_e( 'Search queries…', 'veltez-ai-chatbot-for-woocommerce' ); ?>"
+			placeholder="<?php esc_attr_e( 'Search queries…', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>"
 			style="min-width:220px;"
 		/>
 
 		<select name="filter_type">
-			<option value="all"         <?php selected( $filter_type, 'all' ); ?>><?php esc_html_e( 'All types',    'veltez-ai-chatbot-for-woocommerce' ); ?></option>
-			<option value="quick_reply" <?php selected( $filter_type, 'quick_reply' ); ?>><?php esc_html_e( 'Quick Reply', 'veltez-ai-chatbot-for-woocommerce' ); ?></option>
-			<option value="ai"          <?php selected( $filter_type, 'ai' ); ?>><?php esc_html_e( 'AI Response',  'veltez-ai-chatbot-for-woocommerce' ); ?></option>
+			<option value="all"         <?php selected( $filter_type, 'all' ); ?>><?php esc_html_e( 'All types',    'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></option>
+			<option value="quick_reply" <?php selected( $filter_type, 'quick_reply' ); ?>><?php esc_html_e( 'Quick Reply', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></option>
+			<option value="ai"          <?php selected( $filter_type, 'ai' ); ?>><?php esc_html_e( 'AI Response',  'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></option>
 		</select>
 
 		<select name="filter_date">
-			<option value="all" <?php selected( $filter_date, 'all' ); ?>><?php esc_html_e( 'All time',   'veltez-ai-chatbot-for-woocommerce' ); ?></option>
-			<option value="7"   <?php selected( $filter_date, '7' ); ?>><?php esc_html_e( 'Last 7 days',  'veltez-ai-chatbot-for-woocommerce' ); ?></option>
-			<option value="30"  <?php selected( $filter_date, '30' ); ?>><?php esc_html_e( 'Last 30 days', 'veltez-ai-chatbot-for-woocommerce' ); ?></option>
+			<option value="all" <?php selected( $filter_date, 'all' ); ?>><?php esc_html_e( 'All time',   'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></option>
+			<option value="7"   <?php selected( $filter_date, '7' ); ?>><?php esc_html_e( 'Last 7 days',  'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></option>
+			<option value="30"  <?php selected( $filter_date, '30' ); ?>><?php esc_html_e( 'Last 30 days', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></option>
 		</select>
 
-		<?php submit_button( __( 'Filter', 'veltez-ai-chatbot-for-woocommerce' ), 'secondary', 'submit', false ); ?>
+		<?php submit_button( __( 'Filter', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ), 'secondary', 'submit', false ); ?>
 
 		<?php if ( '' !== $search || 'all' !== $filter_type || 'all' !== $filter_date ) : ?>
-			<a href="<?php echo esc_url( $base_url ); ?>" class="button"><?php esc_html_e( 'Reset', 'veltez-ai-chatbot-for-woocommerce' ); ?></a>
+			<a href="<?php echo esc_url( $base_url ); ?>" class="button"><?php esc_html_e( 'Reset', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></a>
 		<?php endif; ?>
 
 		<a
@@ -77,7 +77,7 @@ $export_nonce = wp_create_nonce( 'aiwoo_export_top_requests' );
 			class="button"
 			style="margin-left:auto;"
 		>
-			<?php esc_html_e( '⬇ Export CSV', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+			<?php esc_html_e( '⬇ Export CSV', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 		</a>
 	</form>
 
@@ -85,7 +85,7 @@ $export_nonce = wp_create_nonce( 'aiwoo_export_top_requests' );
 		<?php
 		printf(
 			/* translators: %d: number of unique queries */
-			esc_html__( '%d unique queries found (capped at 500 for performance).', 'veltez-ai-chatbot-for-woocommerce' ),
+			esc_html__( '%d unique queries found (capped at 500 for performance).', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 			(int) $total_rows
 		);
 		?>
@@ -93,16 +93,16 @@ $export_nonce = wp_create_nonce( 'aiwoo_export_top_requests' );
 
 	<?php /* ── Table ────────────────────────────────────────────────────── */ ?>
 	<?php if ( empty( $rows ) ) : ?>
-		<p><em><?php esc_html_e( 'No chat messages found matching the current filters.', 'veltez-ai-chatbot-for-woocommerce' ); ?></em></p>
+		<p><em><?php esc_html_e( 'No chat messages found matching the current filters.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></em></p>
 	<?php else : ?>
 		<table class="wp-list-table widefat fixed striped" id="aiwoo-top-requests-table">
 			<thead>
 				<tr>
-					<th style="width:32%;"><?php esc_html_e( 'Query', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
-					<th style="width:7%;  text-align:center;"><?php esc_html_e( 'Count', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
-					<th style="width:33%;"><?php esc_html_e( 'Response Preview', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
-					<th style="width:12%; text-align:center;"><?php esc_html_e( 'Type', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
-					<th style="width:16%;"><?php esc_html_e( 'Action', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
+					<th style="width:32%;"><?php esc_html_e( 'Query', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
+					<th style="width:7%;  text-align:center;"><?php esc_html_e( 'Count', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
+					<th style="width:33%;"><?php esc_html_e( 'Response Preview', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
+					<th style="width:12%; text-align:center;"><?php esc_html_e( 'Type', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
+					<th style="width:16%;"><?php esc_html_e( 'Action', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -117,7 +117,7 @@ $export_nonce = wp_create_nonce( 'aiwoo_export_top_requests' );
 						<td>
 							<?php echo esc_html( $row->query ); ?>
 							<?php if ( $popular ) : ?>
-								<span style="color:#ef4444; font-weight:700; font-size:11px; margin-left:5px;">🔥 <?php esc_html_e( 'Popular', 'veltez-ai-chatbot-for-woocommerce' ); ?></span>
+								<span style="color:#ef4444; font-weight:700; font-size:11px; margin-left:5px;">🔥 <?php esc_html_e( 'Popular', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></span>
 							<?php endif; ?>
 						</td>
 						<td style="text-align:center; font-weight:700;"><?php echo esc_html( number_format_i18n( (int) $row->total ) ); ?></td>
@@ -125,11 +125,11 @@ $export_nonce = wp_create_nonce( 'aiwoo_export_top_requests' );
 						<td style="text-align:center;">
 							<?php if ( $is_qr ) : ?>
 								<span style="display:inline-block; padding:2px 8px; border-radius:10px; background:#dcfce7; color:#15803d; font-size:11px; font-weight:700;">
-									<?php esc_html_e( 'Quick Reply', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+									<?php esc_html_e( 'Quick Reply', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 								</span>
 							<?php else : ?>
 								<span style="display:inline-block; padding:2px 8px; border-radius:10px; background:#dbeafe; color:#1d4ed8; font-size:11px; font-weight:700;">
-									<?php esc_html_e( 'AI Response', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+									<?php esc_html_e( 'AI Response', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 								</span>
 							<?php endif; ?>
 						</td>
@@ -141,10 +141,10 @@ $export_nonce = wp_create_nonce( 'aiwoo_export_top_requests' );
 									data-target="<?php echo esc_attr( $row_id ); ?>"
 									style="white-space:nowrap;"
 								>
-									<?php esc_html_e( '+ Save as Quick Reply', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+									<?php esc_html_e( '+ Save as Quick Reply', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 								</button>
 							<?php else : ?>
-								<span style="color:#aaa; font-size:12px;"><?php esc_html_e( 'Rule exists', 'veltez-ai-chatbot-for-woocommerce' ); ?></span>
+								<span style="color:#aaa; font-size:12px;"><?php esc_html_e( 'Rule exists', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></span>
 							<?php endif; ?>
 						</td>
 					</tr>
@@ -161,7 +161,7 @@ $export_nonce = wp_create_nonce( 'aiwoo_export_top_requests' );
 									<tr>
 										<td style="width:110px; padding:5px 10px 5px 0; font-size:13px; font-weight:600; vertical-align:top;">
 											<label for="<?php echo esc_attr( $row_id ); ?>-kw">
-												<?php esc_html_e( 'Keywords', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+												<?php esc_html_e( 'Keywords', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 											</label>
 										</td>
 										<td style="padding:4px 0;">
@@ -171,18 +171,18 @@ $export_nonce = wp_create_nonce( 'aiwoo_export_top_requests' );
 												name="keywords"
 												class="large-text"
 												value="<?php echo esc_attr( $row->query ); ?>"
-												placeholder="<?php esc_attr_e( 'comma-separated keywords', 'veltez-ai-chatbot-for-woocommerce' ); ?>"
+												placeholder="<?php esc_attr_e( 'comma-separated keywords', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>"
 												required
 											/>
 											<p style="margin:3px 0 0; color:#888; font-size:11px;">
-												<?php esc_html_e( 'Comma-separated. Edit to add variations.', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+												<?php esc_html_e( 'Comma-separated. Edit to add variations.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 											</p>
 										</td>
 									</tr>
 									<tr>
 										<td style="padding:5px 10px 5px 0; font-size:13px; font-weight:600; vertical-align:top;">
 											<label for="<?php echo esc_attr( $row_id ); ?>-resp">
-												<?php esc_html_e( 'Response', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+												<?php esc_html_e( 'Response', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 											</label>
 										</td>
 										<td style="padding:4px 0;">
@@ -199,7 +199,7 @@ $export_nonce = wp_create_nonce( 'aiwoo_export_top_requests' );
 									<tr>
 										<td style="padding:5px 10px 5px 0; font-size:13px; font-weight:600;">
 											<label for="<?php echo esc_attr( $row_id ); ?>-pri">
-												<?php esc_html_e( 'Priority', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+												<?php esc_html_e( 'Priority', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 											</label>
 										</td>
 										<td style="padding:4px 0;">
@@ -213,21 +213,21 @@ $export_nonce = wp_create_nonce( 'aiwoo_export_top_requests' );
 												style="width:80px;"
 											/>
 											<span style="margin-left:6px; color:#888; font-size:11px;">
-												<?php esc_html_e( '0–100. Higher = checked first.', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+												<?php esc_html_e( '0–100. Higher = checked first.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 											</span>
 										</td>
 									</tr>
 									<tr>
 										<td></td>
 										<td style="padding:8px 0 4px;">
-											<?php submit_button( __( 'Save Quick Reply', 'veltez-ai-chatbot-for-woocommerce' ), 'primary small', 'submit', false ); ?>
+											<?php submit_button( __( 'Save Quick Reply', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ), 'primary small', 'submit', false ); ?>
 											<button
 												type="button"
 												class="button button-small aiwoo-tr-toggle"
 												data-target="<?php echo esc_attr( $row_id ); ?>"
 												style="margin-left:6px;"
 											>
-												<?php esc_html_e( 'Cancel', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+												<?php esc_html_e( 'Cancel', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 											</button>
 										</td>
 									</tr>

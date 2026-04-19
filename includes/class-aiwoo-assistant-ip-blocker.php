@@ -70,7 +70,7 @@ final class IP_Blocker {
 
 	public function handle_add() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'Permission denied.', 'veltez-ai-chatbot-for-woocommerce' ) );
+			wp_die( esc_html__( 'Permission denied.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 		}
 
 		check_admin_referer( 'aiwoo_add_blocked_ip' );
@@ -113,7 +113,7 @@ final class IP_Blocker {
 
 	public function handle_delete() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'Permission denied.', 'veltez-ai-chatbot-for-woocommerce' ) );
+			wp_die( esc_html__( 'Permission denied.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 		}
 
 		check_admin_referer( 'aiwoo_delete_blocked_ip' );

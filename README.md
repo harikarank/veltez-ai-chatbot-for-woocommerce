@@ -154,14 +154,14 @@ MCP mode reduces token usage and improves accuracy. Enable it under **Settings �
 ### Option B — Manual (FTP / SFTP)
 
 1. Extract the zip file on your local machine.
-2. Upload the `veltez-ai-chatbot-for-woocommerce/` folder to `/wp-content/plugins/` on your server.
+2. Upload the `veltez-ai-chatbot-product-recommendations-for-woocommerce/` folder to `/wp-content/plugins/` on your server.
 3. In WordPress admin go to **Plugins → Installed Plugins** and activate **veltez**.
 
 ### Option C — Clone from Git (Development)
 
 ```bash
 cd /path/to/wordpress/wp-content/plugins
-git clone https://github.com/your-org/veltez-ai-chatbot-for-woocommerce.git
+git clone https://github.com/your-org/veltez-ai-chatbot-product-recommendations-for-woocommerce.git
 ```
 
 Activate via the WordPress admin. No build step required — vanilla PHP and JavaScript.
@@ -361,9 +361,9 @@ Every incoming chat request passes through the following checks in order. A requ
 ## Project Structure
 
 ```
-veltez-ai-chatbot-for-woocommerce/
+veltez-ai-chatbot-product-recommendations-for-woocommerce/
 │
-├── veltez-ai-chatbot-for-woocommerce.php   # Plugin entry — headers, constants, requires, activation hook
+├── veltez-ai-chatbot-product-recommendations-for-woocommerce.php   # Plugin entry — headers, constants, requires, activation hook
 ├── uninstall.php                        # Cleanup on plugin deletion (options + 3 custom tables + enquiry CPT)
 ├── index.php                            # Directory index guard
 │

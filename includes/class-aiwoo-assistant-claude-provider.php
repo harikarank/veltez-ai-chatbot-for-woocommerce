@@ -23,7 +23,7 @@ final class Claude_Provider implements Provider_Interface {
 
 		if ( '' === $api_key ) {
 			throw new \Exception(
-				esc_html__( 'Anthropic API key is missing. Add it under veltez → Settings → General.', 'veltez-ai-chatbot-for-woocommerce' )
+				esc_html__( 'Anthropic API key is missing. Add it under veltez → Settings → General.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' )
 			);
 		}
 
@@ -66,7 +66,7 @@ final class Claude_Provider implements Provider_Interface {
 		if ( $status < 200 || $status >= 300 ) {
 			$msg = isset( $body['error']['message'] ) && is_string( $body['error']['message'] )
 				? $body['error']['message']
-				: __( 'Unexpected Anthropic API error.', 'veltez-ai-chatbot-for-woocommerce' );
+				: __( 'Unexpected Anthropic API error.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' );
 			throw new \Exception( esc_html( $msg ) );
 		}
 
@@ -78,7 +78,7 @@ final class Claude_Provider implements Provider_Interface {
 			return $text;
 		}
 
-		throw new \Exception( esc_html__( 'Claude returned an empty response.', 'veltez-ai-chatbot-for-woocommerce' ) );
+		throw new \Exception( esc_html__( 'Claude returned an empty response.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 	}
 
 	/**
@@ -97,7 +97,7 @@ final class Claude_Provider implements Provider_Interface {
 
 		if ( '' === $api_key ) {
 			throw new \Exception(
-				esc_html__( 'Anthropic API key is missing. Add it under veltez → Settings → General.', 'veltez-ai-chatbot-for-woocommerce' )
+				esc_html__( 'Anthropic API key is missing. Add it under veltez → Settings → General.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' )
 			);
 		}
 
@@ -158,7 +158,7 @@ final class Claude_Provider implements Provider_Interface {
 			if ( $status < 200 || $status >= 300 ) {
 				$msg = isset( $body['error']['message'] ) && is_string( $body['error']['message'] )
 					? $body['error']['message']
-					: __( 'Unexpected Anthropic API error.', 'veltez-ai-chatbot-for-woocommerce' );
+					: __( 'Unexpected Anthropic API error.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' );
 				throw new \Exception( esc_html( $msg ) );
 			}
 
@@ -202,7 +202,7 @@ final class Claude_Provider implements Provider_Interface {
 			break;
 		}
 
-		throw new \Exception( esc_html__( 'Claude returned an empty response.', 'veltez-ai-chatbot-for-woocommerce' ) );
+		throw new \Exception( esc_html__( 'Claude returned an empty response.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 	}
 
 	private function validated_model( $model ) {

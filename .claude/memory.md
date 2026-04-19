@@ -1,18 +1,18 @@
 # veltez — Project Memory
 
-**Root:** `D:\Harikaran\Golang\Live\veltez-ai-chatbot-for-woocommerce`
+**Root:** `D:\Harikaran\Golang\Live\veltez-ai-chatbot-product-recommendations-for-woocommerce`
 **Plugin:** veltez - AI Chatbot & Product Recommendations for WooCommerce
 **Stack:** PHP 8.0+, WordPress 6.4+, WooCommerce 7.8+, vanilla JS, no build step
 **Namespace:** `AIWooAssistant`
-**Text domain:** `veltez-ai-chatbot-for-woocommerce`
-**Main file:** `veltez-ai-chatbot-for-woocommerce.php`
+**Text domain:** `veltez-ai-chatbot-product-recommendations-for-woocommerce`
+**Main file:** `veltez-ai-chatbot-product-recommendations-for-woocommerce.php`
 **Version:** 1.0.0
 
 ## Key Files
 
 | File | Purpose |
 |---|---|
-| `veltez-ai-chatbot-for-woocommerce.php` | Entry point, constants, requires, activation hook |
+| `veltez-ai-chatbot-product-recommendations-for-woocommerce.php` | Entry point, constants, requires, activation hook |
 | `includes/class-aiwoo-assistant-plugin.php` | Singleton bootstrap — ALL hook registrations live here |
 | `includes/class-aiwoo-assistant-settings.php` | Settings CRUD, sanitization, render_field() |
 | `includes/class-aiwoo-assistant-ajax-controller.php` | Chat + enquiry AJAX handlers |

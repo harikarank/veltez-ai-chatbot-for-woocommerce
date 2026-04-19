@@ -129,37 +129,37 @@ final class Settings {
 
 		add_settings_section(
 			'ai_woo_assistant_general',
-			__( 'veltez Settings', 'veltez-ai-chatbot-for-woocommerce' ),
+			__( 'veltez Settings', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 			static function() {
-				echo '<p>' . esc_html__( 'Configure your veltez chatbot, provider, widget appearance, and response behaviour.', 'veltez-ai-chatbot-for-woocommerce' ) . '</p>';
+				echo '<p>' . esc_html__( 'Configure your veltez chatbot, provider, widget appearance, and response behaviour.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) . '</p>';
 			},
 			'ai-woo-assistant'
 		);
 
 		$fields = array(
-			'enabled'              => __( 'Enable widget', 'veltez-ai-chatbot-for-woocommerce' ),
-			'provider'             => __( 'AI provider', 'veltez-ai-chatbot-for-woocommerce' ),
-			'openai_api_key'       => __( 'OpenAI API key', 'veltez-ai-chatbot-for-woocommerce' ),
-			'openai_model'         => __( 'OpenAI model', 'veltez-ai-chatbot-for-woocommerce' ),
-			'temperature'          => __( 'Response temperature', 'veltez-ai-chatbot-for-woocommerce' ),
-			'max_context_products' => __( 'Catalog products in context', 'veltez-ai-chatbot-for-woocommerce' ),
-			'panel_title'          => __( 'Panel header title', 'veltez-ai-chatbot-for-woocommerce' ),
-			'panel_subtitle'       => __( 'Panel header subtitle', 'veltez-ai-chatbot-for-woocommerce' ),
-			'chat_placeholder'     => __( 'Chat input placeholder', 'veltez-ai-chatbot-for-woocommerce' ),
-			'company_logo'         => __( 'Panel header logo', 'veltez-ai-chatbot-for-woocommerce' ),
-			'employee_photo'       => __( 'Assistant avatar photo', 'veltez-ai-chatbot-for-woocommerce' ),
-			'primary_color'        => __( 'Widget accent color', 'veltez-ai-chatbot-for-woocommerce' ),
-			'chat_icon'            => __( 'Chat launcher icon', 'veltez-ai-chatbot-for-woocommerce' ),
-			'welcome_message'      => __( 'Welcome message', 'veltez-ai-chatbot-for-woocommerce' ),
-			'system_prompt'        => __( 'Additional system prompt', 'veltez-ai-chatbot-for-woocommerce' ),
-			'color_panel_border'         => __( 'Panel border color', 'veltez-ai-chatbot-for-woocommerce' ),
-			'color_header_border_bottom' => __( 'Header bottom border color', 'veltez-ai-chatbot-for-woocommerce' ),
-			'color_loading_bg'           => __( 'Typing indicator background', 'veltez-ai-chatbot-for-woocommerce' ),
-			'color_loading_text'         => __( 'Typing indicator text color', 'veltez-ai-chatbot-for-woocommerce' ),
-			'color_counter_bg'           => __( 'Character counter background', 'veltez-ai-chatbot-for-woocommerce' ),
-			'color_counter_text'         => __( 'Character counter text color', 'veltez-ai-chatbot-for-woocommerce' ),
-			'color_avatar_assistant_bg'  => __( 'Assistant avatar background', 'veltez-ai-chatbot-for-woocommerce' ),
-			'color_avatar_user_bg'       => __( 'User avatar background', 'veltez-ai-chatbot-for-woocommerce' ),
+			'enabled'              => __( 'Enable widget', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			'provider'             => __( 'AI provider', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			'openai_api_key'       => __( 'OpenAI API key', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			'openai_model'         => __( 'OpenAI model', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			'temperature'          => __( 'Response temperature', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			'max_context_products' => __( 'Catalog products in context', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			'panel_title'          => __( 'Panel header title', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			'panel_subtitle'       => __( 'Panel header subtitle', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			'chat_placeholder'     => __( 'Chat input placeholder', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			'company_logo'         => __( 'Panel header logo', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			'employee_photo'       => __( 'Assistant avatar photo', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			'primary_color'        => __( 'Widget accent color', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			'chat_icon'            => __( 'Chat launcher icon', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			'welcome_message'      => __( 'Welcome message', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			'system_prompt'        => __( 'Additional system prompt', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			'color_panel_border'         => __( 'Panel border color', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			'color_header_border_bottom' => __( 'Header bottom border color', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			'color_loading_bg'           => __( 'Typing indicator background', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			'color_loading_text'         => __( 'Typing indicator text color', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			'color_counter_bg'           => __( 'Character counter background', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			'color_counter_text'         => __( 'Character counter text color', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			'color_avatar_assistant_bg'  => __( 'Assistant avatar background', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			'color_avatar_user_bg'       => __( 'User avatar background', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 		);
 
 		foreach ( $fields as $field_key => $label ) {
@@ -284,8 +284,8 @@ final class Settings {
 
 	public function register_settings_page() {
 		add_options_page(
-			__( 'veltez', 'veltez-ai-chatbot-for-woocommerce' ),
-			__( 'veltez', 'veltez-ai-chatbot-for-woocommerce' ),
+			__( 'veltez', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			__( 'veltez', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 			'manage_options',
 			'ai-woo-assistant',
 			array( $this, 'render_settings_page' )
@@ -305,18 +305,18 @@ final class Settings {
 					esc_attr( $field_id ),
 					esc_attr( $name ),
 					checked( 'yes', $value, false ),
-					esc_html__( 'Show the assistant widget on the frontend.', 'veltez-ai-chatbot-for-woocommerce' )
+					esc_html__( 'Show the assistant widget on the frontend.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' )
 				);
 				break;
 
 			case 'provider':
 				?>
 				<select id="<?php echo esc_attr( $field_id ); ?>" name="<?php echo esc_attr( $name ); ?>">
-					<option value="openai"  <?php selected( 'openai',  $value ); ?>><?php esc_html_e( 'OpenAI',           'veltez-ai-chatbot-for-woocommerce' ); ?></option>
-					<option value="claude"  <?php selected( 'claude',  $value ); ?>><?php esc_html_e( 'Claude (Anthropic)', 'veltez-ai-chatbot-for-woocommerce' ); ?></option>
-					<option value="gemini"  <?php selected( 'gemini',  $value ); ?>><?php esc_html_e( 'Gemini (Google)',    'veltez-ai-chatbot-for-woocommerce' ); ?></option>
+					<option value="openai"  <?php selected( 'openai',  $value ); ?>><?php esc_html_e( 'OpenAI',           'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></option>
+					<option value="claude"  <?php selected( 'claude',  $value ); ?>><?php esc_html_e( 'Claude (Anthropic)', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></option>
+					<option value="gemini"  <?php selected( 'gemini',  $value ); ?>><?php esc_html_e( 'Gemini (Google)',    'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></option>
 				</select>
-				<p class="description"><?php esc_html_e( 'Select the AI provider. Enter the corresponding API key in the fields below.', 'veltez-ai-chatbot-for-woocommerce' ); ?></p>
+				<p class="description"><?php esc_html_e( 'Select the AI provider. Enter the corresponding API key in the fields below.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></p>
 				<?php
 				break;
 
@@ -329,19 +329,19 @@ final class Settings {
 					esc_attr( $masked )
 				);
 				if ( '' !== (string) $value ) {
-					echo '<p class="description">' . esc_html__( 'Key is saved. Leave blank to keep the current key, or enter a new one to replace it.', 'veltez-ai-chatbot-for-woocommerce' ) . '</p>';
+					echo '<p class="description">' . esc_html__( 'Key is saved. Leave blank to keep the current key, or enter a new one to replace it.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) . '</p>';
 				}
 				echo '<p class="description"><a href="https://console.anthropic.com/account/keys" target="_blank" rel="noopener">'
-					. esc_html__( 'Get your Anthropic API key →', 'veltez-ai-chatbot-for-woocommerce' )
+					. esc_html__( 'Get your Anthropic API key →', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' )
 					. '</a></p>';
 				break;
 
 			case 'claude_model':
 				?>
 				<select id="<?php echo esc_attr( $field_id ); ?>" name="<?php echo esc_attr( $name ); ?>">
-					<option value="claude-sonnet-4-6"          <?php selected( 'claude-sonnet-4-6',          $value ); ?>><?php esc_html_e( 'Claude Sonnet 4.6 (recommended)', 'veltez-ai-chatbot-for-woocommerce' ); ?></option>
-					<option value="claude-opus-4-7"            <?php selected( 'claude-opus-4-7',            $value ); ?>><?php esc_html_e( 'Claude Opus 4.7 (most capable)',   'veltez-ai-chatbot-for-woocommerce' ); ?></option>
-					<option value="claude-haiku-4-5-20251001"  <?php selected( 'claude-haiku-4-5-20251001',  $value ); ?>><?php esc_html_e( 'Claude Haiku 4.5 (fastest)',      'veltez-ai-chatbot-for-woocommerce' ); ?></option>
+					<option value="claude-sonnet-4-6"          <?php selected( 'claude-sonnet-4-6',          $value ); ?>><?php esc_html_e( 'Claude Sonnet 4.6 (recommended)', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></option>
+					<option value="claude-opus-4-7"            <?php selected( 'claude-opus-4-7',            $value ); ?>><?php esc_html_e( 'Claude Opus 4.7 (most capable)',   'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></option>
+					<option value="claude-haiku-4-5-20251001"  <?php selected( 'claude-haiku-4-5-20251001',  $value ); ?>><?php esc_html_e( 'Claude Haiku 4.5 (fastest)',      'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></option>
 				</select>
 				<?php
 				break;
@@ -355,22 +355,22 @@ final class Settings {
 					esc_attr( $masked )
 				);
 				if ( '' !== (string) $value ) {
-					echo '<p class="description">' . esc_html__( 'Key is saved. Leave blank to keep the current key, or enter a new one to replace it.', 'veltez-ai-chatbot-for-woocommerce' ) . '</p>';
+					echo '<p class="description">' . esc_html__( 'Key is saved. Leave blank to keep the current key, or enter a new one to replace it.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) . '</p>';
 				}
 				echo '<p class="description"><a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">'
-					. esc_html__( 'Get your Google AI Studio API key →', 'veltez-ai-chatbot-for-woocommerce' )
+					. esc_html__( 'Get your Google AI Studio API key →', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' )
 					. '</a></p>';
 				break;
 
 			case 'gemini_model':
 				?>
 				<select id="<?php echo esc_attr( $field_id ); ?>" name="<?php echo esc_attr( $name ); ?>">
-					<option value="gemini-2.5-flash"      <?php selected( 'gemini-2.5-flash',      $value ); ?>><?php esc_html_e( 'Gemini 2.5 Flash (recommended)',  'veltez-ai-chatbot-for-woocommerce' ); ?></option>
-					<option value="gemini-2.5-pro"        <?php selected( 'gemini-2.5-pro',        $value ); ?>><?php esc_html_e( 'Gemini 2.5 Pro (most capable)',   'veltez-ai-chatbot-for-woocommerce' ); ?></option>
-					<option value="gemini-2.5-flash-lite" <?php selected( 'gemini-2.5-flash-lite', $value ); ?>><?php esc_html_e( 'Gemini 2.5 Flash-Lite (fastest)', 'veltez-ai-chatbot-for-woocommerce' ); ?></option>
-					<option value="gemini-2.0-flash-lite" <?php selected( 'gemini-2.0-flash-lite', $value ); ?>><?php esc_html_e( 'Gemini 2.0 Flash-Lite',           'veltez-ai-chatbot-for-woocommerce' ); ?></option>
-					<option value="gemini-1.5-pro"        <?php selected( 'gemini-1.5-pro',        $value ); ?>><?php esc_html_e( 'Gemini 1.5 Pro',                  'veltez-ai-chatbot-for-woocommerce' ); ?></option>
-					<option value="gemini-1.5-flash"      <?php selected( 'gemini-1.5-flash',      $value ); ?>><?php esc_html_e( 'Gemini 1.5 Flash',                'veltez-ai-chatbot-for-woocommerce' ); ?></option>
+					<option value="gemini-2.5-flash"      <?php selected( 'gemini-2.5-flash',      $value ); ?>><?php esc_html_e( 'Gemini 2.5 Flash (recommended)',  'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></option>
+					<option value="gemini-2.5-pro"        <?php selected( 'gemini-2.5-pro',        $value ); ?>><?php esc_html_e( 'Gemini 2.5 Pro (most capable)',   'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></option>
+					<option value="gemini-2.5-flash-lite" <?php selected( 'gemini-2.5-flash-lite', $value ); ?>><?php esc_html_e( 'Gemini 2.5 Flash-Lite (fastest)', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></option>
+					<option value="gemini-2.0-flash-lite" <?php selected( 'gemini-2.0-flash-lite', $value ); ?>><?php esc_html_e( 'Gemini 2.0 Flash-Lite',           'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></option>
+					<option value="gemini-1.5-pro"        <?php selected( 'gemini-1.5-pro',        $value ); ?>><?php esc_html_e( 'Gemini 1.5 Pro',                  'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></option>
+					<option value="gemini-1.5-flash"      <?php selected( 'gemini-1.5-flash',      $value ); ?>><?php esc_html_e( 'Gemini 1.5 Flash',                'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></option>
 				</select>
 				<?php
 				break;
@@ -384,16 +384,16 @@ final class Settings {
 					esc_attr( $masked )
 				);
 				if ( '' !== (string) $value ) {
-					echo '<p class="description">' . esc_html__( 'Key is saved. Leave blank to keep the current key, or enter a new one to replace it.', 'veltez-ai-chatbot-for-woocommerce' ) . '</p>';
+					echo '<p class="description">' . esc_html__( 'Key is saved. Leave blank to keep the current key, or enter a new one to replace it.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) . '</p>';
 				}
 				break;
 
 			case 'openai_model':
 				?>
 				<select id="<?php echo esc_attr( $field_id ); ?>" name="<?php echo esc_attr( $name ); ?>">
-					<option value="gpt-5.4-mini" <?php selected( 'gpt-5.4-mini', $value ); ?>><?php esc_html_e( 'gpt-5.4-mini', 'veltez-ai-chatbot-for-woocommerce' ); ?></option>
-					<option value="gpt-5.4" <?php selected( 'gpt-5.4', $value ); ?>><?php esc_html_e( 'gpt-5.4', 'veltez-ai-chatbot-for-woocommerce' ); ?></option>
-					<option value="gpt-4.1-mini" <?php selected( 'gpt-4.1-mini', $value ); ?>><?php esc_html_e( 'gpt-4.1-mini', 'veltez-ai-chatbot-for-woocommerce' ); ?></option>
+					<option value="gpt-5.4-mini" <?php selected( 'gpt-5.4-mini', $value ); ?>><?php esc_html_e( 'gpt-5.4-mini', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></option>
+					<option value="gpt-5.4" <?php selected( 'gpt-5.4', $value ); ?>><?php esc_html_e( 'gpt-5.4', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></option>
+					<option value="gpt-4.1-mini" <?php selected( 'gpt-4.1-mini', $value ); ?>><?php esc_html_e( 'gpt-4.1-mini', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></option>
 				</select>
 				<?php
 				break;
@@ -424,7 +424,7 @@ final class Settings {
 					esc_attr( (string) $value ),
 					esc_attr( get_bloginfo( 'name' ) )
 				);
-				echo '<p class="description">' . esc_html__( 'Leave blank to use the site name.', 'veltez-ai-chatbot-for-woocommerce' ) . '</p>';
+				echo '<p class="description">' . esc_html__( 'Leave blank to use the site name.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) . '</p>';
 				break;
 
 			case 'panel_subtitle':
@@ -441,7 +441,7 @@ final class Settings {
 				?>
 				<div class="aiwoo-icon-picker">
 					<input type="text" class="regular-text aiwoo-media-url" id="<?php echo esc_attr( $field_id ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( (string) $value ); ?>" />
-					<button type="button" class="button aiwoo-upload-button" data-target="<?php echo esc_attr( $field_id ); ?>"><?php esc_html_e( 'Upload logo', 'veltez-ai-chatbot-for-woocommerce' ); ?></button>
+					<button type="button" class="button aiwoo-upload-button" data-target="<?php echo esc_attr( $field_id ); ?>"><?php esc_html_e( 'Upload logo', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></button>
 				</div>
 				<?php if ( ! empty( $value ) ) : ?>
 					<p><img src="<?php echo esc_url( (string) $value ); ?>" alt="" style="width:48px;height:48px;border-radius:50%;object-fit:cover;margin-top:6px;" /></p>
@@ -453,12 +453,12 @@ final class Settings {
 				?>
 				<div class="aiwoo-icon-picker">
 					<input type="text" class="regular-text aiwoo-media-url" id="<?php echo esc_attr( $field_id ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( (string) $value ); ?>" />
-					<button type="button" class="button aiwoo-upload-button" data-target="<?php echo esc_attr( $field_id ); ?>"><?php esc_html_e( 'Upload photo', 'veltez-ai-chatbot-for-woocommerce' ); ?></button>
+					<button type="button" class="button aiwoo-upload-button" data-target="<?php echo esc_attr( $field_id ); ?>"><?php esc_html_e( 'Upload photo', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></button>
 				</div>
 				<?php if ( ! empty( $value ) ) : ?>
 					<p><img src="<?php echo esc_url( (string) $value ); ?>" alt="" style="width:48px;height:48px;border-radius:50%;object-fit:cover;margin-top:6px;" /></p>
 				<?php endif; ?>
-				<p class="description"><?php esc_html_e( 'Shown as a circular avatar next to each assistant reply.', 'veltez-ai-chatbot-for-woocommerce' ); ?></p>
+				<p class="description"><?php esc_html_e( 'Shown as a circular avatar next to each assistant reply.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></p>
 				<?php
 				break;
 
@@ -485,7 +485,7 @@ final class Settings {
 				?>
 				<div class="aiwoo-icon-picker">
 					<input type="text" class="regular-text aiwoo-media-url" id="<?php echo esc_attr( $field_id ); ?>" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( (string) $value ); ?>" />
-					<button type="button" class="button aiwoo-upload-button" data-target="<?php echo esc_attr( $field_id ); ?>"><?php esc_html_e( 'Upload icon', 'veltez-ai-chatbot-for-woocommerce' ); ?></button>
+					<button type="button" class="button aiwoo-upload-button" data-target="<?php echo esc_attr( $field_id ); ?>"><?php esc_html_e( 'Upload icon', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></button>
 				</div>
 				<?php if ( ! empty( $value ) ) : ?>
 					<p><img src="<?php echo esc_url( (string) $value ); ?>" alt="" style="max-width:48px;height:auto;margin-top:6px;" /></p>
@@ -509,7 +509,7 @@ final class Settings {
 					esc_attr( $name ),
 					esc_attr( (string) $value )
 				);
-				echo '<p class="description">' . esc_html__( 'Characters allowed per chat message (10–1000). Requests exceeding this limit will be auto-blocked by IP.', 'veltez-ai-chatbot-for-woocommerce' ) . '</p>';
+				echo '<p class="description">' . esc_html__( 'Characters allowed per chat message (10–1000). Requests exceeding this limit will be auto-blocked by IP.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) . '</p>';
 				break;
 
 			case 'border_radius':
@@ -519,7 +519,7 @@ final class Settings {
 					esc_attr( $name ),
 					esc_attr( (string) $value )
 				);
-				echo '<p class="description">' . esc_html__( '0 = sharp corners, 24 = fully rounded. Controls the panel, message bubbles, and enquiry box.', 'veltez-ai-chatbot-for-woocommerce' ) . '</p>';
+				echo '<p class="description">' . esc_html__( '0 = sharp corners, 24 = fully rounded. Controls the panel, message bubbles, and enquiry box.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) . '</p>';
 				break;
 
 			case 'enquiry_title':
@@ -528,9 +528,9 @@ final class Settings {
 					esc_attr( $field_id ),
 					esc_attr( $name ),
 					esc_attr( (string) $value ),
-					esc_attr__( 'e.g. Contact Us', 'veltez-ai-chatbot-for-woocommerce' )
+					esc_attr__( 'e.g. Contact Us', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' )
 				);
-				echo '<p class="description">' . esc_html__( 'Leave blank to hide the title above the enquiry form.', 'veltez-ai-chatbot-for-woocommerce' ) . '</p>';
+				echo '<p class="description">' . esc_html__( 'Leave blank to hide the title above the enquiry form.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) . '</p>';
 				break;
 
 			case 'enquiry_content':
@@ -540,7 +540,7 @@ final class Settings {
 					esc_attr( $name ),
 					esc_textarea( (string) $value )
 				);
-				echo '<p class="description">' . esc_html__( 'Intro text shown above the enquiry form fields. Leave blank to hide.', 'veltez-ai-chatbot-for-woocommerce' ) . '</p>';
+				echo '<p class="description">' . esc_html__( 'Intro text shown above the enquiry form fields. Leave blank to hide.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) . '</p>';
 				break;
 
 			case 'card_show_price':
@@ -553,7 +553,7 @@ final class Settings {
 					esc_attr( $field_id ),
 					esc_attr( $name ),
 					checked( 'yes', $value, false ),
-					esc_html__( 'Yes', 'veltez-ai-chatbot-for-woocommerce' )
+					esc_html__( 'Yes', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' )
 				);
 				break;
 
@@ -564,7 +564,7 @@ final class Settings {
 					esc_attr( $name ),
 					esc_textarea( (string) $value )
 				);
-				echo '<p class="description">' . esc_html__( 'Shown when no matching products are found.', 'veltez-ai-chatbot-for-woocommerce' ) . '</p>';
+				echo '<p class="description">' . esc_html__( 'Shown when no matching products are found.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) . '</p>';
 				break;
 
 			case 'auto_open_delay':
@@ -573,10 +573,10 @@ final class Settings {
 					esc_attr( $field_id ),
 					esc_attr( $name ),
 					esc_attr( (string) $value ),
-					esc_attr__( 'e.g. 3', 'veltez-ai-chatbot-for-woocommerce' ),
-					esc_html__( 'seconds', 'veltez-ai-chatbot-for-woocommerce' )
+					esc_attr__( 'e.g. 3', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+					esc_html__( 'seconds', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' )
 				);
-				echo '<p class="description">' . esc_html__( 'Automatically open the chat widget after this many seconds when the page loads. Leave blank to disable auto-open.', 'veltez-ai-chatbot-for-woocommerce' ) . '</p>';
+				echo '<p class="description">' . esc_html__( 'Automatically open the chat widget after this many seconds when the page loads. Leave blank to disable auto-open.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) . '</p>';
 				break;
 
 			default:
@@ -589,25 +589,25 @@ final class Settings {
 						'color_border'            => '#e0e0e0',
 						'color_text'              => '#111111',
 						'color_text_soft'         => '#666666',
-						'color_header_bg'         => __( '(same as accent)', 'veltez-ai-chatbot-for-woocommerce' ),
+						'color_header_bg'         => __( '(same as accent)', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 						'color_header_text'       => '#ffffff',
-						'color_user_bubble_bg'    => __( '(same as accent)', 'veltez-ai-chatbot-for-woocommerce' ),
+						'color_user_bubble_bg'    => __( '(same as accent)', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 						'color_user_bubble_text'  => '#ffffff',
 						'color_agent_bubble_bg'   => '#f0f0f0',
 						'color_agent_bubble_text' => '#111111',
-						'color_send_bg'           => __( '(same as accent)', 'veltez-ai-chatbot-for-woocommerce' ),
+						'color_send_bg'           => __( '(same as accent)', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 						'color_send_text'         => '#ffffff',
-						'color_send_hover_bg'     => __( '(same as accent hover)', 'veltez-ai-chatbot-for-woocommerce' ),
+						'color_send_hover_bg'     => __( '(same as accent hover)', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 						'color_input_bg'          => '#ffffff',
 						'color_input_text'        => '#111111',
-						'color_loading_bg'        => __( '(same as surface)', 'veltez-ai-chatbot-for-woocommerce' ),
-						'color_loading_text'      => __( '(same as soft text)', 'veltez-ai-chatbot-for-woocommerce' ),
-						'color_counter_bg'        => __( '(same as surface)', 'veltez-ai-chatbot-for-woocommerce' ),
-						'color_counter_text'      => __( '(same as soft text)', 'veltez-ai-chatbot-for-woocommerce' ),
+						'color_loading_bg'        => __( '(same as surface)', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+						'color_loading_text'      => __( '(same as soft text)', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+						'color_counter_bg'        => __( '(same as surface)', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+						'color_counter_text'      => __( '(same as soft text)', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 						'color_avatar_assistant_bg' => '#ffffff',
 						'color_avatar_user_bg'    => '#ababab',
 						'color_panel_border'      => '#ededed',
-						'color_header_border_bottom' => __( '(same as accent hover)', 'veltez-ai-chatbot-for-woocommerce' ),
+						'color_header_border_bottom' => __( '(same as accent hover)', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 						'color_form_bg'           => '#ffffff',
 						'color_form_border'       => '#000000',
 					);
@@ -621,7 +621,7 @@ final class Settings {
 						esc_attr( str_starts_with( $default_hint, '#' ) ? $default_hint : '' )
 					);
 					if ( '' !== $default_hint && ! str_starts_with( $default_hint, '#' ) ) {
-						echo '<p class="description">' . esc_html__( 'Default:', 'veltez-ai-chatbot-for-woocommerce' ) . ' ' . esc_html( $default_hint ) . '</p>';
+						echo '<p class="description">' . esc_html__( 'Default:', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) . ' ' . esc_html( $default_hint ) . '</p>';
 					}
 				}
 				break;

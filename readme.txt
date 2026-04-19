@@ -69,7 +69,7 @@ The plugin integrates directly with your WooCommerce store and uses AI providers
 
 == Installation ==
 
-1. Upload the plugin files to `/wp-content/plugins/veltez-ai-chatbot-for-woocommerce/`, or install via the WordPress admin panel.
+1. Upload the plugin files to `/wp-content/plugins/veltez-ai-chatbot-product-recommendations-for-woocommerce/`, or install via the WordPress admin panel.
 2. Activate the plugin through the "Plugins" menu.
 3. Go to **veltez → Settings**.
 4. Enter your AI provider API key.

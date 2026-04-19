@@ -22,7 +22,7 @@ final class OpenAI_Provider implements Provider_Interface {
 		$api_key = trim( (string) $this->settings->get( 'openai_api_key' ) );
 
 		if ( '' === $api_key ) {
-			throw new \Exception( esc_html__( 'OpenAI API key is missing. Configure it in the plugin settings.', 'veltez-ai-chatbot-for-woocommerce' ) );
+			throw new \Exception( esc_html__( 'OpenAI API key is missing. Configure it in the plugin settings.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 		}
 
 		$request_body = array(
@@ -54,7 +54,7 @@ final class OpenAI_Provider implements Provider_Interface {
 		$body   = json_decode( (string) wp_remote_retrieve_body( $response ), true );
 
 		if ( $status < 200 || $status >= 300 ) {
-			$message = $body['error']['message'] ?? __( 'Unexpected OpenAI API error.', 'veltez-ai-chatbot-for-woocommerce' );
+			$message = $body['error']['message'] ?? __( 'Unexpected OpenAI API error.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' );
 			throw new \Exception( esc_html( (string) $message ) );
 		}
 
@@ -70,7 +70,7 @@ final class OpenAI_Provider implements Provider_Interface {
 			}
 		}
 
-		throw new \Exception( esc_html__( 'OpenAI returned an empty response.', 'veltez-ai-chatbot-for-woocommerce' ) );
+		throw new \Exception( esc_html__( 'OpenAI returned an empty response.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 	}
 
 	private function extract_output_text( array $output ) {
@@ -106,7 +106,7 @@ final class OpenAI_Provider implements Provider_Interface {
 		$temperature = (float) $this->settings->get( 'temperature' );
 
 		if ( '' === $api_key ) {
-			throw new \Exception( esc_html__( 'OpenAI API key is missing. Configure it in the plugin settings.', 'veltez-ai-chatbot-for-woocommerce' ) );
+			throw new \Exception( esc_html__( 'OpenAI API key is missing. Configure it in the plugin settings.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 		}
 
 		// Convert canonical tool definitions to the Chat Completions format.
@@ -169,7 +169,7 @@ final class OpenAI_Provider implements Provider_Interface {
 			if ( $status < 200 || $status >= 300 ) {
 				$msg = isset( $body['error']['message'] ) && is_string( $body['error']['message'] )
 					? $body['error']['message']
-					: __( 'Unexpected OpenAI API error.', 'veltez-ai-chatbot-for-woocommerce' );
+					: __( 'Unexpected OpenAI API error.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' );
 				throw new \Exception( esc_html( $msg ) );
 			}
 
@@ -213,6 +213,6 @@ final class OpenAI_Provider implements Provider_Interface {
 			break;
 		}
 
-		throw new \Exception( esc_html__( 'OpenAI returned an empty response.', 'veltez-ai-chatbot-for-woocommerce' ) );
+		throw new \Exception( esc_html__( 'OpenAI returned an empty response.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 	}
 }

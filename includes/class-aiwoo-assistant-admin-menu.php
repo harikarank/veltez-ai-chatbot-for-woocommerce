@@ -63,8 +63,8 @@ final class Admin_Menu {
 		$menu_icon = AI_WOO_ASSISTANT_URL . 'assets/img/menu-icon-white.png';
 
 		add_menu_page(
-			__( 'veltez', 'veltez-ai-chatbot-for-woocommerce' ),
-			__( 'veltez', 'veltez-ai-chatbot-for-woocommerce' ),
+			__( 'veltez', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			__( 'veltez', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 			'manage_options',
 			'veltez-ai',
 			array( $this, 'render_chat_history' ),
@@ -75,8 +75,8 @@ final class Admin_Menu {
 		// First sub-menu replaces the auto-duplicate top-level entry.
 		$this->hook_chat_history = (string) add_submenu_page(
 			'veltez-ai',
-			__( 'Chat History', 'veltez-ai-chatbot-for-woocommerce' ),
-			__( 'Chat History', 'veltez-ai-chatbot-for-woocommerce' ),
+			__( 'Chat History', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			__( 'Chat History', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 			'manage_options',
 			'veltez-ai',
 			array( $this, 'render_chat_history' )
@@ -84,8 +84,8 @@ final class Admin_Menu {
 
 		$this->hook_enquiries = (string) add_submenu_page(
 			'veltez-ai',
-			__( 'Enquiries', 'veltez-ai-chatbot-for-woocommerce' ),
-			__( 'Enquiries', 'veltez-ai-chatbot-for-woocommerce' ),
+			__( 'Enquiries', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			__( 'Enquiries', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 			'manage_options',
 			'veltez-ai-enquiries',
 			array( $this, 'render_enquiries' )
@@ -93,8 +93,8 @@ final class Admin_Menu {
 
 		$this->hook_ip_blocklist = (string) add_submenu_page(
 			'veltez-ai',
-			__( 'IP Blocklist', 'veltez-ai-chatbot-for-woocommerce' ),
-			__( 'IP Blocklist', 'veltez-ai-chatbot-for-woocommerce' ),
+			__( 'IP Blocklist', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			__( 'IP Blocklist', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 			'manage_options',
 			'veltez-ai-ip-blocklist',
 			array( $this, 'render_ip_blocklist' )
@@ -102,8 +102,8 @@ final class Admin_Menu {
 
 		$this->hook_quick_replies = (string) add_submenu_page(
 			'veltez-ai',
-			__( 'Quick Replies', 'veltez-ai-chatbot-for-woocommerce' ),
-			__( 'Quick Replies', 'veltez-ai-chatbot-for-woocommerce' ),
+			__( 'Quick Replies', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			__( 'Quick Replies', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 			'manage_options',
 			'veltez-ai-quick-replies',
 			array( $this, 'render_quick_replies' )
@@ -111,8 +111,8 @@ final class Admin_Menu {
 
 		$this->hook_top_requests = (string) add_submenu_page(
 			'veltez-ai',
-			__( 'Top Requests', 'veltez-ai-chatbot-for-woocommerce' ),
-			__( 'Top Requests', 'veltez-ai-chatbot-for-woocommerce' ),
+			__( 'Top Requests', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			__( 'Top Requests', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 			'manage_options',
 			'veltez-ai-top-requests',
 			array( $this, 'render_top_requests' )
@@ -120,8 +120,8 @@ final class Admin_Menu {
 
 		$this->hook_ai_errors = (string) add_submenu_page(
 			'veltez-ai',
-			__( 'AI Error Log', 'veltez-ai-chatbot-for-woocommerce' ),
-			__( 'AI Error Log', 'veltez-ai-chatbot-for-woocommerce' ),
+			__( 'AI Error Log', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			__( 'AI Error Log', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 			'manage_options',
 			'veltez-ai-errors',
 			array( $this, 'render_ai_errors' )
@@ -129,8 +129,8 @@ final class Admin_Menu {
 
 		$this->hook_info = (string) add_submenu_page(
 			'veltez-ai',
-			__( 'Plugin Guide', 'veltez-ai-chatbot-for-woocommerce' ),
-			__( 'Plugin Guide', 'veltez-ai-chatbot-for-woocommerce' ),
+			__( 'Plugin Guide', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			__( 'Plugin Guide', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 			'manage_options',
 			'veltez-ai-info',
 			array( $this, 'render_info' )
@@ -138,8 +138,8 @@ final class Admin_Menu {
 
 		$this->hook_settings = (string) add_submenu_page(
 			'veltez-ai',
-			__( 'veltez Settings', 'veltez-ai-chatbot-for-woocommerce' ),
-			__( 'Settings', 'veltez-ai-chatbot-for-woocommerce' ),
+			__( 'veltez Settings', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
+			__( 'Settings', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 			'manage_options',
 			'ai-woo-assistant',
 			array( $this->settings, 'render_settings_page' )
@@ -164,7 +164,7 @@ final class Admin_Menu {
 
 	public function render_chat_history() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have permission to view this page.', 'veltez-ai-chatbot-for-woocommerce' ) );
+			wp_die( esc_html__( 'You do not have permission to view this page.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 		}
 
 		// Single-session detail view.
@@ -198,7 +198,7 @@ final class Admin_Menu {
 
 	public function render_ip_blocklist() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have permission to view this page.', 'veltez-ai-chatbot-for-woocommerce' ) );
+			wp_die( esc_html__( 'You do not have permission to view this page.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 		}
 
 		$ip_blocker = $this->ip_blocker;
@@ -207,7 +207,7 @@ final class Admin_Menu {
 
 	public function render_top_requests() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have permission to view this page.', 'veltez-ai-chatbot-for-woocommerce' ) );
+			wp_die( esc_html__( 'You do not have permission to view this page.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 		}
 
 		global $wpdb;
@@ -394,7 +394,7 @@ final class Admin_Menu {
 
 	public function render_quick_replies() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have permission to view this page.', 'veltez-ai-chatbot-for-woocommerce' ) );
+			wp_die( esc_html__( 'You do not have permission to view this page.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 		}
 
 		$quick_reply_service = $this->quick_reply_service;
@@ -403,14 +403,14 @@ final class Admin_Menu {
 
 	public function render_info() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have permission to view this page.', 'veltez-ai-chatbot-for-woocommerce' ) );
+			wp_die( esc_html__( 'You do not have permission to view this page.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 		}
 		require AI_WOO_ASSISTANT_PATH . 'admin/info-page.php';
 	}
 
 	public function render_ai_errors() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have permission to view this page.', 'veltez-ai-chatbot-for-woocommerce' ) );
+			wp_die( esc_html__( 'You do not have permission to view this page.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 		}
 
 		$per_page     = 30;
@@ -425,7 +425,7 @@ final class Admin_Menu {
 
 	public function render_enquiries() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have permission to view this page.', 'veltez-ai-chatbot-for-woocommerce' ) );
+			wp_die( esc_html__( 'You do not have permission to view this page.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 		}
 
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- read-only admin display, protected by current_user_can

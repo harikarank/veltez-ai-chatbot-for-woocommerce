@@ -10,10 +10,10 @@ defined( 'ABSPATH' ) || exit;
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- template variables scoped via require inside render methods
 
 $msg_map = array(
-	'saved'   => array( 'updated',      __( 'Quick reply saved.',   'veltez-ai-chatbot-for-woocommerce' ) ),
-	'updated' => array( 'updated',      __( 'Quick reply updated.', 'veltez-ai-chatbot-for-woocommerce' ) ),
-	'deleted' => array( 'updated',      __( 'Quick reply deleted.', 'veltez-ai-chatbot-for-woocommerce' ) ),
-	'invalid' => array( 'notice-error', __( 'Title, keywords, and response are all required.', 'veltez-ai-chatbot-for-woocommerce' ) ),
+	'saved'   => array( 'updated',      __( 'Quick reply saved.',   'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) ),
+	'updated' => array( 'updated',      __( 'Quick reply updated.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) ),
+	'deleted' => array( 'updated',      __( 'Quick reply deleted.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) ),
+	'invalid' => array( 'notice-error', __( 'Title, keywords, and response are all required.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) ),
 );
 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -39,15 +39,15 @@ $rules   = ( ! $is_form ) ? $quick_reply_service->get_all() : array();
 <div class="wrap">
 	<h1 style="display:flex;align-items:center;gap:10px;">
 		<img src="<?php echo esc_url( AI_WOO_ASSISTANT_URL . 'assets/img/logo.svg' ); ?>" alt="veltez" style="height:28px;width:auto;" />
-		<?php esc_html_e( 'Quick Replies', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+		<?php esc_html_e( 'Quick Replies', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 		<?php if ( ! $is_form ) : ?>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=veltez-ai-quick-replies&action=add' ) ); ?>" class="page-title-action">
-				<?php esc_html_e( 'Add New', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+				<?php esc_html_e( 'Add New', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 			</a>
 		<?php endif; ?>
 	</h1>
 
-	<p><?php esc_html_e( 'Define keyword rules that return instant responses without calling the AI provider. Rules are matched in priority order (highest first).', 'veltez-ai-chatbot-for-woocommerce' ); ?></p>
+	<p><?php esc_html_e( 'Define keyword rules that return instant responses without calling the AI provider. Rules are matched in priority order (highest first).', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></p>
 
 	<?php if ( '' !== $status_key && isset( $msg_map[ $status_key ] ) ) : ?>
 		<div class="notice <?php echo esc_attr( $msg_map[ $status_key ][0] ); ?> is-dismissible">
@@ -58,7 +58,7 @@ $rules   = ( ! $is_form ) ? $quick_reply_service->get_all() : array();
 	<?php if ( $is_form ) : ?>
 
 		<?php /* ── ADD / EDIT FORM ─────────────────────────────────────────── */ ?>
-		<h2><?php echo $editing ? esc_html__( 'Edit Quick Reply', 'veltez-ai-chatbot-for-woocommerce' ) : esc_html__( 'Add Quick Reply', 'veltez-ai-chatbot-for-woocommerce' ); ?></h2>
+		<h2><?php echo $editing ? esc_html__( 'Edit Quick Reply', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) : esc_html__( 'Add Quick Reply', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></h2>
 
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 			<input type="hidden" name="action" value="aiwoo_save_quick_reply" />
@@ -68,7 +68,7 @@ $rules   = ( ! $is_form ) ? $quick_reply_service->get_all() : array();
 			<table class="form-table" role="presentation">
 				<tr>
 					<th scope="row">
-						<label for="aiwoo-qr-title"><?php esc_html_e( 'Title', 'veltez-ai-chatbot-for-woocommerce' ); ?></label>
+						<label for="aiwoo-qr-title"><?php esc_html_e( 'Title', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></label>
 					</th>
 					<td>
 						<input
@@ -80,12 +80,12 @@ $rules   = ( ! $is_form ) ? $quick_reply_service->get_all() : array();
 							required
 							value="<?php echo esc_attr( $editing ? $editing->title : '' ); ?>"
 						/>
-						<p class="description"><?php esc_html_e( 'Internal label for this rule (not shown to users).', 'veltez-ai-chatbot-for-woocommerce' ); ?></p>
+						<p class="description"><?php esc_html_e( 'Internal label for this rule (not shown to users).', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></p>
 					</td>
 				</tr>
 				<tr>
 					<th scope="row">
-						<label for="aiwoo-qr-keywords"><?php esc_html_e( 'Keywords', 'veltez-ai-chatbot-for-woocommerce' ); ?></label>
+						<label for="aiwoo-qr-keywords"><?php esc_html_e( 'Keywords', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></label>
 					</th>
 					<td>
 						<input
@@ -95,29 +95,29 @@ $rules   = ( ! $is_form ) ? $quick_reply_service->get_all() : array();
 							class="large-text"
 							required
 							value="<?php echo esc_attr( $editing ? $editing->keywords : '' ); ?>"
-							placeholder="<?php esc_attr_e( 'hi, hello, hey', 'veltez-ai-chatbot-for-woocommerce' ); ?>"
+							placeholder="<?php esc_attr_e( 'hi, hello, hey', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>"
 						/>
-						<p class="description"><?php esc_html_e( 'Comma-separated keywords. Matching is case-insensitive.', 'veltez-ai-chatbot-for-woocommerce' ); ?></p>
+						<p class="description"><?php esc_html_e( 'Comma-separated keywords. Matching is case-insensitive.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></p>
 					</td>
 				</tr>
 				<tr>
 					<th scope="row">
-						<label for="aiwoo-qr-match-type"><?php esc_html_e( 'Match type', 'veltez-ai-chatbot-for-woocommerce' ); ?></label>
+						<label for="aiwoo-qr-match-type"><?php esc_html_e( 'Match type', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></label>
 					</th>
 					<td>
 						<select id="aiwoo-qr-match-type" name="match_type">
 							<option value="contains" <?php selected( $editing ? $editing->match_type : 'contains', 'contains' ); ?>>
-								<?php esc_html_e( 'Contains — keyword appears anywhere in the message', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+								<?php esc_html_e( 'Contains — keyword appears anywhere in the message', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 							</option>
 							<option value="exact" <?php selected( $editing ? $editing->match_type : 'contains', 'exact' ); ?>>
-								<?php esc_html_e( 'Exact — full message equals keyword', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+								<?php esc_html_e( 'Exact — full message equals keyword', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 							</option>
 						</select>
 					</td>
 				</tr>
 				<tr>
 					<th scope="row">
-						<label for="aiwoo-qr-response"><?php esc_html_e( 'Response', 'veltez-ai-chatbot-for-woocommerce' ); ?></label>
+						<label for="aiwoo-qr-response"><?php esc_html_e( 'Response', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></label>
 					</th>
 					<td>
 						<textarea
@@ -127,12 +127,12 @@ $rules   = ( ! $is_form ) ? $quick_reply_service->get_all() : array();
 							rows="5"
 							required
 						><?php echo esc_textarea( $editing ? $editing->response : '' ); ?></textarea>
-						<p class="description"><?php esc_html_e( 'The message returned to the user when this rule matches. AI will not be called.', 'veltez-ai-chatbot-for-woocommerce' ); ?></p>
+						<p class="description"><?php esc_html_e( 'The message returned to the user when this rule matches. AI will not be called.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></p>
 					</td>
 				</tr>
 				<tr>
 					<th scope="row">
-						<label for="aiwoo-qr-priority"><?php esc_html_e( 'Priority', 'veltez-ai-chatbot-for-woocommerce' ); ?></label>
+						<label for="aiwoo-qr-priority"><?php esc_html_e( 'Priority', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></label>
 					</th>
 					<td>
 						<input
@@ -142,11 +142,11 @@ $rules   = ( ! $is_form ) ? $quick_reply_service->get_all() : array();
 							min="0"
 							value="<?php echo esc_attr( $editing ? (string) $editing->priority : '0' ); ?>"
 						/>
-						<p class="description"><?php esc_html_e( 'Higher number = checked first. Rules with equal priority are checked by ID order.', 'veltez-ai-chatbot-for-woocommerce' ); ?></p>
+						<p class="description"><?php esc_html_e( 'Higher number = checked first. Rules with equal priority are checked by ID order.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></p>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><?php esc_html_e( 'Status', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
+					<th scope="row"><?php esc_html_e( 'Status', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
 					<td>
 						<label>
 							<input
@@ -155,17 +155,17 @@ $rules   = ( ! $is_form ) ? $quick_reply_service->get_all() : array();
 								value="1"
 								<?php checked( $editing ? (int) $editing->status : 1, 1 ); ?>
 							/>
-							<?php esc_html_e( 'Active', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+							<?php esc_html_e( 'Active', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 						</label>
 					</td>
 				</tr>
 			</table>
 
 			<p>
-				<?php submit_button( $editing ? __( 'Update', 'veltez-ai-chatbot-for-woocommerce' ) : __( 'Save Quick Reply', 'veltez-ai-chatbot-for-woocommerce' ), 'primary', 'submit', false ); ?>
+				<?php submit_button( $editing ? __( 'Update', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) : __( 'Save Quick Reply', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ), 'primary', 'submit', false ); ?>
 				&nbsp;
 				<a href="<?php echo esc_url( admin_url( 'admin.php?page=veltez-ai-quick-replies' ) ); ?>" class="button">
-					<?php esc_html_e( 'Cancel', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+					<?php esc_html_e( 'Cancel', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 				</a>
 			</p>
 		</form>
@@ -174,18 +174,18 @@ $rules   = ( ! $is_form ) ? $quick_reply_service->get_all() : array();
 
 		<?php /* ── LIST TABLE ──────────────────────────────────────────────── */ ?>
 		<?php if ( empty( $rules ) ) : ?>
-			<p><em><?php esc_html_e( 'No quick replies yet. Add one to start bypassing AI calls for common messages.', 'veltez-ai-chatbot-for-woocommerce' ); ?></em></p>
+			<p><em><?php esc_html_e( 'No quick replies yet. Add one to start bypassing AI calls for common messages.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></em></p>
 		<?php else : ?>
 			<table class="wp-list-table widefat fixed striped">
 				<thead>
 					<tr>
-						<th scope="col" style="width:18%;"><?php esc_html_e( 'Title', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
-						<th scope="col" style="width:22%;"><?php esc_html_e( 'Keywords', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
-						<th scope="col" style="width:10%;"><?php esc_html_e( 'Match type', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
-						<th scope="col" style="width:28%;"><?php esc_html_e( 'Response preview', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
-						<th scope="col" style="width:7%;  text-align:center;"><?php esc_html_e( 'Priority', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
-						<th scope="col" style="width:7%;  text-align:center;"><?php esc_html_e( 'Status', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
-						<th scope="col" style="width:8%;"><?php esc_html_e( 'Actions', 'veltez-ai-chatbot-for-woocommerce' ); ?></th>
+						<th scope="col" style="width:18%;"><?php esc_html_e( 'Title', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
+						<th scope="col" style="width:22%;"><?php esc_html_e( 'Keywords', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
+						<th scope="col" style="width:10%;"><?php esc_html_e( 'Match type', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
+						<th scope="col" style="width:28%;"><?php esc_html_e( 'Response preview', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
+						<th scope="col" style="width:7%;  text-align:center;"><?php esc_html_e( 'Priority', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
+						<th scope="col" style="width:7%;  text-align:center;"><?php esc_html_e( 'Status', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
+						<th scope="col" style="width:8%;"><?php esc_html_e( 'Actions', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -205,7 +205,7 @@ $rules   = ( ! $is_form ) ? $quick_reply_service->get_all() : array();
 							</td>
 							<td>
 								<a href="<?php echo esc_url( admin_url( 'admin.php?page=veltez-ai-quick-replies&action=edit&id=' . absint( $rule->id ) ) ); ?>" class="button button-small">
-									<?php esc_html_e( 'Edit', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+									<?php esc_html_e( 'Edit', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 								</a>
 								<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="display:inline; margin-left:4px;">
 									<input type="hidden" name="action" value="aiwoo_delete_quick_reply" />
@@ -214,9 +214,9 @@ $rules   = ( ! $is_form ) ? $quick_reply_service->get_all() : array();
 									<button
 										type="submit"
 										class="button button-small button-link-delete"
-										onclick="return confirm('<?php echo esc_js( __( 'Delete this quick reply?', 'veltez-ai-chatbot-for-woocommerce' ) ); ?>')"
+										onclick="return confirm('<?php echo esc_js( __( 'Delete this quick reply?', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) ); ?>')"
 									>
-										<?php esc_html_e( 'Delete', 'veltez-ai-chatbot-for-woocommerce' ); ?>
+										<?php esc_html_e( 'Delete', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 									</button>
 								</form>
 							</td>
