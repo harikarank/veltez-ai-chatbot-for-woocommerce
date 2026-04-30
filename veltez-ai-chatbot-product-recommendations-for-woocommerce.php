@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Plugin Name: veltez - AI Chatbot & Product Recommendations for WooCommerce
  * Plugin URI:  https://ai.veltez.com/
