@@ -62,8 +62,8 @@ final class Plugin {
 
 		// Admin bar (frontend + backend) — self-contained, does not need full Admin_Menu.
 		add_action( 'admin_bar_menu', array( $this, 'add_admin_bar_node' ), 100 );
-		add_action( 'admin_head', array( $this, 'render_admin_bar_styles' ) );
-		add_action( 'wp_head', array( $this, 'render_admin_bar_styles' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_bar_styles' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_admin_bar_styles' ) );
 
 		// AJAX — hooks registered eagerly; Ajax_Controller built lazily inside handler.
 		add_action( 'wp_ajax_ai_woo_assistant_chat',        array( $this, 'handle_ajax_chat' ) );
@@ -250,24 +250,14 @@ final class Plugin {
 		}
 	}
 
-	public function render_admin_bar_styles() {
+	public function enqueue_admin_bar_styles() {
 		if ( ! is_admin_bar_showing() || ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
-		?>
-		<style>
-			#wpadminbar #wp-admin-bar-veltez-ai-bar .aiwoo-ab-icon {
-				display: inline-block;
-				width: 18px;
-				height: 18px;
-				vertical-align: middle;
-				margin-right: 5px;
-				margin-top: -2px;
-				position: relative;
-				top: -1px;
-			}
-		</style>
-		<?php
+		$css = '#wpadminbar #wp-admin-bar-veltez-ai-bar .aiwoo-ab-icon{'
+			. 'display:inline-block;width:18px;height:18px;vertical-align:middle;'
+			. 'margin-right:5px;margin-top:-2px;position:relative;top:-1px;}';
+		wp_add_inline_style( 'admin-bar', $css );
 	}
 
 	// -------------------------------------------------------------------------
@@ -435,19 +425,31 @@ final class Plugin {
 		if ( null === $this->admin_menu ) {
 			return;
 		}
-		if ( $hook !== $this->admin_menu->get_settings_hook() ) {
-			return;
+
+		if ( $hook === $this->admin_menu->get_settings_hook() ) {
+			wp_enqueue_media();
+			wp_enqueue_style( 'wp-color-picker' );
+			wp_enqueue_script(
+				'ai-woo-assistant-admin',
+				AI_WOO_ASSISTANT_URL . 'assets/js/admin.js',
+				array( 'jquery', 'wp-color-picker' ),
+				AI_WOO_ASSISTANT_VERSION,
+				true
+			);
 		}
 
-		wp_enqueue_media();
-		wp_enqueue_style( 'wp-color-picker' );
-		wp_enqueue_script(
-			'ai-woo-assistant-admin',
-			AI_WOO_ASSISTANT_URL . 'assets/js/admin.js',
-			array( 'jquery', 'wp-color-picker' ),
-			AI_WOO_ASSISTANT_VERSION,
-			true
-		);
+		if ( $hook === $this->admin_menu->get_top_requests_hook() ) {
+			$js = '(function(){document.addEventListener("DOMContentLoaded",function(){'
+				. 'document.querySelectorAll(".aiwoo-tr-toggle").forEach(function(btn){'
+				. 'btn.addEventListener("click",function(){'
+				. 'var targetId=btn.getAttribute("data-target");'
+				. 'var row=document.getElementById(targetId);'
+				. 'if(!row)return;'
+				. 'var isHidden=row.style.display==="none"||row.style.display===""  ;'
+				. 'row.style.display=isHidden?"table-row":"none";'
+				. '});});});})();';
+			wp_add_inline_script( 'jquery', $js );
+		}
 	}
 
 	/**

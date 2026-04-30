@@ -51,7 +51,10 @@
       "Bash(grep -n '{$this->table}' includes/class-aiwoo-assistant-quick-reply-service.php)",
       "Bash(python -c ' *)",
       "Bash(grep -n '{$table}' includes/class-aiwoo-assistant-quick-reply-service.php)",
-      "Bash(grep -n '$sql' includes/class-aiwoo-assistant-admin-menu.php)"
+      "Bash(grep -n '$sql' includes/class-aiwoo-assistant-admin-menu.php)",
+      "Bash(php -l \"D:/Harikaran/Golang/Live/veltez-ai-chatbot-product-recommendations-for-woocommerce/includes/class-aiwoo-assistant-plugin.php\")",
+      "Bash(php -l \"D:/Harikaran/Golang/Live/veltez-ai-chatbot-product-recommendations-for-woocommerce/includes/class-aiwoo-assistant-admin-menu.php\")",
+      "Bash(php -l \"D:/Harikaran/Golang/Live/veltez-ai-chatbot-product-recommendations-for-woocommerce/admin/top-requests-page.php\")"
     ]
   }
 }

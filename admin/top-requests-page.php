@@ -265,18 +265,3 @@ $export_nonce = wp_create_nonce( 'aiwoo_export_top_requests' );
 	<?php endif; ?>
 </div>
 
-<script>
-( function () {
-	document.addEventListener( 'DOMContentLoaded', function () {
-		document.querySelectorAll( '.aiwoo-tr-toggle' ).forEach( function ( btn ) {
-			btn.addEventListener( 'click', function () {
-				var targetId = btn.getAttribute( 'data-target' );
-				var row = document.getElementById( targetId );
-				if ( ! row ) return;
-				var isHidden = row.style.display === 'none' || row.style.display === '';
-				row.style.display = isHidden ? 'table-row' : 'none';
-			} );
-		} );
-	} );
-}() );
-</script>
