@@ -9,24 +9,24 @@
  *
  * Frontend users never see this data; it is admin-only.
  *
- * @package AIWooAssistant
+ * @package Veltez
  */
 
-namespace AIWooAssistant;
+namespace Veltez;
 
 defined( 'ABSPATH' ) || exit;
 
 final class AI_Error_Logger {
 
 	const DB_VERSION    = '1';
-	const DB_OPTION_KEY = 'aiwoo_ai_error_log_db_version';
+	const DB_OPTION_KEY = 'veltez_ai_error_log_db_version';
 
 	/** @var string */
 	private $table;
 
 	public function __construct() {
 		global $wpdb;
-		$this->table = $wpdb->prefix . 'aiwoo_ai_error_logs';
+		$this->table = $wpdb->prefix . 'veltez_ai_error_logs';
 	}
 
 	// -------------------------------------------------------------------------
@@ -36,7 +36,7 @@ final class AI_Error_Logger {
 	public static function create_table() {
 		global $wpdb;
 
-		$table           = $wpdb->prefix . 'aiwoo_ai_error_logs';
+		$table           = $wpdb->prefix . 'veltez_ai_error_logs';
 		$charset_collate = $wpdb->get_charset_collate();
 
 		$sql = "CREATE TABLE {$table} (
@@ -68,7 +68,7 @@ final class AI_Error_Logger {
 	public static function drop_table() {
 		global $wpdb;
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
-		$wpdb->query( 'DROP TABLE IF EXISTS `' . $wpdb->prefix . 'aiwoo_ai_error_logs`' );
+		$wpdb->query( 'DROP TABLE IF EXISTS `' . $wpdb->prefix . 'veltez_ai_error_logs`' );
 		delete_option( self::DB_OPTION_KEY );
 	}
 
@@ -139,7 +139,7 @@ final class AI_Error_Logger {
 		return $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT id, session_id, ip_address, user_message, error_context, error_message, created_at
-				 FROM `{$wpdb->prefix}aiwoo_ai_error_logs`
+				 FROM `{$wpdb->prefix}veltez_ai_error_logs`
 				 ORDER BY created_at DESC
 				 LIMIT %d OFFSET %d",
 				$per_page,
@@ -157,6 +157,6 @@ final class AI_Error_Logger {
 		global $wpdb;
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-		return (int) $wpdb->get_var( "SELECT COUNT(*) FROM `{$wpdb->prefix}aiwoo_ai_error_logs`" );
+		return (int) $wpdb->get_var( "SELECT COUNT(*) FROM `{$wpdb->prefix}veltez_ai_error_logs`" );
 	}
 }

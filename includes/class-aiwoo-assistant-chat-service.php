@@ -5,10 +5,10 @@
  * Routes each chat turn through either the legacy prompt-based path or the
  * new MCP tool-calling path, depending on the `enable_mcp` setting.
  *
- * @package AIWooAssistant
+ * @package Veltez
  */
 
-namespace AIWooAssistant;
+namespace Veltez;
 
 defined( 'ABSPATH' ) || exit;
 

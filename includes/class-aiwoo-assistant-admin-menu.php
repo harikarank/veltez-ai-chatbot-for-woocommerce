@@ -2,10 +2,10 @@
 /**
  * Top-level admin menu and sub-page controller.
  *
- * @package AIWooAssistant
+ * @package Veltez
  */
 
-namespace AIWooAssistant;
+namespace Veltez;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -53,7 +53,7 @@ final class Admin_Menu {
 	// -------------------------------------------------------------------------
 
 	public function register_menus() {
-		$menu_icon = AI_WOO_ASSISTANT_URL . 'assets/img/menu-icon-white.png';
+		$menu_icon = VELTEZ_AI_URL . 'assets/img/menu-icon-white.png';
 
 		add_menu_page(
 			__( 'veltez', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
@@ -134,7 +134,7 @@ final class Admin_Menu {
 			__( 'veltez Settings', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 			__( 'Settings', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 			'manage_options',
-			'ai-woo-assistant',
+			'veltez-ai-settings',
 			array( $this->settings, 'render_settings_page' )
 		);
 	}
@@ -170,7 +170,7 @@ final class Admin_Menu {
 		if ( '' !== $session_id ) {
 			$messages = $this->chat_logger->get_session_messages( $session_id );
 			$back_url = admin_url( 'admin.php?page=veltez-ai' );
-			require AI_WOO_ASSISTANT_PATH . 'admin/chat-session-detail-page.php';
+			require VELTEZ_AI_PATH . 'admin/chat-session-detail-page.php';
 			return;
 		}
 
@@ -190,7 +190,7 @@ final class Admin_Menu {
 		$total        = $this->chat_logger->count_sessions( $filters );
 		$sessions     = $this->chat_logger->get_sessions( $filters, $per_page, $offset );
 
-		require AI_WOO_ASSISTANT_PATH . 'admin/chat-history-page.php';
+		require VELTEZ_AI_PATH . 'admin/chat-history-page.php';
 	}
 
 	public function render_ip_blocklist() {
@@ -199,7 +199,7 @@ final class Admin_Menu {
 		}
 
 		$ip_blocker = $this->ip_blocker;
-		require AI_WOO_ASSISTANT_PATH . 'admin/ip-blocklist-page.php';
+		require VELTEZ_AI_PATH . 'admin/ip-blocklist-page.php';
 	}
 
 	public function render_top_requests() {
@@ -223,7 +223,7 @@ final class Admin_Menu {
 		// ── CSV export — validate nonce then stream and exit ──────────────────
 		if ( $export_csv ) {
 			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			check_admin_referer( 'aiwoo_export_top_requests' );
+			check_admin_referer( 'veltez_export_top_requests' );
 			$this->export_top_requests_csv( $search, $filter_date );
 			exit;
 		}
@@ -257,7 +257,7 @@ final class Admin_Menu {
 
 		$quick_reply_service = $this->quick_reply_service;
 
-		require AI_WOO_ASSISTANT_PATH . 'admin/top-requests-page.php';
+		require VELTEZ_AI_PATH . 'admin/top-requests-page.php';
 	}
 
 	/**
@@ -274,7 +274,7 @@ final class Admin_Menu {
 	 */
 	private function query_top_requests( $wpdb, $filter_date, $search, $limit ) {
 		$select = 'SELECT LOWER(TRIM(user_message)) AS query, COUNT(*) AS total, MAX(ai_response) AS last_response'
-			. " FROM `{$wpdb->prefix}aiwoo_chat_logs`";
+			. " FROM `{$wpdb->prefix}veltez_chat_logs`";
 
 		if ( '' !== $search ) {
 			// Combine date filter + search using prepare() so the result is fully prepared.
@@ -395,14 +395,14 @@ final class Admin_Menu {
 		}
 
 		$quick_reply_service = $this->quick_reply_service;
-		require AI_WOO_ASSISTANT_PATH . 'admin/quick-replies-page.php';
+		require VELTEZ_AI_PATH . 'admin/quick-replies-page.php';
 	}
 
 	public function render_info() {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'You do not have permission to view this page.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 		}
-		require AI_WOO_ASSISTANT_PATH . 'admin/info-page.php';
+		require VELTEZ_AI_PATH . 'admin/info-page.php';
 	}
 
 	public function render_ai_errors() {
@@ -417,7 +417,7 @@ final class Admin_Menu {
 		$total        = $this->ai_error_logger->count_errors();
 		$errors       = $this->ai_error_logger->get_errors( $per_page, $offset );
 
-		require AI_WOO_ASSISTANT_PATH . 'admin/ai-errors-page.php';
+		require VELTEZ_AI_PATH . 'admin/ai-errors-page.php';
 	}
 
 	public function render_enquiries() {
@@ -435,7 +435,7 @@ final class Admin_Menu {
 		$per_page = 20;
 
 		$query_args = array(
-			'post_type'      => 'aiwoo_enquiry',
+			'post_type'      => 'veltez_enquiry',
 			'post_status'    => 'private',
 			'posts_per_page' => $per_page,
 			'paged'          => $current_page,
@@ -447,7 +447,7 @@ final class Admin_Menu {
 
 		if ( '' !== $filter_name ) {
 			$meta_conditions[] = array(
-				'key'     => '_aiwoo_name',
+				'key'     => '_veltez_name',
 				'value'   => $filter_name,
 				'compare' => 'LIKE',
 			);
@@ -455,7 +455,7 @@ final class Admin_Menu {
 
 		if ( '' !== $filter_email ) {
 			$meta_conditions[] = array(
-				'key'     => '_aiwoo_email',
+				'key'     => '_veltez_email',
 				'value'   => $filter_email,
 				'compare' => 'LIKE',
 			);
@@ -483,6 +483,6 @@ final class Admin_Menu {
 		$enquiries = $query->posts;
 		$total     = $query->found_posts;
 
-		require AI_WOO_ASSISTANT_PATH . 'admin/enquiries-page.php';
+		require VELTEZ_AI_PATH . 'admin/enquiries-page.php';
 	}
 }

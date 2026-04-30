@@ -2,11 +2,11 @@
 /**
  * WooCommerce integration bootstrap.
  *
- * @package AIWooAssistant
+ * @package Veltez
  */
 
-namespace AIWooAssistant;
+namespace Veltez;
 
 defined( 'ABSPATH' ) || exit;
 
-require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-catalog-service.php';
+require_once VELTEZ_AI_PATH . 'includes/class-aiwoo-assistant-catalog-service.php';

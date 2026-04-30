@@ -9,7 +9,7 @@
  *   $per_page      int
  *   $current_page  int
  *
- * @package AIWooAssistant
+ * @package Veltez
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -34,7 +34,7 @@ $filter_query = http_build_query(
 ?>
 <div class="wrap">
 	<h1 style="display:flex;align-items:center;gap:10px;">
-		<img src="<?php echo esc_url( AI_WOO_ASSISTANT_URL . 'assets/img/logo.svg' ); ?>" alt="veltez" style="height:28px;width:auto;" />
+		<img src="<?php echo esc_url( VELTEZ_AI_URL . 'assets/img/logo.svg' ); ?>" alt="veltez" style="height:28px;width:auto;" />
 		<?php esc_html_e( 'Chat History', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 	</h1>
 

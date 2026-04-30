@@ -11,7 +11,7 @@
  *   $per_page      int
  *   $current_page  int
  *
- * @package AIWooAssistant
+ * @package Veltez
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -32,7 +32,7 @@ $filter_query = http_build_query(
 ?>
 <div class="wrap">
 	<h1 style="display:flex;align-items:center;gap:10px;">
-		<img src="<?php echo esc_url( AI_WOO_ASSISTANT_URL . 'assets/img/logo.svg' ); ?>" alt="veltez" style="height:28px;width:auto;" />
+		<img src="<?php echo esc_url( VELTEZ_AI_URL . 'assets/img/logo.svg' ); ?>" alt="veltez" style="height:28px;width:auto;" />
 		<?php esc_html_e( 'Enquiries', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 	</h1>
 
@@ -88,9 +88,9 @@ $filter_query = http_build_query(
 		<tbody>
 		<?php foreach ( $enquiries as $enquiry ) : ?>
 			<?php
-			$enq_name    = (string) get_post_meta( $enquiry->ID, '_aiwoo_name', true );
-			$enq_email   = (string) get_post_meta( $enquiry->ID, '_aiwoo_email', true );
-			$enq_phone   = (string) get_post_meta( $enquiry->ID, '_aiwoo_phone', true );
+			$enq_name    = (string) get_post_meta( $enquiry->ID, '_veltez_name', true );
+			$enq_email   = (string) get_post_meta( $enquiry->ID, '_veltez_email', true );
+			$enq_phone   = (string) get_post_meta( $enquiry->ID, '_veltez_phone', true );
 			$enq_message = $enquiry->post_content;
 			?>
 			<tr>

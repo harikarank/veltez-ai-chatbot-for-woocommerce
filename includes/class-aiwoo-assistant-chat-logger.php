@@ -2,24 +2,24 @@
 /**
  * Chat session logger — stores each exchange in a custom DB table.
  *
- * @package AIWooAssistant
+ * @package Veltez
  */
 
-namespace AIWooAssistant;
+namespace Veltez;
 
 defined( 'ABSPATH' ) || exit;
 
 final class Chat_Logger {
 
 	const DB_VERSION    = '1';
-	const DB_OPTION_KEY = 'aiwoo_db_version';
+	const DB_OPTION_KEY = 'veltez_db_version';
 
 	/** @var string */
 	private $table;
 
 	public function __construct() {
 		global $wpdb;
-		$this->table = $wpdb->prefix . 'aiwoo_chat_logs';
+		$this->table = $wpdb->prefix . 'veltez_chat_logs';
 	}
 
 	// -------------------------------------------------------------------------
@@ -33,7 +33,7 @@ final class Chat_Logger {
 	public static function create_table() {
 		global $wpdb;
 
-		$table           = $wpdb->prefix . 'aiwoo_chat_logs';
+		$table           = $wpdb->prefix . 'veltez_chat_logs';
 		$charset_collate = $wpdb->get_charset_collate();
 
 		$sql = "CREATE TABLE {$table} (
@@ -72,7 +72,7 @@ final class Chat_Logger {
 	public static function drop_table() {
 		global $wpdb;
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
-		$wpdb->query( 'DROP TABLE IF EXISTS `' . $wpdb->prefix . 'aiwoo_chat_logs`' );
+		$wpdb->query( 'DROP TABLE IF EXISTS `' . $wpdb->prefix . 'veltez_chat_logs`' );
 		delete_option( self::DB_OPTION_KEY );
 	}
 
@@ -170,7 +170,7 @@ final class Chat_Logger {
 					"SELECT session_id, ip_address, customer_name,
 					        MIN(created_at) AS started_at, MAX(created_at) AS last_at,
 					        COUNT(*) AS message_count, SUBSTRING( MIN(user_message), 1, 120 ) AS first_message
-					 FROM `{$wpdb->prefix}aiwoo_chat_logs`
+					 FROM `{$wpdb->prefix}veltez_chat_logs`
 					 WHERE {$where_tpl}
 					 GROUP BY session_id, ip_address, customer_name ORDER BY last_at DESC
 					 LIMIT %d OFFSET %d",
@@ -186,7 +186,7 @@ final class Chat_Logger {
 				"SELECT session_id, ip_address, customer_name,
 				        MIN(created_at) AS started_at, MAX(created_at) AS last_at,
 				        COUNT(*) AS message_count, SUBSTRING( MIN(user_message), 1, 120 ) AS first_message
-				 FROM `{$wpdb->prefix}aiwoo_chat_logs`
+				 FROM `{$wpdb->prefix}veltez_chat_logs`
 				 WHERE {$where_tpl}
 				 GROUP BY session_id, ip_address, customer_name ORDER BY last_at DESC
 				 LIMIT %d OFFSET %d",
@@ -207,13 +207,13 @@ final class Chat_Logger {
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.DirectDatabaseQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
 		if ( empty( $where_args ) ) {
 			return (int) $wpdb->get_var(
-				"SELECT COUNT(DISTINCT session_id) FROM `{$wpdb->prefix}aiwoo_chat_logs` WHERE {$where_tpl}"
+				"SELECT COUNT(DISTINCT session_id) FROM `{$wpdb->prefix}veltez_chat_logs` WHERE {$where_tpl}"
 			);
 		}
 
 		return (int) $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT COUNT(DISTINCT session_id) FROM `{$wpdb->prefix}aiwoo_chat_logs` WHERE {$where_tpl}",
+				"SELECT COUNT(DISTINCT session_id) FROM `{$wpdb->prefix}veltez_chat_logs` WHERE {$where_tpl}",
 				...$where_args
 			)
 		);
@@ -230,7 +230,7 @@ final class Chat_Logger {
 		return $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT user_message, ai_response, created_at
-				 FROM `{$wpdb->prefix}aiwoo_chat_logs`
+				 FROM `{$wpdb->prefix}veltez_chat_logs`
 				 WHERE session_id = %s
 				 ORDER BY created_at ASC",
 				$session_id

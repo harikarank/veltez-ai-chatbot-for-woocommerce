@@ -2,16 +2,16 @@
 /**
  * IP blocklist — exact addresses and CIDR ranges (IPv4 + IPv6).
  *
- * @package AIWooAssistant
+ * @package Veltez
  */
 
-namespace AIWooAssistant;
+namespace Veltez;
 
 defined( 'ABSPATH' ) || exit;
 
 final class IP_Blocker {
 
-	const OPTION_KEY  = 'aiwoo_blocked_ips';
+	const OPTION_KEY  = 'veltez_blocked_ips';
 	const MAX_ENTRIES = 500;
 
 	public function __construct() {
@@ -73,7 +73,7 @@ final class IP_Blocker {
 			wp_die( esc_html__( 'Permission denied.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 		}
 
-		check_admin_referer( 'aiwoo_add_blocked_ip' );
+		check_admin_referer( 'veltez_add_blocked_ip' );
 
 		$redirect = admin_url( 'admin.php?page=veltez-ai-ip-blocklist' );
 		$entry    = isset( $_POST['ip_entry'] )
@@ -81,33 +81,33 @@ final class IP_Blocker {
 			: '';
 
 		if ( '' === $entry ) {
-			wp_safe_redirect( add_query_arg( 'aiwoo_ip_msg', 'empty', $redirect ) );
+			wp_safe_redirect( add_query_arg( 'veltez_ip_msg', 'empty', $redirect ) );
 			exit;
 		}
 
 		$valid = $this->validate_entry( $entry );
 
 		if ( is_wp_error( $valid ) ) {
-			wp_safe_redirect( add_query_arg( 'aiwoo_ip_msg', 'invalid', $redirect ) );
+			wp_safe_redirect( add_query_arg( 'veltez_ip_msg', 'invalid', $redirect ) );
 			exit;
 		}
 
 		$list = $this->get_list();
 
 		if ( count( $list ) >= self::MAX_ENTRIES ) {
-			wp_safe_redirect( add_query_arg( 'aiwoo_ip_msg', 'limit', $redirect ) );
+			wp_safe_redirect( add_query_arg( 'veltez_ip_msg', 'limit', $redirect ) );
 			exit;
 		}
 
 		if ( in_array( $entry, $list, true ) ) {
-			wp_safe_redirect( add_query_arg( 'aiwoo_ip_msg', 'duplicate', $redirect ) );
+			wp_safe_redirect( add_query_arg( 'veltez_ip_msg', 'duplicate', $redirect ) );
 			exit;
 		}
 
 		$list[] = $entry;
 		update_option( self::OPTION_KEY, $list, false ); // autoload = false
 
-		wp_safe_redirect( add_query_arg( 'aiwoo_ip_msg', 'added', $redirect ) );
+		wp_safe_redirect( add_query_arg( 'veltez_ip_msg', 'added', $redirect ) );
 		exit;
 	}
 
@@ -116,7 +116,7 @@ final class IP_Blocker {
 			wp_die( esc_html__( 'Permission denied.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 		}
 
-		check_admin_referer( 'aiwoo_delete_blocked_ip' );
+		check_admin_referer( 'veltez_delete_blocked_ip' );
 
 		$entry = isset( $_POST['ip_entry'] )
 			? trim( sanitize_text_field( wp_unslash( $_POST['ip_entry'] ) ) )
@@ -127,7 +127,7 @@ final class IP_Blocker {
 		update_option( self::OPTION_KEY, $list, false );
 
 		$redirect = admin_url( 'admin.php?page=veltez-ai-ip-blocklist' );
-		wp_safe_redirect( add_query_arg( 'aiwoo_ip_msg', 'deleted', $redirect ) );
+		wp_safe_redirect( add_query_arg( 'veltez_ip_msg', 'deleted', $redirect ) );
 		exit;
 	}
 

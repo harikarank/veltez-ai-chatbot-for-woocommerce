@@ -2,8 +2,8 @@
 /**
  * IP Blocklist admin page.
  *
- * @package AIWooAssistant
- * @var \AIWooAssistant\IP_Blocker $ip_blocker
+ * @package Veltez
+ * @var \Veltez\IP_Blocker $ip_blocker
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,12 +20,12 @@ $msg_map = array(
 );
 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-$status_key = isset( $_GET['aiwoo_ip_msg'] ) ? sanitize_key( $_GET['aiwoo_ip_msg'] ) : '';
+$status_key = isset( $_GET['veltez_ip_msg'] ) ? sanitize_key( $_GET['veltez_ip_msg'] ) : '';
 $blocked    = $ip_blocker->get_list();
 ?>
 <div class="wrap">
 	<h1 style="display:flex;align-items:center;gap:10px;">
-		<img src="<?php echo esc_url( AI_WOO_ASSISTANT_URL . 'assets/img/logo.svg' ); ?>" alt="veltez" style="height:28px;width:auto;" />
+		<img src="<?php echo esc_url( VELTEZ_AI_URL . 'assets/img/logo.svg' ); ?>" alt="veltez" style="height:28px;width:auto;" />
 		<?php esc_html_e( 'IP Blocklist', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 	</h1>
 	<p><?php esc_html_e( 'Visitors whose IP address matches an entry below will not see the chat widget and their AJAX requests will be silently rejected. Entries are matched as exact addresses or CIDR ranges (IPv4 and IPv6 supported).', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></p>
@@ -38,8 +38,8 @@ $blocked    = $ip_blocker->get_list();
 
 	<h2><?php esc_html_e( 'Add entry', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></h2>
 	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-		<input type="hidden" name="action" value="aiwoo_add_blocked_ip" />
-		<?php wp_nonce_field( 'aiwoo_add_blocked_ip' ); ?>
+		<input type="hidden" name="action" value="veltez_add_blocked_ip" />
+		<?php wp_nonce_field( 'veltez_add_blocked_ip' ); ?>
 		<table class="form-table" role="presentation">
 			<tr>
 				<th scope="row">
@@ -88,9 +88,9 @@ $blocked    = $ip_blocker->get_list();
 						<td><code><?php echo esc_html( $entry ); ?></code></td>
 						<td>
 							<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="display:inline;">
-								<input type="hidden" name="action"   value="aiwoo_delete_blocked_ip" />
+								<input type="hidden" name="action"   value="veltez_delete_blocked_ip" />
 								<input type="hidden" name="ip_entry" value="<?php echo esc_attr( $entry ); ?>" />
-								<?php wp_nonce_field( 'aiwoo_delete_blocked_ip' ); ?>
+								<?php wp_nonce_field( 'veltez_delete_blocked_ip' ); ?>
 								<button
 									type="submit"
 									class="button button-small button-link-delete"

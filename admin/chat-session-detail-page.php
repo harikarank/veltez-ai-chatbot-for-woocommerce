@@ -7,7 +7,7 @@
  *   $messages    array  rows from DB
  *   $back_url    string
  *
- * @package AIWooAssistant
+ * @package Veltez
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ $first = ! empty( $messages ) ? $messages[0] : null;
 ?>
 <div class="wrap">
 	<h1 style="display:flex;align-items:center;gap:10px;">
-		<img src="<?php echo esc_url( AI_WOO_ASSISTANT_URL . 'assets/img/logo.svg' ); ?>" alt="veltez" style="height:28px;width:auto;" />
+		<img src="<?php echo esc_url( VELTEZ_AI_URL . 'assets/img/logo.svg' ); ?>" alt="veltez" style="height:28px;width:auto;" />
 		<?php esc_html_e( 'Chat Session', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 	</h1>
 	<a href="<?php echo esc_url( $back_url ); ?>" style="display:inline-block;margin-bottom:12px;text-decoration:none;font-size:13px;">&#8592; <?php esc_html_e( 'Back to Chat History', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></a>

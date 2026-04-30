@@ -2,10 +2,10 @@
 /**
  * Main plugin bootstrap.
  *
- * @package AIWooAssistant
+ * @package Veltez
  */
 
-namespace AIWooAssistant;
+namespace Veltez;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -66,18 +66,18 @@ final class Plugin {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_admin_bar_styles' ) );
 
 		// AJAX — hooks registered eagerly; Ajax_Controller built lazily inside handler.
-		add_action( 'wp_ajax_ai_woo_assistant_chat',        array( $this, 'handle_ajax_chat' ) );
-		add_action( 'wp_ajax_nopriv_ai_woo_assistant_chat', array( $this, 'handle_ajax_chat' ) );
-		add_action( 'wp_ajax_ai_woo_assistant_enquiry',        array( $this, 'handle_ajax_enquiry' ) );
-		add_action( 'wp_ajax_nopriv_ai_woo_assistant_enquiry', array( $this, 'handle_ajax_enquiry' ) );
+		add_action( 'wp_ajax_veltez_ai_chat',        array( $this, 'handle_ajax_chat' ) );
+		add_action( 'wp_ajax_nopriv_veltez_ai_chat', array( $this, 'handle_ajax_chat' ) );
+		add_action( 'wp_ajax_veltez_ai_enquiry',        array( $this, 'handle_ajax_enquiry' ) );
+		add_action( 'wp_ajax_nopriv_veltez_ai_enquiry', array( $this, 'handle_ajax_enquiry' ) );
 
 		// admin-post.php handlers — registered eagerly here so they fire on admin-post.php
 		// regardless of whether admin_menu has run. admin_menu does NOT run on admin-post.php.
-		add_action( 'admin_post_aiwoo_save_quick_reply',        array( $this, 'handle_admin_post_qr_save' ) );
-		add_action( 'admin_post_aiwoo_delete_quick_reply',       array( $this, 'handle_admin_post_qr_delete' ) );
-		add_action( 'admin_post_aiwoo_save_quick_reply_from_ai', array( $this, 'handle_admin_post_qr_save_from_ai' ) );
-		add_action( 'admin_post_aiwoo_add_blocked_ip',           array( $this, 'handle_admin_post_ip_add' ) );
-		add_action( 'admin_post_aiwoo_delete_blocked_ip',        array( $this, 'handle_admin_post_ip_delete' ) );
+		add_action( 'admin_post_veltez_save_quick_reply',        array( $this, 'handle_admin_post_qr_save' ) );
+		add_action( 'admin_post_veltez_delete_quick_reply',       array( $this, 'handle_admin_post_qr_delete' ) );
+		add_action( 'admin_post_veltez_save_quick_reply_from_ai', array( $this, 'handle_admin_post_qr_save_from_ai' ) );
+		add_action( 'admin_post_veltez_add_blocked_ip',           array( $this, 'handle_admin_post_ip_add' ) );
+		add_action( 'admin_post_veltez_delete_blocked_ip',        array( $this, 'handle_admin_post_ip_delete' ) );
 
 		// Admin-only: menu, notices, assets. Saves service instantiation on the frontend.
 		if ( is_admin() ) {
@@ -212,7 +212,7 @@ final class Plugin {
 			return;
 		}
 
-		$icon_url = esc_url( AI_WOO_ASSISTANT_URL . 'assets/img/favicon.svg' );
+		$icon_url = esc_url( VELTEZ_AI_URL . 'assets/img/favicon.svg' );
 		$title    = '<img src="' . $icon_url . '" class="aiwoo-ab-icon" alt="" />'
 			. '<span class="ab-label">' . esc_html__( 'veltez', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) . '</span>';
 
@@ -277,7 +277,7 @@ final class Plugin {
 		}
 		// Only show on veltez pages.
 		if ( false === strpos( (string) $screen->id, 'veltez-ai' )
-			&& false === strpos( (string) $screen->id, 'ai-woo-assistant' ) ) {
+			&& false === strpos( (string) $screen->id, 'veltez-ai-settings' ) ) {
 			return;
 		}
 		$temp = (float) $this->settings->get( 'temperature' );
@@ -291,7 +291,7 @@ final class Plugin {
 
 	public function declare_wc_compatibility() {
 		if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
-			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', AI_WOO_ASSISTANT_FILE, true );
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', VELTEZ_AI_FILE, true );
 		}
 	}
 
@@ -316,7 +316,7 @@ final class Plugin {
 
 	public function register_enquiry_post_type() {
 		register_post_type(
-			'aiwoo_enquiry',
+			'veltez_enquiry',
 			array(
 				'labels'              => array(
 					'name' => __( 'veltez Enquiries', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
@@ -342,38 +342,38 @@ final class Plugin {
 		}
 
 		wp_register_style(
-			'ai-woo-assistant-widget',
-			AI_WOO_ASSISTANT_URL . 'assets/css/style.css',
+			'veltez-ai-widget',
+			VELTEZ_AI_URL . 'assets/css/style.css',
 			array(),
-			AI_WOO_ASSISTANT_VERSION
+			VELTEZ_AI_VERSION
 		);
 
 		wp_register_script(
-			'ai-woo-assistant-widget',
-			AI_WOO_ASSISTANT_URL . 'assets/js/chat.js',
+			'veltez-ai-widget',
+			VELTEZ_AI_URL . 'assets/js/chat.js',
 			array(),
-			AI_WOO_ASSISTANT_VERSION,
+			VELTEZ_AI_VERSION,
 			true
 		);
 
-		wp_enqueue_style( 'ai-woo-assistant-widget' );
-		wp_enqueue_script( 'ai-woo-assistant-widget' );
+		wp_enqueue_style( 'veltez-ai-widget' );
+		wp_enqueue_script( 'veltez-ai-widget' );
 
 		// Inject per-site CSS variable overrides as inline style.
 		$color_css = $this->build_color_css();
 		if ( '' !== $color_css ) {
-			wp_add_inline_style( 'ai-woo-assistant-widget', $color_css );
+			wp_add_inline_style( 'veltez-ai-widget', $color_css );
 		}
 
 		wp_localize_script(
-			'ai-woo-assistant-widget',
-			'AIWooAssistant',
+			'veltez-ai-widget',
+			'VeltezAI',
 			array(
 				'ajaxUrl'        => esc_url_raw( admin_url( 'admin-ajax.php' ) ),
-				'nonce'          => wp_create_nonce( 'ai_woo_assistant_nonce' ),
+				'nonce'          => wp_create_nonce( 'veltez_ai_nonce' ),
 				'actions'        => array(
-					'chat'    => 'ai_woo_assistant_chat',
-					'enquiry' => 'ai_woo_assistant_enquiry',
+					'chat'    => 'veltez_ai_chat',
+					'enquiry' => 'veltez_ai_enquiry',
 				),
 				'strings'        => array(
 					'title'           => __( 'veltez Shopping Assistant', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
@@ -400,7 +400,7 @@ final class Plugin {
 					'iconUrl'       => $this->settings->get( 'chat_icon' ),
 					'companyLogo'   => $this->settings->get( 'company_logo' ),
 					'employeePhoto' => $this->settings->get( 'employee_photo' ),
-					'faviconUrl'    => esc_url( AI_WOO_ASSISTANT_URL . 'assets/img/favicon.svg' ),
+					'faviconUrl'    => esc_url( VELTEZ_AI_URL . 'assets/img/favicon.svg' ),
 				),
 				'storeContext'   => array(
 					'currencySymbol' => function_exists( 'get_woocommerce_currency_symbol' ) ? get_woocommerce_currency_symbol() : get_option( 'woocommerce_currency', 'USD' ),
@@ -410,7 +410,7 @@ final class Plugin {
 				'featureFlags'   => array(
 					'hasWooCommerce' => class_exists( 'WooCommerce' ),
 				),
-				'widgetStateKey' => 'ai_woo_assistant_widget_state',
+				'widgetStateKey' => 'veltez_widget_state',
 				'settings'       => array(
 					'maxMessageLength' => max( 10, (int) $this->settings->get( 'max_message_length' ) ),
 					'autoOpenDelay'    => '' !== (string) $this->settings->get( 'auto_open_delay' )
@@ -430,10 +430,10 @@ final class Plugin {
 			wp_enqueue_media();
 			wp_enqueue_style( 'wp-color-picker' );
 			wp_enqueue_script(
-				'ai-woo-assistant-admin',
-				AI_WOO_ASSISTANT_URL . 'assets/js/admin.js',
+				'veltez-ai-admin',
+				VELTEZ_AI_URL . 'assets/js/admin.js',
 				array( 'jquery', 'wp-color-picker' ),
-				AI_WOO_ASSISTANT_VERSION,
+				VELTEZ_AI_VERSION,
 				true
 			);
 		}
@@ -536,6 +536,6 @@ final class Plugin {
 		$panel_subtitle   = (string) $this->settings->get( 'panel_subtitle' );
 		$chat_placeholder = (string) $this->settings->get( 'chat_placeholder' );
 		$company_logo     = (string) $this->settings->get( 'company_logo' );
-		require AI_WOO_ASSISTANT_PATH . 'templates/chat-widget.php';
+		require VELTEZ_AI_PATH . 'templates/chat-widget.php';
 	}
 }

@@ -2,10 +2,10 @@
 /**
  * WooCommerce catalog context helpers.
  *
- * @package AIWooAssistant
+ * @package Veltez
  */
 
-namespace AIWooAssistant;
+namespace Veltez;
 
 defined( 'ABSPATH' ) || exit;
 

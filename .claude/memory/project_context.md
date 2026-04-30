@@ -4,7 +4,7 @@ This file records every bug found and fixed, plus the complete audit results so 
 
 ---
 
-## All Fixes Applied (16 total)
+## All Fixes Applied (18 total)
 
 ### Fix 1 — PHPCS NonceVerification on `$_GET['paged']` in render_chat_history()
 **File:** `includes/class-aiwoo-assistant-admin-menu.php`
@@ -54,7 +54,7 @@ Original `phpcs:ignore` comments were on the `return` line — they only suppres
 
 ### Fix 13 — IP_Blocker admin_post hooks moved to Plugin
 **Files:** `includes/class-aiwoo-assistant-plugin.php`, `includes/class-aiwoo-assistant-ip-blocker.php`
-`IP_Blocker::__construct()` registered `admin_post_aiwoo_add_blocked_ip` and `admin_post_aiwoo_delete_blocked_ip`. Worked only because IP_Blocker is eagerly instantiated — brittle. Removed from `__construct()`. Added to `Plugin::__construct()` with shims (`handle_admin_post_ip_add`, `handle_admin_post_ip_delete`).
+`IP_Blocker::__construct()` originally registered `admin_post_aiwoo_add_blocked_ip` and `admin_post_aiwoo_delete_blocked_ip` (now renamed `veltez_add_blocked_ip` / `veltez_delete_blocked_ip`). Worked only because IP_Blocker is eagerly instantiated — brittle. Removed from `__construct()`. Added to `Plugin::__construct()` with shims (`handle_admin_post_ip_add`, `handle_admin_post_ip_delete`).
 
 ### Fix 14 — load_plugin_textdomain() added then removed
 **File:** `includes/class-aiwoo-assistant-plugin.php`
@@ -68,6 +68,35 @@ Initially added `load_plugin_textdomain()` on `init`. Removed after PluginCheck 
 **File:** `admin/chat-session-detail-page.php`
 `echo count($messages)` with no escaping. Changed to `echo (int) count($messages)`.
 
+### Fix 17 — WordPress.org: inline `<script>` and `<style>` tags (wp_enqueue requirement)
+**Files:** `admin/top-requests-page.php`, `includes/class-aiwoo-assistant-plugin.php`, `includes/class-aiwoo-assistant-admin-menu.php`
+WP.org review flagged three inline script/style violations:
+- Removed `<script>` block from `top-requests-page.php`. JS now injected via `wp_add_inline_script('jquery', $js)` in `Plugin::enqueue_admin_assets()` when on the Top Requests hook.
+- Replaced `render_admin_bar_styles()` (which echoed `<style>`) with `enqueue_admin_bar_styles()` that calls `wp_add_inline_style('admin-bar', $css)`. Hooked to both `admin_enqueue_scripts` and `wp_enqueue_scripts`.
+- Deleted unused `MENU_ICON_SVG` private const (contained `<style>` in SVG string, was never referenced — `register_menus()` uses PNG icon).
+- Added `Admin_Menu::get_top_requests_hook()` accessor used by `Plugin::enqueue_admin_assets()` for hook gating.
+
+### Fix 18 — WordPress.org: "ai" is too common a prefix (full project-wide rename)
+**All PHP and JS files** — WP.org review flagged `AIWooAssistant` / `AI_WOO_ASSISTANT_` / `aiwoo_` / `ai_woo_assistant_` as using the generic word "ai" as a prefix. Full rename to `veltez` prefix across 31 files:
+
+| Old | New |
+|---|---|
+| `AI_WOO_ASSISTANT_*` constants | `VELTEZ_AI_*` |
+| `namespace AIWooAssistant` | `namespace Veltez` |
+| `ai_woo_assistant_settings` option | `veltez_ai_settings` |
+| `ai_woo_assistant` settings group | `veltez_ai` |
+| `aiwoo_*` options/transients | `veltez_*` |
+| `aiwoo_chat_logs/quick_replies/ai_error_logs` tables | `veltez_chat_logs/quick_replies/ai_error_logs` |
+| AJAX actions `ai_woo_assistant_chat/enquiry` | `veltez_ai_chat/enquiry` |
+| admin-post actions `aiwoo_*` | `veltez_*` |
+| Nonce `ai_woo_assistant_nonce` | `veltez_ai_nonce` |
+| Post type `aiwoo_enquiry` | `veltez_enquiry` |
+| Post meta `_aiwoo_*` | `_veltez_*` |
+| Script handles `ai-woo-assistant-*` | `veltez-ai-*` |
+| JS global `AIWooAssistant` | `VeltezAI` |
+| Rate limiter transient `ai_woo_rl_` | `veltez_rl_` |
+| MCP tool transients `aiwoo_tool_*` | `veltez_tool_*` |
+
 ---
 
 ## Complete Audit — Confirmed Safe (do not re-investigate)
@@ -78,9 +107,9 @@ Initially added `load_plugin_textdomain()` on `init`. Removed after PluginCheck 
 
 **Settings sanitization:** All fields covered — hex colors via `sanitize_hex_color()`, URLs via `esc_url_raw()`, API keys only overwritten if new input is non-empty (blank preserves existing key). Correct.
 
-**Rate limiter:** Fixed-window (NOT sliding). Key = `ai_woo_rl_{md5(ip|floor(time/60))}`. TTL = 90s. Key rotates every 60s so each window is truly independent.
+**Rate limiter:** Fixed-window (NOT sliding). Key = `veltez_rl_{md5(ip|floor(time/60))}`. TTL = 90s. Key rotates every 60s so each window is truly independent.
 
-**AJAX security chain:** `is_enabled()` → IP block → bot UA detection → `check_ajax_referer('ai_woo_assistant_nonce', 'nonce')` → rate limit → message length (auto-block IP) → sanitize. All present and correct.
+**AJAX security chain:** `is_enabled()` → IP block → bot UA detection → `check_ajax_referer('veltez_ai_nonce', 'nonce')` → rate limit → message length (auto-block IP) → sanitize. All present and correct.
 
 **All admin templates:** Every output uses `esc_html()`, `esc_attr()`, `esc_url()`, `esc_textarea()`, or `wp_kses_post()`. No raw output (except fixed in fix 16).
 
@@ -88,9 +117,9 @@ Initially added `load_plugin_textdomain()` on `init`. Removed after PluginCheck 
 
 **Nonces in all templates:** Every form calls `wp_nonce_field()` with the action name that matches the handler's `check_admin_referer()` call. Matched correctly across all 5 actions.
 
-**CSV export nonce** (`top-requests-page.php`): Export link includes `_wpnonce` from `wp_create_nonce('aiwoo_export_top_requests')`. Handler calls `check_admin_referer('aiwoo_export_top_requests')`. Correct.
+**CSV export nonce** (`top-requests-page.php`): Export link includes `_wpnonce` from `wp_create_nonce('veltez_export_top_requests')`. Handler calls `check_admin_referer('veltez_export_top_requests')`. Correct.
 
-**uninstall.php:** Drops all 3 tables, deletes all options, deletes QR transient, deletes all `aiwoo_enquiry` CPT posts. Complete cleanup.
+**uninstall.php:** Drops all 3 tables (`veltez_chat_logs`, `veltez_quick_replies`, `veltez_ai_error_logs`), deletes all options, deletes QR transient, deletes all `veltez_enquiry` CPT posts. Complete cleanup.
 
 **Catalog_Service loading:** `woocommerce-handler.php` requires `catalog-service.php`. Loaded before `Plugin::instance()` so the class exists when `get_catalog_service()` first fires.
 
@@ -100,7 +129,7 @@ Initially added `load_plugin_textdomain()` on `init`. Removed after PluginCheck 
 
 **Quick Reply cache flush:** `flush_cache()` (deletes the transient) is called on every insert, update, and delete in `Quick_Reply_Service`. New rules appear in chat immediately.
 
-**Enquiry CPT `aiwoo_enquiry`:** Registered on `init`. `public=false`, `show_ui=false`, `publicly_queryable=false`. Not visible in frontend or standard admin UI. Correct.
+**Enquiry CPT `veltez_enquiry`:** Registered on `init`. `public=false`, `show_ui=false`, `publicly_queryable=false`. Not visible in frontend or standard admin UI. Correct.
 
 **Bot detection:** Checks lowercase User-Agent string against 16 known bot signatures. Empty UA → blocked. Admin-only pages are not affected (bot check only in AJAX handler).
 

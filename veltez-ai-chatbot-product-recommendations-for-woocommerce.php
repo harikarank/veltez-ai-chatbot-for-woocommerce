@@ -20,30 +20,30 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'AI_WOO_ASSISTANT_VERSION', '1.0.0' );
-define( 'AI_WOO_ASSISTANT_FILE', __FILE__ );
-define( 'AI_WOO_ASSISTANT_PATH', plugin_dir_path( __FILE__ ) );
-define( 'AI_WOO_ASSISTANT_URL', plugin_dir_url( __FILE__ ) );
+define( 'VELTEZ_AI_VERSION', '1.0.0' );
+define( 'VELTEZ_AI_FILE', __FILE__ );
+define( 'VELTEZ_AI_PATH', plugin_dir_path( __FILE__ ) );
+define( 'VELTEZ_AI_URL', plugin_dir_url( __FILE__ ) );
 
-require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-settings.php';
-require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-chat-logger.php';
-require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-ai-error-logger.php';
-require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-ip-blocker.php';
-require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-quick-reply-service.php';
-require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-admin-menu.php';
-require_once AI_WOO_ASSISTANT_PATH . 'includes/woocommerce-handler.php';
-require_once AI_WOO_ASSISTANT_PATH . 'includes/api-handler.php';
-require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-mcp-tools.php';
-require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-plugin.php';
+require_once VELTEZ_AI_PATH . 'includes/class-aiwoo-assistant-settings.php';
+require_once VELTEZ_AI_PATH . 'includes/class-aiwoo-assistant-chat-logger.php';
+require_once VELTEZ_AI_PATH . 'includes/class-aiwoo-assistant-ai-error-logger.php';
+require_once VELTEZ_AI_PATH . 'includes/class-aiwoo-assistant-ip-blocker.php';
+require_once VELTEZ_AI_PATH . 'includes/class-aiwoo-assistant-quick-reply-service.php';
+require_once VELTEZ_AI_PATH . 'includes/class-aiwoo-assistant-admin-menu.php';
+require_once VELTEZ_AI_PATH . 'includes/woocommerce-handler.php';
+require_once VELTEZ_AI_PATH . 'includes/api-handler.php';
+require_once VELTEZ_AI_PATH . 'includes/class-aiwoo-assistant-mcp-tools.php';
+require_once VELTEZ_AI_PATH . 'includes/class-aiwoo-assistant-plugin.php';
 
 register_activation_hook(
-	AI_WOO_ASSISTANT_FILE,
+	VELTEZ_AI_FILE,
 	static function () {
-		\AIWooAssistant\Chat_Logger::create_table();
-		\AIWooAssistant\Quick_Reply_Service::create_table();
-		\AIWooAssistant\Quick_Reply_Service::seed_on_activation();
-		\AIWooAssistant\AI_Error_Logger::create_table();
+		\Veltez\Chat_Logger::create_table();
+		\Veltez\Quick_Reply_Service::create_table();
+		\Veltez\Quick_Reply_Service::seed_on_activation();
+		\Veltez\AI_Error_Logger::create_table();
 	}
 );
 
-\AIWooAssistant\Plugin::instance();
+\Veltez\Plugin::instance();

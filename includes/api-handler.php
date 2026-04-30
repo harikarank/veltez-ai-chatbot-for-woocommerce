@@ -2,19 +2,19 @@
 /**
  * API bootstrap — loads provider classes and exposes factory helpers.
  *
- * @package AIWooAssistant
+ * @package Veltez
  */
 
-namespace AIWooAssistant;
+namespace Veltez;
 
 defined( 'ABSPATH' ) || exit;
 
-require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-provider-interface.php';
-require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-openai-provider.php';
-require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-claude-provider.php';
-require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-gemini-provider.php';
-require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-chat-service.php';
-require_once AI_WOO_ASSISTANT_PATH . 'includes/class-aiwoo-assistant-ajax-controller.php';
+require_once VELTEZ_AI_PATH . 'includes/class-aiwoo-assistant-provider-interface.php';
+require_once VELTEZ_AI_PATH . 'includes/class-aiwoo-assistant-openai-provider.php';
+require_once VELTEZ_AI_PATH . 'includes/class-aiwoo-assistant-claude-provider.php';
+require_once VELTEZ_AI_PATH . 'includes/class-aiwoo-assistant-gemini-provider.php';
+require_once VELTEZ_AI_PATH . 'includes/class-aiwoo-assistant-chat-service.php';
+require_once VELTEZ_AI_PATH . 'includes/class-aiwoo-assistant-ajax-controller.php';
 
 /**
  * Build the configured AI provider instance.

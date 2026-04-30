@@ -3,10 +3,10 @@
 **Root:** `D:\Harikaran\Golang\Live\veltez-ai-chatbot-product-recommendations-for-woocommerce`
 **Plugin:** veltez - AI Chatbot & Product Recommendations for WooCommerce
 **Stack:** PHP 8.0+, WordPress 6.4+, WooCommerce 7.8+, vanilla JS, no build step
-**Namespace:** `AIWooAssistant`
+**Namespace:** `Veltez`
 **Text domain:** `veltez-ai-chatbot-product-recommendations-for-woocommerce`
 **Main file:** `veltez-ai-chatbot-product-recommendations-for-woocommerce.php`
-**Version:** 1.0.0
+**Version:** 1.0.1
 
 ## Key Files
 
@@ -45,7 +45,7 @@
 
 ## Constants
 
-`AI_WOO_ASSISTANT_VERSION`, `AI_WOO_ASSISTANT_FILE`, `AI_WOO_ASSISTANT_PATH`, `AI_WOO_ASSISTANT_URL`
+`VELTEZ_AI_VERSION`, `VELTEZ_AI_FILE`, `VELTEZ_AI_PATH`, `VELTEZ_AI_URL`
 
 ## Conventions
 
@@ -73,28 +73,28 @@
 
 | Action | Handler | Service |
 |---|---|---|
-| `aiwoo_save_quick_reply` | `handle_admin_post_qr_save` | Quick_Reply_Service::handle_save() |
-| `aiwoo_delete_quick_reply` | `handle_admin_post_qr_delete` | Quick_Reply_Service::handle_delete() |
-| `aiwoo_save_quick_reply_from_ai` | `handle_admin_post_qr_save_from_ai` | Quick_Reply_Service::handle_save_from_ai() |
-| `aiwoo_add_blocked_ip` | `handle_admin_post_ip_add` | IP_Blocker::handle_add() |
-| `aiwoo_delete_blocked_ip` | `handle_admin_post_ip_delete` | IP_Blocker::handle_delete() |
+| `veltez_save_quick_reply` | `handle_admin_post_qr_save` | Quick_Reply_Service::handle_save() |
+| `veltez_delete_quick_reply` | `handle_admin_post_qr_delete` | Quick_Reply_Service::handle_delete() |
+| `veltez_save_quick_reply_from_ai` | `handle_admin_post_qr_save_from_ai` | Quick_Reply_Service::handle_save_from_ai() |
+| `veltez_add_blocked_ip` | `handle_admin_post_ip_add` | IP_Blocker::handle_add() |
+| `veltez_delete_blocked_ip` | `handle_admin_post_ip_delete` | IP_Blocker::handle_delete() |
 
 ## AJAX Actions
 
 | Action | Visibility | Controller |
 |---|---|---|
-| `ai_woo_assistant_chat` | public + logged-in | Ajax_Controller::handle_chat() |
-| `ai_woo_assistant_enquiry` | public + logged-in | Ajax_Controller::handle_enquiry() |
+| `veltez_ai_chat` | public + logged-in | Ajax_Controller::handle_chat() |
+| `veltez_ai_enquiry` | public + logged-in | Ajax_Controller::handle_enquiry() |
 
-Security chain: is_enabled → IP block → bot UA → `check_ajax_referer('ai_woo_assistant_nonce')` → rate limit (15/min fixed-window) → message length check (auto-blocks IP) → sanitize
+Security chain: is_enabled → IP block → bot UA → `check_ajax_referer('veltez_ai_nonce')` → rate limit (15/min fixed-window) → message length check (auto-blocks IP) → sanitize
 
 ## Database Tables
 
 | Table | Option key | Columns |
 |---|---|---|
-| `{prefix}aiwoo_chat_logs` | `aiwoo_db_version = '1'` | id, session_id, ip_address, customer_name, user_message, ai_response, created_at |
-| `{prefix}aiwoo_quick_replies` | `aiwoo_qr_db_version = '1'` | id, title, keywords, response, match_type, priority, status, created_at |
-| `{prefix}aiwoo_ai_error_logs` | `aiwoo_ai_error_log_db_version = '1'` | id, session_id, ip_address, user_message, error_context, error_message, created_at |
+| `{prefix}veltez_chat_logs` | `veltez_db_version = '1'` | id, session_id, ip_address, customer_name, user_message, ai_response, created_at |
+| `{prefix}veltez_quick_replies` | `veltez_qr_db_version = '1'` | id, title, keywords, response, match_type, priority, status, created_at |
+| `{prefix}veltez_ai_error_logs` | `veltez_ai_error_log_db_version = '1'` | id, session_id, ip_address, user_message, error_context, error_message, created_at |
 
 All use `$wpdb->get_charset_collate()`. If charset is `utf8` (not `utf8mb4`), emoji cause silent INSERT failures — the `$strip4` closure in each `log()` method handles this.
 
@@ -102,14 +102,14 @@ All use `$wpdb->get_charset_collate()`. If charset is `utf8` (not `utf8mb4`), em
 
 | Key | Type | Notes |
 |---|---|---|
-| `ai_woo_assistant_settings` | option | Main settings array (group: `ai_woo_assistant`) |
-| `aiwoo_blocked_ips` | option | Array of IP strings, autoload=false, max 500 |
-| `aiwoo_db_version` | option | Chat logs schema version |
-| `aiwoo_qr_db_version` | option | Quick replies schema version |
-| `aiwoo_ai_error_log_db_version` | option | Error log schema version |
-| `aiwoo_qr_seeded` | option | QR defaults seeded flag |
-| `aiwoo_quick_replies_cache` | transient | QR rules cache, TTL 3600s |
-| `ai_woo_rl_{md5(ip\|window)}` | transient | Rate limiter, TTL 90s |
+| `veltez_ai_settings` | option | Main settings array (group: `veltez_ai`) |
+| `veltez_blocked_ips` | option | Array of IP strings, autoload=false, max 500 |
+| `veltez_db_version` | option | Chat logs schema version |
+| `veltez_qr_db_version` | option | Quick replies schema version |
+| `veltez_ai_error_log_db_version` | option | Error log schema version |
+| `veltez_qr_seeded` | option | QR defaults seeded flag |
+| `veltez_quick_replies_cache` | transient | QR rules cache, TTL 3600s |
+| `veltez_rl_{md5(ip\|window)}` | transient | Rate limiter, TTL 90s |
 
 ## AI Providers — Current State
 
@@ -130,6 +130,12 @@ All three providers are fully implemented (generate_response + generate_with_too
 ## MCP Mode
 
 Enabled via `enable_mcp = yes` setting. Routes through `Chat_Service::generate_reply_mcp()` which uses `MCP_Tools` to let the AI fetch product data via tool calls instead of injecting the catalog into the prompt. Falls back to catalog search on AI failure.
+
+## wp_enqueue Architecture (post-WP.org review fix)
+
+- **Admin bar CSS** — `Plugin::enqueue_admin_bar_styles()` hooked to both `admin_enqueue_scripts` and `wp_enqueue_scripts`. Uses `wp_add_inline_style('admin-bar', $css)`. No inline `<style>` tag. Only fires when `is_admin_bar_showing() && current_user_can('manage_options')`.
+- **Top Requests JS** — Toggle JS injected via `wp_add_inline_script('jquery', $js)` inside `enqueue_admin_assets()` when `$hook === $this->admin_menu->get_top_requests_hook()`. No inline `<script>` in the template.
+- `Admin_Menu` exposes `get_top_requests_hook()` alongside `get_settings_hook()` for asset gating.
 
 ## Known Design Decisions (do not change without user direction)
 

@@ -1,5 +1,5 @@
 ( function () {
-	const config = window.AIWooAssistant;
+	const config = window.VeltezAI;
 
 	if ( ! config || ! config.ajaxUrl || ! config.actions ) {
 		return;
@@ -16,7 +16,7 @@
 		isOpen: false,
 	};
 
-	const storageKey       = config.widgetStateKey || 'ai_woo_assistant_widget_state';
+	const storageKey       = config.widgetStateKey || 'veltez_widget_state';
 	const sessionKey       = 'aiwoo_session_id';
 	const viewedKey        = 'aiwoo_viewed_products';
 	const searchKey        = 'aiwoo_search_history';

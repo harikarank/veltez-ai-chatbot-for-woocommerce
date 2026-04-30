@@ -2,11 +2,11 @@
 /**
  * Anthropic Claude provider — Messages API.
  *
- * @package AIWooAssistant
+ * @package Veltez
  * @see https://docs.anthropic.com/en/api/messages
  */
 
-namespace AIWooAssistant;
+namespace Veltez;
 
 defined( 'ABSPATH' ) || exit;
 

@@ -2,7 +2,7 @@
 /**
  * Top Requests analytics page.
  *
- * @package AIWooAssistant
+ * @package Veltez
  * @var object[]                              $rows                Paginated aggregated rows.
  * @var int                                   $total_rows          Total rows after filtering.
  * @var int                                   $current_page        Current pagination page.
@@ -11,7 +11,7 @@
  * @var string                                $filter_type         Active type filter (all|quick_reply|ai).
  * @var string                                $filter_date         Active date filter (all|7|30).
  * @var array<string, true>                   $qr_response_set     Hash-set of QR response strings.
- * @var \AIWooAssistant\Quick_Reply_Service   $quick_reply_service
+ * @var \Veltez\Quick_Reply_Service   $quick_reply_service
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,14 +24,14 @@ $msg_map = array(
 );
 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-$status_key   = isset( $_GET['aiwoo_tr_msg'] ) ? sanitize_key( $_GET['aiwoo_tr_msg'] ) : '';
+$status_key   = isset( $_GET['veltez_tr_msg'] ) ? sanitize_key( $_GET['veltez_tr_msg'] ) : '';
 $total_pages  = (int) ceil( $total_rows / $per_page );
 $base_url     = admin_url( 'admin.php?page=veltez-ai-top-requests' );
-$export_nonce = wp_create_nonce( 'aiwoo_export_top_requests' );
+$export_nonce = wp_create_nonce( 'veltez_export_top_requests' );
 ?>
 <div class="wrap">
 	<h1 style="display:flex;align-items:center;gap:10px;">
-		<img src="<?php echo esc_url( AI_WOO_ASSISTANT_URL . 'assets/img/logo.svg' ); ?>" alt="veltez" style="height:28px;width:auto;" />
+		<img src="<?php echo esc_url( VELTEZ_AI_URL . 'assets/img/logo.svg' ); ?>" alt="veltez" style="height:28px;width:auto;" />
 		<?php esc_html_e( 'Top Requests', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 	</h1>
 	<p><?php esc_html_e( 'See which messages users send most often. Convert high-frequency AI responses into Quick Reply rules to reduce AI usage.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></p>
@@ -153,9 +153,9 @@ $export_nonce = wp_create_nonce( 'aiwoo_export_top_requests' );
 					<tr id="<?php echo esc_attr( $row_id ); ?>" class="aiwoo-qr-inline-form" style="display:none; background:#f9f9f9;">
 						<td colspan="5" style="padding:14px 18px;">
 							<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-								<input type="hidden" name="action"       value="aiwoo_save_quick_reply_from_ai" />
+								<input type="hidden" name="action"       value="veltez_save_quick_reply_from_ai" />
 								<input type="hidden" name="source_query" value="<?php echo esc_attr( $row->query ); ?>" />
-								<?php wp_nonce_field( 'aiwoo_save_qr_from_ai' ); ?>
+								<?php wp_nonce_field( 'veltez_save_qr_from_ai' ); ?>
 
 								<table style="border-collapse:collapse; width:100%;">
 									<tr>

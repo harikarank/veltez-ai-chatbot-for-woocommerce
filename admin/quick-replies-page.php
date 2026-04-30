@@ -2,8 +2,8 @@
 /**
  * Quick Replies admin page — list, add, and edit.
  *
- * @package AIWooAssistant
- * @var \AIWooAssistant\Quick_Reply_Service $quick_reply_service
+ * @package Veltez
+ * @var \Veltez\Quick_Reply_Service $quick_reply_service
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ $msg_map = array(
 );
 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-$status_key = isset( $_GET['aiwoo_qr_msg'] ) ? sanitize_key( $_GET['aiwoo_qr_msg'] ) : '';
+$status_key = isset( $_GET['veltez_qr_msg'] ) ? sanitize_key( $_GET['veltez_qr_msg'] ) : '';
 
 // Determine view: list | add | edit
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -38,7 +38,7 @@ $rules   = ( ! $is_form ) ? $quick_reply_service->get_all() : array();
 ?>
 <div class="wrap">
 	<h1 style="display:flex;align-items:center;gap:10px;">
-		<img src="<?php echo esc_url( AI_WOO_ASSISTANT_URL . 'assets/img/logo.svg' ); ?>" alt="veltez" style="height:28px;width:auto;" />
+		<img src="<?php echo esc_url( VELTEZ_AI_URL . 'assets/img/logo.svg' ); ?>" alt="veltez" style="height:28px;width:auto;" />
 		<?php esc_html_e( 'Quick Replies', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 		<?php if ( ! $is_form ) : ?>
 			<a href="<?php echo esc_url( admin_url( 'admin.php?page=veltez-ai-quick-replies&action=add' ) ); ?>" class="page-title-action">
@@ -61,9 +61,9 @@ $rules   = ( ! $is_form ) ? $quick_reply_service->get_all() : array();
 		<h2><?php echo $editing ? esc_html__( 'Edit Quick Reply', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) : esc_html__( 'Add Quick Reply', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?></h2>
 
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-			<input type="hidden" name="action" value="aiwoo_save_quick_reply" />
+			<input type="hidden" name="action" value="veltez_save_quick_reply" />
 			<input type="hidden" name="qr_id"  value="<?php echo esc_attr( (string) ( $editing ? $editing->id : 0 ) ); ?>" />
-			<?php wp_nonce_field( 'aiwoo_save_quick_reply' ); ?>
+			<?php wp_nonce_field( 'veltez_save_quick_reply' ); ?>
 
 			<table class="form-table" role="presentation">
 				<tr>
@@ -208,9 +208,9 @@ $rules   = ( ! $is_form ) ? $quick_reply_service->get_all() : array();
 									<?php esc_html_e( 'Edit', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ); ?>
 								</a>
 								<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="display:inline; margin-left:4px;">
-									<input type="hidden" name="action" value="aiwoo_delete_quick_reply" />
+									<input type="hidden" name="action" value="veltez_delete_quick_reply" />
 									<input type="hidden" name="qr_id"  value="<?php echo esc_attr( (string) $rule->id ); ?>" />
-									<?php wp_nonce_field( 'aiwoo_delete_quick_reply' ); ?>
+									<?php wp_nonce_field( 'veltez_delete_quick_reply' ); ?>
 									<button
 										type="submit"
 										class="button button-small button-link-delete"

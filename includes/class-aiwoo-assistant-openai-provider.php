@@ -2,10 +2,10 @@
 /**
  * OpenAI provider.
  *
- * @package AIWooAssistant
+ * @package Veltez
  */
 
-namespace AIWooAssistant;
+namespace Veltez;
 
 use WP_Error;
 

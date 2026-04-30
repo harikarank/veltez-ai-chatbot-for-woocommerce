@@ -2,19 +2,19 @@
 /**
  * Quick Reply Service — rule-based keyword matching to bypass AI calls.
  *
- * @package AIWooAssistant
+ * @package Veltez
  */
 
-namespace AIWooAssistant;
+namespace Veltez;
 
 defined( 'ABSPATH' ) || exit;
 
 final class Quick_Reply_Service {
 
 	const DB_VERSION    = '1';
-	const DB_OPTION_KEY = 'aiwoo_qr_db_version';
-	const SEED_OPTION   = 'aiwoo_qr_seeded';
-	const CACHE_KEY     = 'aiwoo_quick_replies_cache';
+	const DB_OPTION_KEY = 'veltez_qr_db_version';
+	const SEED_OPTION   = 'veltez_qr_seeded';
+	const CACHE_KEY     = 'veltez_quick_replies_cache';
 	const CACHE_TTL     = 3600;
 
 	/** @var string */
@@ -22,7 +22,7 @@ final class Quick_Reply_Service {
 
 	public function __construct() {
 		global $wpdb;
-		$this->table = $wpdb->prefix . 'aiwoo_quick_replies';
+		$this->table = $wpdb->prefix . 'veltez_quick_replies';
 	}
 
 	// -------------------------------------------------------------------------
@@ -32,7 +32,7 @@ final class Quick_Reply_Service {
 	public static function create_table() {
 		global $wpdb;
 
-		$table           = $wpdb->prefix . 'aiwoo_quick_replies';
+		$table           = $wpdb->prefix . 'veltez_quick_replies';
 		$charset_collate = $wpdb->get_charset_collate();
 
 		$sql = "CREATE TABLE {$table} (
@@ -64,7 +64,7 @@ final class Quick_Reply_Service {
 	public static function drop_table() {
 		global $wpdb;
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery
-		$wpdb->query( 'DROP TABLE IF EXISTS `' . $wpdb->prefix . 'aiwoo_quick_replies`' );
+		$wpdb->query( 'DROP TABLE IF EXISTS `' . $wpdb->prefix . 'veltez_quick_replies`' );
 		delete_option( self::DB_OPTION_KEY );
 		delete_option( self::SEED_OPTION );
 	}
@@ -79,10 +79,10 @@ final class Quick_Reply_Service {
 	 */
 	public static function seed_on_activation() {
 		global $wpdb;
-		$table = $wpdb->prefix . 'aiwoo_quick_replies';
+		$table = $wpdb->prefix . 'veltez_quick_replies';
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-		$count = (int) $wpdb->get_var( "SELECT COUNT(*) FROM `{$wpdb->prefix}aiwoo_quick_replies`" );
+		$count = (int) $wpdb->get_var( "SELECT COUNT(*) FROM `{$wpdb->prefix}veltez_quick_replies`" );
 
 		if ( $count > 0 ) {
 			update_option( self::SEED_OPTION, '1', true );
@@ -110,7 +110,7 @@ final class Quick_Reply_Service {
 		}
 
 		global $wpdb;
-		$table = $wpdb->prefix . 'aiwoo_quick_replies';
+		$table = $wpdb->prefix . 'veltez_quick_replies';
 
 		// Confirm table exists before querying it.
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
@@ -120,7 +120,7 @@ final class Quick_Reply_Service {
 		}
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
-		$count = (int) $wpdb->get_var( "SELECT COUNT(*) FROM `{$wpdb->prefix}aiwoo_quick_replies`" );
+		$count = (int) $wpdb->get_var( "SELECT COUNT(*) FROM `{$wpdb->prefix}veltez_quick_replies`" );
 
 		if ( $count === 0 ) {
 			self::insert_defaults();
@@ -137,7 +137,7 @@ final class Quick_Reply_Service {
 	 */
 	private static function insert_defaults() {
 		global $wpdb;
-		$table = $wpdb->prefix . 'aiwoo_quick_replies';
+		$table = $wpdb->prefix . 'veltez_quick_replies';
 		$now   = current_time( 'mysql' );
 
 		$defaults = array(
@@ -658,7 +658,7 @@ final class Quick_Reply_Service {
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
 		$rules = $wpdb->get_results(
 			"SELECT keywords, response, match_type
-			 FROM `{$wpdb->prefix}aiwoo_quick_replies`
+			 FROM `{$wpdb->prefix}veltez_quick_replies`
 			 WHERE status = 1
 			 ORDER BY priority DESC, id ASC"
 		);
@@ -684,7 +684,7 @@ final class Quick_Reply_Service {
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
 		return $wpdb->get_results(
-			"SELECT * FROM `{$wpdb->prefix}aiwoo_quick_replies` ORDER BY priority DESC, id ASC"
+			"SELECT * FROM `{$wpdb->prefix}veltez_quick_replies` ORDER BY priority DESC, id ASC"
 		) ?: array();
 	}
 
@@ -694,7 +694,7 @@ final class Quick_Reply_Service {
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$row = $wpdb->get_row(
-			$wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}aiwoo_quick_replies` WHERE id = %d", absint( $id ) )
+			$wpdb->prepare( "SELECT * FROM `{$wpdb->prefix}veltez_quick_replies` WHERE id = %d", absint( $id ) )
 		);
 
 		return $row ?: null;
@@ -793,7 +793,7 @@ final class Quick_Reply_Service {
 			wp_die( esc_html__( 'Permission denied.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 		}
 
-		check_admin_referer( 'aiwoo_save_quick_reply' );
+		check_admin_referer( 'veltez_save_quick_reply' );
 
 		$id         = isset( $_POST['qr_id'] ) ? absint( $_POST['qr_id'] ) : 0;
 		$title      = isset( $_POST['title'] )    ? sanitize_text_field( wp_unslash( $_POST['title'] ) )        : '';
@@ -804,7 +804,7 @@ final class Quick_Reply_Service {
 		$status     = ! empty( $_POST['status'] ) ? 1 : 0;
 
 		if ( '' === $title || '' === $keywords || '' === $response ) {
-			wp_safe_redirect( admin_url( 'admin.php?page=veltez-ai-quick-replies&aiwoo_qr_msg=invalid' ) );
+			wp_safe_redirect( admin_url( 'admin.php?page=veltez-ai-quick-replies&veltez_qr_msg=invalid' ) );
 			exit;
 		}
 
@@ -818,7 +818,7 @@ final class Quick_Reply_Service {
 			$msg = 'saved';
 		}
 
-		wp_safe_redirect( admin_url( 'admin.php?page=veltez-ai-quick-replies&aiwoo_qr_msg=' . $msg ) );
+		wp_safe_redirect( admin_url( 'admin.php?page=veltez-ai-quick-replies&veltez_qr_msg=' . $msg ) );
 		exit;
 	}
 
@@ -827,7 +827,7 @@ final class Quick_Reply_Service {
 			wp_die( esc_html__( 'Permission denied.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 		}
 
-		check_admin_referer( 'aiwoo_delete_quick_reply' );
+		check_admin_referer( 'veltez_delete_quick_reply' );
 
 		$id = isset( $_POST['qr_id'] ) ? absint( $_POST['qr_id'] ) : 0;
 
@@ -835,7 +835,7 @@ final class Quick_Reply_Service {
 			$this->delete( $id );
 		}
 
-		wp_safe_redirect( admin_url( 'admin.php?page=veltez-ai-quick-replies&aiwoo_qr_msg=deleted' ) );
+		wp_safe_redirect( admin_url( 'admin.php?page=veltez-ai-quick-replies&veltez_qr_msg=deleted' ) );
 		exit;
 	}
 
@@ -844,7 +844,7 @@ final class Quick_Reply_Service {
 			wp_die( esc_html__( 'Permission denied.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) );
 		}
 
-		check_admin_referer( 'aiwoo_save_qr_from_ai' );
+		check_admin_referer( 'veltez_save_qr_from_ai' );
 
 		$keywords     = isset( $_POST['keywords'] )     ? sanitize_text_field( wp_unslash( $_POST['keywords'] ) )        : '';
 		$response     = isset( $_POST['response'] )     ? sanitize_textarea_field( wp_unslash( $_POST['response'] ) )    : '';
@@ -852,12 +852,12 @@ final class Quick_Reply_Service {
 		$source_query = isset( $_POST['source_query'] ) ? sanitize_text_field( wp_unslash( $_POST['source_query'] ) )    : '';
 
 		if ( '' === $keywords || '' === $response ) {
-			wp_safe_redirect( admin_url( 'admin.php?page=veltez-ai-top-requests&aiwoo_tr_msg=invalid' ) );
+			wp_safe_redirect( admin_url( 'admin.php?page=veltez-ai-top-requests&veltez_tr_msg=invalid' ) );
 			exit;
 		}
 
 		if ( $this->keyword_exists( $keywords ) ) {
-			wp_safe_redirect( admin_url( 'admin.php?page=veltez-ai-top-requests&aiwoo_tr_msg=duplicate' ) );
+			wp_safe_redirect( admin_url( 'admin.php?page=veltez-ai-top-requests&veltez_tr_msg=duplicate' ) );
 			exit;
 		}
 
@@ -875,7 +875,7 @@ final class Quick_Reply_Service {
 			'status'     => 1,
 		) );
 
-		wp_safe_redirect( admin_url( 'admin.php?page=veltez-ai-top-requests&aiwoo_tr_msg=saved' ) );
+		wp_safe_redirect( admin_url( 'admin.php?page=veltez-ai-top-requests&veltez_tr_msg=saved' ) );
 		exit;
 	}
 
@@ -895,7 +895,7 @@ final class Quick_Reply_Service {
 		}
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
-		$stored = $wpdb->get_col( "SELECT keywords FROM `{$wpdb->prefix}aiwoo_quick_replies` WHERE status = 1" );
+		$stored = $wpdb->get_col( "SELECT keywords FROM `{$wpdb->prefix}veltez_quick_replies` WHERE status = 1" );
 
 		$existing = array();
 		foreach ( $stored as $rule_kw ) {
@@ -923,7 +923,7 @@ final class Quick_Reply_Service {
 		global $wpdb;
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery
-		$responses = $wpdb->get_col( "SELECT DISTINCT response FROM `{$wpdb->prefix}aiwoo_quick_replies` WHERE status = 1" );
+		$responses = $wpdb->get_col( "SELECT DISTINCT response FROM `{$wpdb->prefix}veltez_quick_replies` WHERE status = 1" );
 
 		return array_fill_keys( array_map( 'trim', $responses ), true );
 	}

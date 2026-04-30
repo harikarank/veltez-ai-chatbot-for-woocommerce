@@ -13,10 +13,10 @@
  *   - get_related_products  Upsell / cross-sell IDs for a product.
  *   - get_user_context      Personalisation: viewed products, searches, cart.
  *
- * @package AIWooAssistant
+ * @package Veltez
  */
 
-namespace AIWooAssistant;
+namespace Veltez;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -239,7 +239,7 @@ final class MCP_Tools {
 			return array( 'error' => 'query is required.' );
 		}
 
-		$cache_key = 'aiwoo_tool_products_' . md5( $query . '|' . $limit );
+		$cache_key = 'veltez_tool_products_' . md5( $query . '|' . $limit );
 		$cached    = get_transient( $cache_key );
 		if ( false !== $cached ) {
 			return $cached;
@@ -296,7 +296,7 @@ final class MCP_Tools {
 			return array( 'error' => 'Invalid product_id.' );
 		}
 
-		$cache_key = 'aiwoo_tool_detail_' . $product_id;
+		$cache_key = 'veltez_tool_detail_' . $product_id;
 		$cached    = get_transient( $cache_key );
 		if ( false !== $cached ) {
 			return $cached;
@@ -362,7 +362,7 @@ final class MCP_Tools {
 			return array( 'error' => 'Invalid product_id.' );
 		}
 
-		$cache_key = 'aiwoo_tool_related_' . $product_id;
+		$cache_key = 'veltez_tool_related_' . $product_id;
 		$cached    = get_transient( $cache_key );
 		if ( false !== $cached ) {
 			return $cached;

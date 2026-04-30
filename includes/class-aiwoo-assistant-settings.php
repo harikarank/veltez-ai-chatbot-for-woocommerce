@@ -2,15 +2,15 @@
 /**
  * Settings management.
  *
- * @package AIWooAssistant
+ * @package Veltez
  */
 
-namespace AIWooAssistant;
+namespace Veltez;
 
 defined( 'ABSPATH' ) || exit;
 
 final class Settings {
-	private $option_name = 'ai_woo_assistant_settings';
+	private $option_name = 'veltez_ai_settings';
 
 	private $defaults = array(
 		'enabled'              => 'yes',
@@ -118,7 +118,7 @@ final class Settings {
 
 	public function register_settings() {
 		register_setting(
-			'ai_woo_assistant',
+			'veltez_ai',
 			$this->option_name,
 			array(
 				'type'              => 'array',
@@ -128,12 +128,12 @@ final class Settings {
 		);
 
 		add_settings_section(
-			'ai_woo_assistant_general',
+			'veltez_ai_general',
 			__( 'veltez Settings', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 			static function() {
 				echo '<p>' . esc_html__( 'Configure your veltez chatbot, provider, widget appearance, and response behaviour.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ) . '</p>';
 			},
-			'ai-woo-assistant'
+			'veltez-ai-settings'
 		);
 
 		$fields = array(
@@ -167,8 +167,8 @@ final class Settings {
 				$field_key,
 				$label,
 				array( $this, 'render_field' ),
-				'ai-woo-assistant',
-				'ai_woo_assistant_general',
+				'veltez-ai-settings',
+				'veltez_ai_general',
 				array(
 					'key' => $field_key,
 				)
@@ -287,7 +287,7 @@ final class Settings {
 			__( 'veltez', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 			__( 'veltez', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
 			'manage_options',
-			'ai-woo-assistant',
+			'veltez-ai-settings',
 			array( $this, 'render_settings_page' )
 		);
 	}
@@ -296,7 +296,7 @@ final class Settings {
 		$key      = $args['key'];
 		$value    = $this->get( $key );
 		$name     = $this->option_name . '[' . $key . ']';
-		$field_id = 'ai-woo-assistant-' . $key;
+		$field_id = 'veltez-ai-' . $key;
 
 		switch ( $key ) {
 			case 'enabled':
@@ -630,7 +630,7 @@ final class Settings {
 
 	public function render_settings_page() {
 		$settings = $this; // Available as $settings inside the template.
-		require AI_WOO_ASSISTANT_PATH . 'admin/settings-page.php';
+		require VELTEZ_AI_PATH . 'admin/settings-page.php';
 	}
 
 	private function get_supported_openai_models() {

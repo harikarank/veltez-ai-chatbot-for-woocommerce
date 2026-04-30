@@ -2,10 +2,10 @@
 /**
  * AJAX controller for chat and enquiry requests.
  *
- * @package AIWooAssistant
+ * @package Veltez
  */
 
-namespace AIWooAssistant;
+namespace Veltez;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -59,7 +59,7 @@ final class Ajax_Controller {
 			);
 		}
 
-		check_ajax_referer( 'ai_woo_assistant_nonce', 'nonce' );
+		check_ajax_referer( 'veltez_ai_nonce', 'nonce' );
 
 		if ( ! $this->rate_limit_ok() ) {
 			wp_send_json_error(
@@ -164,7 +164,7 @@ final class Ajax_Controller {
 			);
 		}
 
-		check_ajax_referer( 'ai_woo_assistant_nonce', 'nonce' );
+		check_ajax_referer( 'veltez_ai_nonce', 'nonce' );
 
 		// Rate-limit enquiry submissions the same as chat messages.
 		if ( ! $this->rate_limit_ok() ) {
@@ -250,7 +250,7 @@ final class Ajax_Controller {
 	private function store_enquiry( $name, $phone, $email, $message, $session_id = '', $ip_address = '' ) {
 		$post_id = wp_insert_post(
 			array(
-				'post_type'    => 'aiwoo_enquiry',
+				'post_type'    => 'veltez_enquiry',
 				'post_status'  => 'private',
 				'post_title'   => sprintf( '%s - %s', $name, current_time( 'mysql' ) ),
 				'post_content' => $message,
@@ -262,16 +262,16 @@ final class Ajax_Controller {
 			return false;
 		}
 
-		update_post_meta( $post_id, '_aiwoo_name', $name );
-		update_post_meta( $post_id, '_aiwoo_phone', $phone );
-		update_post_meta( $post_id, '_aiwoo_email', $email );
+		update_post_meta( $post_id, '_veltez_name', $name );
+		update_post_meta( $post_id, '_veltez_phone', $phone );
+		update_post_meta( $post_id, '_veltez_email', $email );
 
 		if ( '' !== $session_id ) {
-			update_post_meta( $post_id, '_aiwoo_session_id', $session_id );
+			update_post_meta( $post_id, '_veltez_session_id', $session_id );
 		}
 
 		if ( '' !== $ip_address ) {
-			update_post_meta( $post_id, '_aiwoo_ip', $ip_address );
+			update_post_meta( $post_id, '_veltez_ip', $ip_address );
 		}
 
 		return true;
@@ -320,7 +320,7 @@ final class Ajax_Controller {
 		// window is truly independent. The old sliding-window approach reset the
 		// TTL on every request, allowing sustained bursts just under the limit.
 		$window = (int) floor( time() / 60 );
-		$key    = 'ai_woo_rl_' . md5( $ip_address . '|' . $window );
+		$key    = 'veltez_rl_' . md5( $ip_address . '|' . $window );
 		$count  = (int) get_transient( $key );
 
 		if ( $count >= 15 ) {

@@ -2,11 +2,11 @@
 /**
  * Google Gemini provider — Generative Language API.
  *
- * @package AIWooAssistant
+ * @package Veltez
  * @see https://ai.google.dev/api/generate-content
  */
 
-namespace AIWooAssistant;
+namespace Veltez;
 
 defined( 'ABSPATH' ) || exit;
 
