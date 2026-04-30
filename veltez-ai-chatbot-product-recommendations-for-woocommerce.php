@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Plugin Name: veltez - AI Chatbot & Product Recommendations for WooCommerce
  * Plugin URI:  https://ai.veltez.com/
@@ -16,11 +16,12 @@
  * WC tested up to: 10.0
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Requires Plugins: woocommerce
  */
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VELTEZ_AI_VERSION', '1.0.0' );
+define( 'VELTEZ_AI_VERSION', '1.0.1' );
 define( 'VELTEZ_AI_FILE', __FILE__ );
 define( 'VELTEZ_AI_PATH', plugin_dir_path( __FILE__ ) );
 define( 'VELTEZ_AI_URL', plugin_dir_url( __FILE__ ) );

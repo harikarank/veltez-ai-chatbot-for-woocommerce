@@ -513,7 +513,7 @@ Admin bar rendering lives directly on the `Plugin` class so logged-in users see 
 
 - **Auto-open delay** — new `auto_open_delay` setting (Widget tab). Enter a number of seconds (1–300); the chat panel opens automatically after that delay on page load. Leave blank to disable. The timer is skipped if the visitor already has the widget open from their session.
 
-### 1.0.0
+### 1.0.1
 
 **AI providers & modes**
 - OpenAI, Claude (Anthropic), and Gemini (Google) provider integrations
