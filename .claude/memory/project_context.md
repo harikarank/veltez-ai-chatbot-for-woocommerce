@@ -4,7 +4,7 @@ This file records every bug found and fixed, plus the complete audit results so 
 
 ---
 
-## All Fixes Applied (18 total)
+## All Fixes Applied (20 total)
 
 ### Fix 1 — PHPCS NonceVerification on `$_GET['paged']` in render_chat_history()
 **File:** `includes/class-aiwoo-assistant-admin-menu.php`
@@ -96,6 +96,19 @@ WP.org review flagged three inline script/style violations:
 | JS global `AIWooAssistant` | `VeltezAI` |
 | Rate limiter transient `ai_woo_rl_` | `veltez_rl_` |
 | MCP tool transients `aiwoo_tool_*` | `veltez_tool_*` |
+
+### Fix 19 — WordPress.org Guideline 11: WooCommerce missing notice shown site-wide
+**File:** `includes/class-aiwoo-assistant-plugin.php` → `maybe_warn_if_woocommerce_missing()`
+WP.org flagged admin notices appearing on every admin page as "hijacking the dashboard". The notice had no screen restriction — it fired on all admin pages.
+**Fix:** Added screen check inside the `admin_notices` callback — notice now only shows on pages where `screen->id` contains `veltez-ai` or equals `plugins`. Also added `is-dismissible` class (was missing). Since `Requires Plugins: woocommerce` was added (Fix 20), WP itself blocks activation without WooCommerce, making this notice a secondary safeguard only.
+
+### Fix 20 — WordPress.org: missing `Requires Plugins` header (WooCommerce dependency)
+**Files:** `veltez-ai-chatbot-product-recommendations-for-woocommerce.php`, `readme.txt`
+WP.org automated review detected WooCommerce dependency but no `Requires Plugins` header. Added `Requires Plugins: woocommerce` to both the PHP plugin header and `readme.txt` header block. WordPress 6.5+ enforces this at activation time.
+
+### Fix 21 — Stale admin bar Settings URL after prefix rename
+**File:** `includes/class-aiwoo-assistant-plugin.php` → `add_admin_bar_node()`
+The Settings sub-item in the admin bar still linked to `admin.php?page=ai-woo-assistant` (old slug). Changed to `admin.php?page=veltez-ai-settings` to match the renamed submenu page.
 
 ---
 

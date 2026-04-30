@@ -241,7 +241,7 @@ final class Plugin {
 			array(
 				'id'    => 'veltez-ai-bar-settings',
 				'title' => esc_html__( 'Settings', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' ),
-				'href'  => admin_url( 'admin.php?page=ai-woo-assistant' ),
+				'href'  => admin_url( 'admin.php?page=veltez-ai-settings' ),
 			),
 		);
 
@@ -306,8 +306,18 @@ final class Plugin {
 				if ( ! current_user_can( 'activate_plugins' ) ) {
 					return;
 				}
+				// Only show on veltez pages and the plugins list — not site-wide.
+				$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+				if ( ! $screen ) {
+					return;
+				}
+				$show = false !== strpos( (string) $screen->id, 'veltez-ai' )
+					|| 'plugins' === $screen->id;
+				if ( ! $show ) {
+					return;
+				}
 
-				echo '<div class="notice notice-warning"><p>';
+				echo '<div class="notice notice-warning is-dismissible"><p>';
 				echo esc_html__( 'veltez is active, but WooCommerce is not detected. Product-aware responses will remain unavailable until WooCommerce is installed and activated.', 'veltez-ai-chatbot-product-recommendations-for-woocommerce' );
 				echo '</p></div>';
 			}

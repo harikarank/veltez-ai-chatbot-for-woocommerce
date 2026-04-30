@@ -1,17 +1,11 @@
-We've detected some other details that you may want to check.
+Have you read the guidelines and this plugin complies with them?
 
-## Requires Plugins: found possible dependencies.
+Upon submitting your plugin, you agreed and confirmed that it complies with the WordPress.org Plugin Directory Guidelines, which apply to all plugins in the directory.
 
-The "Requires Plugins" header is a comma-separated list of WordPress.org-formatted slugs for its dependencies.
+Our automated tools have detected patterns that may require a closer look regarding compliance with certain guidelines. We will verify this during our manual review, but it’s best to address any potential issues beforehand. In particular, please pay attention to the following:
 
-Does your plugin extend another plugin available in the WordPress.org directory? If so, you can use the "Requires Plugins" header to have WordPress check if that plugin is installed and activated before your plugin is activated.
+    Your plugin may not embed external links or credits on the public site without explicit user permission. (Guideline 10)
+    Plugins should not hijack the admin dashboard. Upgrade prompts, notices, alerts, and the like must be limited in scope and used with moderation. (Guideline 11)
 
-You can check out the documentation at: https://make.wordpress.org/core/2024/03/05/introducing-plugin-dependencies-in-wordpress-6-5/
 
-We have found that your plugin probably extends another plugin, so using this header may be useful for you, please check it out.
-
-Analysis result:
-By checking your plugin slug "veltez-ai-chatbot-product-recommendations-for-woocommerce" we found coincidences with "woocommerce"
-You can easily solve this by adding or updating the "Requires Plugins" header at "veltez-ai-chatbot-product-recommendations-for-woocommerce.php", like so:
-
-Requires Plugins: woocommerce
+Please check it, and if you think everything is fine, do not worry. Our tools are very thorough and may highlight different things as potential issues.

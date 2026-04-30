@@ -131,6 +131,13 @@ All three providers are fully implemented (generate_response + generate_with_too
 
 Enabled via `enable_mcp = yes` setting. Routes through `Chat_Service::generate_reply_mcp()` which uses `MCP_Tools` to let the AI fetch product data via tool calls instead of injecting the catalog into the prompt. Falls back to catalog search on AI failure.
 
+## WordPress.org Compliance Notes
+
+- **`Requires Plugins: woocommerce`** — added to both `veltez-ai-chatbot-product-recommendations-for-woocommerce.php` and `readme.txt`. WordPress 6.5+ enforces this at activation.
+- **Admin notices are scoped** — `maybe_temperature_notice()` only fires on veltez pages. `maybe_warn_if_woocommerce_missing()` only fires on veltez pages or the Plugins list (`screen->id === 'plugins'`). Neither shows site-wide. Both are dismissible.
+- **Frontend widget** — no external links, no "Powered by" credits, no attribution. Guideline 10 automated flag was a false positive.
+- **Admin bar Settings link** — `admin.php?page=veltez-ai-settings` (fixed stale `ai-woo-assistant` slug after prefix rename).
+
 ## wp_enqueue Architecture (post-WP.org review fix)
 
 - **Admin bar CSS** — `Plugin::enqueue_admin_bar_styles()` hooked to both `admin_enqueue_scripts` and `wp_enqueue_scripts`. Uses `wp_add_inline_style('admin-bar', $css)`. No inline `<style>` tag. Only fires when `is_admin_bar_showing() && current_user_can('manage_options')`.
